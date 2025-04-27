@@ -7,6 +7,7 @@
 <h1 class="mb-4">Catálogo de Productos</h1>
 
 <div class="row">
+    <a href="{% url 'producto_crear' %}" class="btn btn-success mb-3">Nuevo Producto</a>
     {% for producto in productos %}
     <div class="col-md-4 mb-4">
         <div class="card h-100">
@@ -19,7 +20,10 @@
                 <h5 class="card-title">{{ producto.nombre }}</h5>
                 <p class="card-text">${{ producto.precio }}</p>
                 <p class="card-text">{{ producto.descripcion|truncatewords:10 }}</p>
+                <a href="{% url 'producto_editar' producto.pk %}" class="btn btn-sm btn-warning">Editar</a>
+                <a href="{% url 'producto_eliminar' producto.pk %}" class="btn btn-sm btn-danger">Eliminar</a>
             </div>
+            
         </div>
     </div>
     {% empty %}
