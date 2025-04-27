@@ -69,7 +69,7 @@ ROOT_URLCONF = 'ferremas.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'tienda/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

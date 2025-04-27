@@ -36,3 +36,7 @@ def producto_eliminar(request, pk):
         producto.delete()
         return redirect('home')
     return render(request, 'tienda/producto_confirmar_eliminar.html', {'producto': producto})
+                  
+def producto_detalle(request, pk):
+    producto = get_object_or_404(Producto, pk=pk)
+    return render(request, 'tienda/producto_detalle.html', {'producto': producto})
