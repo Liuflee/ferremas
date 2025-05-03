@@ -1,0 +1,90 @@
+
+/* Estilos Generales */
+.seccion-titulo {
+    font-size: 1.7rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #003298;
+    border-left: 4px solid #003298;
+    padding-left: 12px;
+    margin-bottom: 1rem;
+}
+
+
+/* Estilos Carrusel */
+.carousel-img {
+    height: 430px;
+    object-fit: cover;
+}
+
+.carousel-indicators [data-bs-target] {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #ccc;
+    margin: 0 6px;
+    transition: background-color 0.3s;
+}
+
+.carousel-indicators .active {
+    background-color: #0d6efd;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+    width: 50px;
+    height: 50px;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 50%;
+    transition: background-color 0.3s ease;
+}
+
+.carousel-control-prev {
+    left: 40px;
+}
+
+.carousel-control-next {
+    right: 40px;
+}
+
+
+.carousel-control-prev:hover,
+.carousel-control-next:hover {
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    filter: invert(0%) brightness(0%) contrast(100%); 
+    width: 1.2rem;
+    height: 1.2rem;
+}
+
+.carousel-wrapper {
+    margin: 0 auto;
+    width: 100%;
+}
+
+.carousel-inner img {
+    width: 100%;
+    height: auto;
+    max-height: 630px;
+    object-fit: cover;
+}
+
+.promo-img {
+    object-fit: cover;
+    height: 100%;
+    border-radius: 8px;
+}
+
+@media (min-width: 768px) {
+    .object-fit-cover {
+        height: 100%;
+    }
+}
+
+
+

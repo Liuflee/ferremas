@@ -4,18 +4,21 @@
 {% block title %}Inicio - Ferremas{% endblock %}
 
 {% block content %}
-<h1 class="mb-4">Catálogo de Productos</h1>
+
+
+<h2 class="seccion-titulo">Catálogo de Productos</h2>
 
 <div class="row">
     <a href="{% url 'producto_crear' %}" class="btn btn-success mb-3">Nuevo Producto</a>
     {% for producto in productos %}
-    <div class="col-md-4 mb-4" >
-        <a href="{% url 'producto_detalle' producto.pk %}" class="card-link" style="text-decoration: none; color: inherit;">
+    <div class="col-md-4 mb-4">
+        <a href="{% url 'producto_detalle' producto.pk %}" class="card-link"
+            style="text-decoration: none; color: inherit;">
             <div class="card h-100">
                 {% if producto.imagen %}
-                    <img src="{{ producto.imagen.url }}" class="card-img-top" alt="{{ producto.nombre }}">
+                <img src="{{ producto.imagen.url }}" class="card-img-top" alt="{{ producto.nombre }}">
                 {% else %}
-                    <img src="{% static 'default_product.jpg' %}" class="card-img-top" alt="Sin imagen">
+                <img src="{% static 'default_product.jpg' %}" class="card-img-top" alt="Sin imagen">
                 {% endif %}
                 <div class="card-body">
                     <h5 class="card-title">{{ producto.nombre }}</h5>
@@ -31,6 +34,62 @@
     <p>No hay productos disponibles.</p>
     {% endfor %}
 </div>
+
+<h2 class="seccion-titulo mt-5">Liquidación de Temporada</h2>
+    <div class="row g-3 align-items-stretch">
+        <!-- Columna izquierda -->
+        <div class="col-md-6">
+            <img src="{% static 'img/liquidacion_accesorios.jpg' %}" class="img-fluid w-100 h-100 promo-img" alt="...">
+        </div>
+        <!-- Columna derecha -->
+        <div class="col-md-6 d-flex flex-column gap-3">
+            <img src="{% static 'img/liquidacion_manuales.jpg' %}" class="img-fluid w-100 flex-fill promo-img" alt="...">
+            <img src="{% static 'img/liquidacion_electricas.jpg' %}" class="img-fluid w-100 flex-fill promo-img" alt="...">
+        </div>
+    </div>
+
+<h2 class="seccion-titulo mt-5">Productos en Oferta</h2>
+    <div class="row">
+    {% for producto in productos_oferta %}
+    <div class="col-md-4 mb-4">
+        <a href="{% url 'producto_detalle' producto.pk %}" class="card-link" style="text-decoration: none; color: inherit;">
+        <div class="card h-100 border-danger">
+            {% if producto.imagen %}
+            <img src="{{ producto.imagen.url }}" class="card-img-top" alt="{{ producto.nombre }}">
+            {% else %}
+            <img src="{% static 'default_product.jpg' %}" class="card-img-top" alt="Sin imagen">
+            {% endif %}
+            <div class="card-body">
+            <h5 class="card-title text-danger">{{ producto.nombre }}</h5>
+            <p class="card-text">${{ producto.precio }}</p>
+            <p class="card-text">{{ producto.descripcion|truncatewords:10 }}</p>
+            <span class="badge bg-danger">Oferta</span>
+            <a href="{% url 'producto_editar' producto.pk %}" class="btn btn-sm btn-warning">Editar</a>
+            <a href="{% url 'producto_eliminar' producto.pk %}" class="btn btn-sm btn-danger">Eliminar</a>
+            </div>
+        </div>
+        </a>
+    </div>
+    {% empty %}
+    <p>No hay productos en oferta actualmente.</p>
+    {% endfor %}
+    </div>
+
+    <h2 class="seccion-titulo mt-5">Liquidación de Temporada</h2>
+    <div class="row g-3 align-items-stretch">
+        <!-- Columna izquierda -->
+        <div class="col-md-6">
+            <img src="{% static 'img/liquidacion_medicion.jpg' %}" class="img-fluid w-100 h-100 promo-img" alt="...">
+        </div>
+        <!-- Columna derecha -->
+        <div class="col-md-6 d-flex flex-column gap-3">
+            <img src="{% static 'img/liquidacion_inalambricas.jpg' %}" class="img-fluid w-100 flex-fill promo-img" alt="...">
+        </div>
+    </div>
+</div>
+
+
+
 {% endblock %}
 
 
@@ -38,5 +97,3 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
-
-
