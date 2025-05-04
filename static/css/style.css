@@ -86,5 +86,33 @@
     }
 }
 
+.bg-light {
+    background-color: #f9f9f9 !important;
+}
+
+.seccion-titulo {
+    font-size: 1.3rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #1d4fa3;
+    border-left: 4px solid #1d4fa3;
+    padding-left: 12px;
+}
 
 
+
+
+/* Estilos de  footer */
+footer h6 {
+    font-size: 0.9rem;
+}
+
+footer p,
+footer li {
+    font-size: 0.85rem;
+    line-height: 1.4;
+}
+
+footer a {
+    text-decoration: none;
+}
