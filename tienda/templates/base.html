@@ -6,62 +6,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Ferremas{% endblock %}</title>
 
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+
     <!-- CSS propio -->
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container">
-        <img src="{% static 'img/logo_ferreteria.png' %}" alt="Logo Ferretería" class="mb-3" style="max-height: 150px;">
+    <nav class="navbar navbar-expand-lg bg-white shadow-sm py-2">
+    <div class="container d-flex align-items-center">
+        <a class="navbar-brand d-flex align-items-center gap-2" href="/">
+        <img src="{% static 'img/logo_ferreteria.png' %}" alt="Logo Ferretería" class="logo-navbar">
+        </a>
+    
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
+        <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link" href="/">Inicio</a></li>
-                <li class="nav-item"><a class="nav-link" href="/carrito/">Carrito</a></li>
-                <li class="nav-item"><a class="nav-link" href="/login/">Login</a></li>
-            </ul>
+    
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav align-items-center gap-3">
+            <li class="nav-item">
+            <a class="nav-link nav-link-custom" href="/"><i class="bi bi-house-door-fill me-1"></i>Inicio</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link nav-link-custom" href="/carrito/"><i class="bi bi-cart-fill me-1"></i>Carrito</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link nav-link-custom" href="/login/"><i class="bi bi-person-fill me-1"></i>Login</a>
+            </li>
+        </ul>
         </div>
     </div>
-</nav>
-
-<div class="carousel-wrapper">
-    <div id="carouselFerremas" class="carousel slide mb-4" data-bs-ride="carousel">
-        <div class="carousel-indicators">
-            <button type="button" data-bs-target="#carouselFerremas" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-            <button type="button" data-bs-target="#carouselFerremas" data-bs-slide-to="1" aria-label="Slide 2"></button>
-        </div>
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-            <img src="{% static 'img/carousel1.jpg' %}" class="d-block w-100 carousel-img" alt="Ofertas de otoño">
-            </div>
-            <div class="carousel-item">
-            <img src="{% static 'img/carousel2.jpg' %}" class="d-block w-100 carousel-img" alt="Herramientas eléctricas">
-            </div>
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselFerremas" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Anterior</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselFerremas" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Siguiente</span>
-        </button>
-    </div>
-</div>
+    </nav>
 
 
+{% block content %}
+<!-- Aquí cada página mete su contenido -->
+{% endblock %}
 
-<div class="container mt-4">
-    {% block content %}
-    <!-- Aquí cada página mete su contenido -->
-    {% endblock %}
-</div>
 
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

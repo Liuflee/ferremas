@@ -1,14 +1,55 @@
 
 /* Estilos Generales */
+
+body {
+    font-family: 'Poppins', sans-serif;
+}
+
 .seccion-titulo {
-    font-size: 1.7rem;
+    font-size: 1.5rem;
     font-weight: bold;
     text-transform: uppercase;
-    color: #003298;
-    border-left: 4px solid #003298;
+    color: #264564;
+    border-left: 4px solid #264564;
     padding-left: 12px;
-    margin-bottom: 1rem;
+    margin-top: 3rem;
+    margin-bottom: 3rem;
 }
+
+
+/* Estilos de la barra de navegación */
+.logo-navbar {
+    max-height: 130px;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.nav-link-custom {
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: #333;
+}
+
+.nav-link-custom i {
+    font-size: 1.25rem;
+}
+
+.navbar-nav .nav-link {
+    font-size: 1.3rem;
+    font-weight: 400;
+}
+
+
+.nav-link-custom:hover {
+    color: #0056b3;
+}
+
 
 
 /* Estilos Carrusel */
@@ -80,6 +121,7 @@
     border-radius: 8px;
 }
 
+
 @media (min-width: 768px) {
     .object-fit-cover {
         height: 100%;
@@ -89,17 +131,6 @@
 .bg-light {
     background-color: #f9f9f9 !important;
 }
-
-.seccion-titulo {
-    font-size: 1.3rem;
-    font-weight: bold;
-    text-transform: uppercase;
-    color: #1d4fa3;
-    border-left: 4px solid #1d4fa3;
-    padding-left: 12px;
-}
-
-
 
 
 /* Estilos de  footer */
@@ -116,3 +147,61 @@ footer li {
 footer a {
     text-decoration: none;
 }
+
+/* Estilos de la sección de productos */
+
+.card.hover-shadow {
+    transition: all 0.3s ease-in-out;
+}
+
+.card.hover-shadow:hover {
+    box-shadow: 0 0.5rem 1.2rem rgba(0, 0, 0, 0.1);
+    transform: translateY(-4px);
+}
+
+/* --- botones de editar y eliminar --- */
+.card-footer .btn {
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+/* --- tarjetas de productos --- */
+.card-title {
+    font-size: 1.2rem;
+}
+
+.card-text {
+    font-size: 0.95rem;
+}
+
+/* --- botón de crear nuevo producto --- */
+.btn-success {
+    font-weight: 500;
+    border-radius: 50px;
+}
+
+/* --- Mejor separación entre secciones --- */
+section, .row {
+    margin-bottom: 2rem;
+}
+
+.product-image-wrapper {
+    height: 280px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+    background-color: #f8f9fa;
+}
+
+.product-img {
+    height: 80%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.card:hover .product-img {
+    transform: scale(1.05);
+}
+
