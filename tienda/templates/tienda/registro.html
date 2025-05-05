@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block title %}Registro{% endblock %}
+
+{% block content %}
+
+<!-- Formulario de registro -->
+<div class="container mt-4">
+  <div class="row justify-content-center">
+      <div class="col-md-6">
+          <div class="card shadow">
+              <div class="card-body">
+                  <h2 class="text-center mb-4">¡Únete a nosotros!</h2>
+                  <form method="POST" action="{% url 'registro' %}">
+                      {% csrf_token %}
+
+                      <div class="form-group">
+                          <label for="id_first_name">Nombre</label>
+                          <input type="text" class="form-control {% if form.first_name.errors %}is-invalid{% endif %}" id="id_first_name" name="first_name" placeholder="Nombre" value="{{ form.first_name.value }}">
+                          {% for error in form.first_name.errors %}
+                              <div class="invalid-feedback">{{ error }}</div>
+                          {% endfor %}
+                      </div>
+
+                      <div class="form-group">
+                          <label for="id_last_name">Apellido</label>
+                          <input type="text" class="form-control {% if form.last_name.errors %}is-invalid{% endif %}" id="id_last_name" name="last_name" placeholder="Apellido" value="{{ form.last_name.value }}">
+                          {% for error in form.last_name.errors %}
+                              <div class="invalid-feedback">{{ error }}</div>
+                          {% endfor %}
+                      </div>
+
+                      <div class="form-group">
+                          <label for="id_email">Correo electrónico</label>
+                          <input type="email" class="form-control {% if form.email.errors %}is-invalid{% endif %}" id="id_email" name="email" placeholder="Correo electrónico" value="{{ form.email.value }}">
+                          {% for error in form.email.errors %}
+                              <div class="invalid-feedback">{{ error }}</div>
+                          {% endfor %}
+                      </div>
+
+                      <div class="form-group">
+                          <label for="id_username">Nombre de usuario</label>
+                          <input type="text" class="form-control {% if form.username.errors %}is-invalid{% endif %}" id="id_username" name="username" placeholder="Nombre de usuario" value="{{ form.username.value }}">
+                          {% for error in form.username.errors %}
+                              <div class="invalid-feedback">{{ error }}</div>
+                          {% endfor %}
+                      </div>
+
+                      <div class="form-group">
+                          <label for="id_password1">Contraseña</label>
+                          <input type="password" class="form-control {% if form.password1.errors %}is-invalid{% endif %}" id="id_password1" name="password1" placeholder="Contraseña">
+                          {% for error in form.password1.errors %}
+                              <div class="invalid-feedback">{{ error }}</div>
+                          {% endfor %}
+                      </div>
+
+                      <div class="form-group">
+                          <label for="id_password2">Confirmar contraseña</label>
+                          <input type="password" class="form-control {% if form.password2.errors %}is-invalid{% endif %}" id="id_password2" name="password2" placeholder="Confirmar contraseña">
+                          {% for error in form.password2.errors %}
+                              <div class="invalid-feedback">{{ error }}</div>
+                          {% endfor %}
+                      </div>
+
+                      <button type="submit" class="btn btn-primary btn-block">Registrarse</button>
+                  </form>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+  
+{% endblock %}
