@@ -1,0 +1,207 @@
+
+/* Estilos Generales */
+
+body {
+    font-family: 'Poppins', sans-serif;
+}
+
+.seccion-titulo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #264564;
+    border-left: 4px solid #264564;
+    padding-left: 12px;
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+}
+
+
+/* Estilos de la barra de navegación */
+.logo-navbar {
+    max-height: 130px;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.nav-link-custom {
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: #333;
+}
+
+.nav-link-custom i {
+    font-size: 1.25rem;
+}
+
+.navbar-nav .nav-link {
+    font-size: 1.3rem;
+    font-weight: 400;
+}
+
+
+.nav-link-custom:hover {
+    color: #0056b3;
+}
+
+
+
+/* Estilos Carrusel */
+.carousel-img {
+    height: 430px;
+    object-fit: cover;
+}
+
+.carousel-indicators [data-bs-target] {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #ccc;
+    margin: 0 6px;
+    transition: background-color 0.3s;
+}
+
+.carousel-indicators .active {
+    background-color: #0d6efd;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+    width: 50px;
+    height: 50px;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 50%;
+    transition: background-color 0.3s ease;
+}
+
+.carousel-control-prev {
+    left: 40px;
+}
+
+.carousel-control-next {
+    right: 40px;
+}
+
+
+.carousel-control-prev:hover,
+.carousel-control-next:hover {
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    filter: invert(0%) brightness(0%) contrast(100%); 
+    width: 1.2rem;
+    height: 1.2rem;
+}
+
+.carousel-wrapper {
+    margin: 0 auto;
+    width: 100%;
+}
+
+.carousel-inner img {
+    width: 100%;
+    height: auto;
+    max-height: 630px;
+    object-fit: cover;
+}
+
+.promo-img {
+    object-fit: cover;
+    height: 100%;
+    border-radius: 8px;
+}
+
+
+@media (min-width: 768px) {
+    .object-fit-cover {
+        height: 100%;
+    }
+}
+
+.bg-light {
+    background-color: #f9f9f9 !important;
+}
+
+
+/* Estilos de  footer */
+footer h6 {
+    font-size: 0.9rem;
+}
+
+footer p,
+footer li {
+    font-size: 0.85rem;
+    line-height: 1.4;
+}
+
+footer a {
+    text-decoration: none;
+}
+
+/* Estilos de la sección de productos */
+
+.card.hover-shadow {
+    transition: all 0.3s ease-in-out;
+}
+
+.card.hover-shadow:hover {
+    box-shadow: 0 0.5rem 1.2rem rgba(0, 0, 0, 0.1);
+    transform: translateY(-4px);
+}
+
+/* --- botones de editar y eliminar --- */
+.card-footer .btn {
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+/* --- tarjetas de productos --- */
+.card-title {
+    font-size: 1.2rem;
+}
+
+.card-text {
+    font-size: 0.95rem;
+}
+
+/* --- botón de crear nuevo producto --- */
+.btn-success {
+    font-weight: 500;
+    border-radius: 50px;
+}
+
+/* --- Mejor separación entre secciones --- */
+section, .row {
+    margin-bottom: 2rem;
+}
+
+.product-image-wrapper {
+    height: 280px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+    background-color: #f8f9fa;
+}
+
+.product-img {
+    height: 80%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.card:hover .product-img {
+    transform: scale(1.05);
+}
+
