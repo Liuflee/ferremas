@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Pago exitoso</h2>
+    <p>Tu pago fue procesado correctamente.</p>
+    <p>ID de la transacción: {{ response.buy_order }}</p>
+</div>
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Catálogo completo - Ferremas{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <h2 class="seccion-titulo mb-4">Catálogo completo de productos</h2>
+
+    <div class="row">
+        {% for producto in productos %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm border-0 hover-shadow">
+                <a href="{% url 'producto_detalle' producto.pk %}" style="text-decoration: none; color: inherit;">
+                    <div class="product-image-wrapper">
+                        {% if producto.imagen %}
+                        <img src="{{ producto.imagen.url }}" class="product-img" alt="{{ producto.nombre }}">
+                        {% else %}
+                        <img src="{% static 'default_product.jpg' %}" class="product-img" alt="Sin imagen">
+                        {% endif %}
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold text-primary">{{ producto.nombre }}</h5>
+                        <p class="card-text fs-5 text-success">${{ producto.precio }}</p>
+                        <p class="card-text text-muted small">{{ producto.descripcion|truncatewords:12 }}</p>
+                    </div>
+                </a>
+                <div class="card-footer bg-white border-0 d-flex justify-content-between">
+                    <form method="post" action="{% url 'agregar_al_carrito' producto.pk %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-outline-primary btn-sm">
+                            <i class="bi bi-cart-plus me-1"></i>Agregar al carrito
+                        </button>
+                    </form>
+                    <a href="{% url 'producto_detalle' producto.pk %}" class="btn btn-outline-secondary btn-sm">
+                        <i class="bi bi-info-circle me-1"></i>Ver más
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p class="text-muted">No hay productos en el catálogo.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

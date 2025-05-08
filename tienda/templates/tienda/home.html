@@ -74,7 +74,9 @@
     {% empty %}
     <p class="text-muted">No hay productos disponibles.</p>
     {% endfor %}
+
 </div>
+<a href="{% url 'catalogo' %}" class="btn btn-outline-dark mb-4">Ver todo el catálogo</a>
 
 
 
@@ -137,7 +139,7 @@
             <h2 class="seccion-titulo mb-4">Nuestras marcas destacadas</h2>
             
             <div class="row row-cols-2 row-cols-md-4 row-cols-lg-6 g-3 justify-content-center">
-            {% comment %} Repite estas columnas para cada logo de marca {% endcomment %}
+            {% comment %} Repetir columnas para cada logo {% endcomment %}
                 <div class="col text-center">
                     <div class="bg-white shadow-sm p-3 rounded">
                     <img src="{% static 'img/marcas/hollow.png' %}" alt="Milwaukee" class="img-fluid" style="max-height: 60px;">

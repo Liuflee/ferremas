@@ -32,9 +32,33 @@
             <li class="nav-item">
             <a class="nav-link nav-link-custom" href="/"><i class="bi bi-house-door-fill me-1"></i>Inicio</a>
             </li>
-            <li class="nav-item">
-            <a class="nav-link nav-link-custom" href="/carrito/"><i class="bi bi-cart-fill me-1"></i>Carrito</a>
-            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link nav-link-custom dropdown-toggle d-flex align-items-center" href="#" id="dropdownCarrito" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  <i class="bi bi-cart-fill me-1"></i>Carrito
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end p-3" aria-labelledby="dropdownCarrito" style="min-width: 300px;">
+                  {% if carrito_items %}
+                    {% for item in carrito_items %}
+                      <li class="d-flex justify-content-between mb-2">
+                        <div>
+                          <strong>{{ item.producto.nombre }}</strong><br>
+                          Cant: {{ item.cantidad }}<br>
+                          Precio: ${{ item.subtotal }}
+                        </div>
+                      </li>
+                      <hr class="my-1">
+                    {% endfor %}
+                    <li class="d-flex justify-content-between mt-2">
+                      <strong>Total:</strong> <span>${{ carrito_total }}</span>
+                    </li>
+                    <li class="text-center mt-2">
+                      <a href="{% url 'carrito' %}" class="btn btn-primary btn-sm">Ir a pagar</a>
+                    </li>
+                  {% else %}
+                    <li class="text-center">El carrito está vacío</li>
+                  {% endif %}
+                </ul>
+              </li>
             <li class="nav-item">
             {% if user.is_authenticated %}
                 <a class="nav-link nav-link-custom" href="/logout/"><i class="bi bi-person-fill me-1"></i>Cerrar sesión</a>
