@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Pago Error - Ferremas{% endblock %}
+
+{% block content %}
+<div class="container text-center py-5">
+    <div class="mb-4">
+        <img src="{% static 'img/icono_error.png' %}" alt="Pago Error" style="width: 100px;">
+    </div>
+    <h2 class="text-danger mb-3">¡Ocurrió un Error en el Pago!</h2>
+    <p class="lead">Lo sentimos, hubo un problema con tu transacción.</p>
+
+    <div class="alert alert-danger">
+        <h4>Detalles de la Orden:</h4>
+        <p><strong>Orden ID:</strong> {{ order }}</p>
+        <p><strong>Monto:</strong> ${{ amount }}</p>
+        <p><strong>Estado de la transacción:</strong> {{ status }}</p>
+        <p><strong>Compra ID:</strong> {{ buy_order }}</p>
+        <p><strong>Sesión ID:</strong> {{ session_id }}</p>
+    </div>
+</div>
+{% endblock %}

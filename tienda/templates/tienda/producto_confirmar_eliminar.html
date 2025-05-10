@@ -7,6 +7,8 @@
     <h2>¿Estás seguro que quieres eliminar el producto "{{ producto.nombre }}"?</h2>
     <form method="POST">
         {% csrf_token %}
+        <!-- Agregar el campo hidden para next -->
+        <input type="hidden" name="next" value="{{ next }}">
         <button type="submit" class="btn btn-danger">Sí, eliminar</button>
         <a href="{% url 'home' %}" class="btn btn-secondary">Cancelar</a>
     </form>

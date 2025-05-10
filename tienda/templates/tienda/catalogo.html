@@ -7,6 +7,77 @@
 <div class="container py-4">
     <h2 class="seccion-titulo mb-4">Catálogo completo de productos</h2>
 
+    
+
+    <!-- Barra de búsqueda -->
+    <div class="row mb-4">
+        <div class="col-md-4 mb-3 mb-md-0">
+            <form method="get" class="d-flex">
+                <input type="text" name="search" value="{{ search_query }}" class="form-control me-2" placeholder="Buscar productos..." style="max-width: 100%;">
+                <button type="submit" class="btn btn-outline-primary">
+                    <i class="bi bi-search"></i>
+                </button>
+            </form>
+        </div>
+
+        <!-- Filtro por categoría -->
+        <div class="col-md-4 mb-3 mb-md-0">
+            <div class="dropdown">
+                <button class="btn btn-outline-secondary dropdown-toggle w-100" type="button" id="dropdownMenuCategoria" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-funnel"></i> Filtrar
+                </button>
+                <ul class="dropdown-menu w-100" aria-labelledby="dropdownMenuCategoria">
+                    <li>
+                        <form method="get" class="p-3">
+                            <div class="form-group">
+                                <label for="categoria" class="form-label">Categoría</label>
+                                <select name="categoria" class="form-select" id="categoria">
+                                    <option value="">Todas las categorías</option>
+                                    {% for value, label in categorias %}
+                                        <option value="{{ value }}" {% if value == categoria_filter %}selected{% endif %}>{{ label }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-outline-secondary mt-2 w-100">Filtrar</button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Ordenar por -->
+        <div class="col-md-4">
+            <div class="dropdown">
+                <button class="btn btn-outline-info dropdown-toggle w-100" type="button" id="dropdownMenuOrdenar" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-sort-alpha-down"></i> Ordenar
+                </button>
+                <ul class="dropdown-menu w-100" aria-labelledby="dropdownMenuOrdenar">
+                    <li>
+                        <form method="get" class="p-3">
+                            <div class="form-group">
+                                <label for="ordenar" class="form-label">Ordenar por</label>
+                                <select name="order_by" class="form-select" id="ordenar">
+                                    <option value="nombre" {% if order_by == 'nombre' %}selected{% endif %}>Nombre</option>
+                                    <option value="precio" {% if order_by == 'precio' %}selected{% endif %}>Precio</option>
+                                    <option value="stock" {% if order_by == 'stock' %}selected{% endif %}>Stock</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-outline-info mt-2 w-100">Ordenar</button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    
+    {% if user.is_authenticated and user.is_staff %}
+        <a href="{% url 'producto_crear' %}?next={{ request.get_full_path }}" class="btn btn-success px-4 mb-4">
+            <i class="bi bi-plus-circle me-2"></i>Nuevo Producto
+        </a>
+    {% endif %}
+
+    <!-- Mostrar productos -->
     <div class="row">
         {% for producto in productos %}
         <div class="col-md-4 mb-4">
@@ -25,17 +96,28 @@
                         <p class="card-text text-muted small">{{ producto.descripcion|truncatewords:12 }}</p>
                     </div>
                 </a>
-                <div class="card-footer bg-white border-0 d-flex justify-content-between">
-                    <form method="post" action="{% url 'agregar_al_carrito' producto.pk %}">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-outline-primary btn-sm">
-                            <i class="bi bi-cart-plus me-1"></i>Agregar al carrito
-                        </button>
-                    </form>
-                    <a href="{% url 'producto_detalle' producto.pk %}" class="btn btn-outline-secondary btn-sm">
-                        <i class="bi bi-info-circle me-1"></i>Ver más
-                    </a>
-                </div>
+                {% if user.is_authenticated and user.is_staff %}
+                    <div class="card-footer bg-white border-0 d-flex justify-content-between">
+                        <a href="{% url 'producto_editar' producto.pk %}?next={{ request.get_full_path }}" class="btn btn-outline-warning btn-sm">
+                            <i class="bi bi-pencil-square me-1"></i>Editar
+                        </a>
+                        <a href="{% url 'producto_eliminar' producto.pk %}?next={{ request.get_full_path }}" class="btn btn-outline-danger btn-sm">
+                            <i class="bi bi-trash me-1"></i>Eliminar
+                        </a>
+                    </div>
+                {% else %}
+                    <div class="card-footer bg-white border-0 d-flex justify-content-between">
+                        <form method="post" action="{% url 'agregar_al_carrito' producto.pk %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-outline-primary btn-sm">
+                                <i class="bi bi-cart-plus me-1"></i>Agregar al carrito
+                            </button>
+                        </form>
+                        <a href="{% url 'producto_detalle' producto.pk %}" class="btn btn-outline-secondary btn-sm">
+                            <i class="bi bi-info-circle me-1"></i>Ver más
+                        </a>
+                    </div>
+                {% endif %}
             </div>
         </div>
         {% empty %}
