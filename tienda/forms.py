@@ -1,27 +1,27 @@
 from django import forms
-from .models import Producto
+from .models import DatosCompra, Producto
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
+
 
 class ProductoForm(forms.ModelForm):
     class Meta:
         model = Producto
         fields = ['nombre', 'descripcion', 'categoria', 'precio', 'stock', 'imagen']
         widgets = {
-            'nombre': forms.TextInput(attrs=
-                {'class': 'form-control form-control-sm', 'style': 'max-width: 500px;'}),
-            'descripcion': forms.Textarea(attrs=
-                {'class': 'form-control form-control-sm', 'rows': 3, 'style': 'max-width: 500px;'}),
-            'categoria': forms.TextInput(attrs=
-                {'class': 'form-control form-control-sm', 'style': 'max-width: 500px;'}),
-            'precio': forms.NumberInput(attrs=
-                {'class': 'form-control form-control-sm', 'style': 'max-width: 300px;'}),
-            'stock': forms.NumberInput(attrs=
-                {'class': 'form-control form-control-sm', 'style': 'max-width: 300px;'}),
-            'imagen': forms.ClearableFileInput(attrs=
-                {'class': 'form-control form-control-sm', 'style': 'max-width: 500px;'}),
+            'nombre': forms.TextInput(attrs={
+                'class': 'form-control form-control-sm', 'style': 'max-width: 500px;'}),
+            'descripcion': forms.Textarea(attrs={
+                'class': 'form-control form-control-sm', 'rows': 3, 'style': 'max-width: 500px;'}),
+            'categoria': forms.Select(attrs={
+                'class': 'form-control form-control-sm', 'style': 'max-width: 500px;'}),
+            'precio': forms.NumberInput(attrs={
+                'class': 'form-control form-control-sm', 'style': 'max-width: 300px;'}),
+            'stock': forms.NumberInput(attrs={
+                'class': 'form-control form-control-sm', 'style': 'max-width: 300px;'}),
+            'imagen': forms.ClearableFileInput(attrs={
+                'class': 'form-control form-control-sm', 'style': 'max-width: 500px;'}),
         }
-
 
 
 
@@ -98,3 +98,9 @@ class RegistroForm(UserCreationForm):
         if commit:
             user.save()
         return user
+    
+
+class DatosCompraForm(forms.ModelForm):
+    class Meta:
+        model = DatosCompra
+        fields = ['nombre', 'rut', 'direccion', 'telefono', 'codigo_postal', 'envio']

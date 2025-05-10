@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Pago Exitoso - Ferremas{% endblock %}
+
+{% block content %}
+<div class="container text-center py-5">
+    <div class="mb-4">
+        <img src="{% static 'img/icono_exito.png' %}" alt="Pago exitoso" style="width: 100px;">
+    </div>
+    <h2 class="text-success mb-3">¡Pago Completado!</h2>
+    <p class="lead">Tu transacción fue completada con éxito.</p>
+
+    <div> 
+        <h3>Datos del Comprador:</h3>
+        <p><strong>Nombre:</strong> {{ datos_compra.nombre }}</p>
+        <p><strong>Email:</strong> {{ datos_compra.usuario.email }}</p>
+        <p><strong>Dirección:</strong> {{ datos_compra.direccion }}</p>
+    </div>
+
+    <div class="alert alert-success">
+        <h4>Detalles de la Orden:</h4>
+        <p><strong>Orden ID:</strong> {{ order }}</p>
+        <p><strong>Monto:</strong> ${{ amount }}</p>
+        <p><strong>Estado de la transacción:</strong> {{ status }}</p>
+        <p><strong>Compra ID:</strong> {{ buy_order }}</p>
+        <p><strong>Sesión ID:</strong> {{ session_id }}</p>
+    </div>
+</div>
+{% endblock %}
