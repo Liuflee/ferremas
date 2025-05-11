@@ -4,33 +4,78 @@
 
 {% block content %}
 <div class="container py-5">
-    <h2 class="mb-4">Finalizar Compra</h2>
+    <h2 class="mb-4">
+        <i class="bi bi-credit-card-2-front me-2"></i>Finalizar Compra
+    </h2>
 
     <div class="row">
-        <!-- Formulario de datos de compra -->
+        <!-- Formulario -->
         <div class="col-md-5">
-            <h4>Datos del Comprador</h4>
-            <form method="post" action="{% url 'iniciar_pago' %}">
-                {% csrf_token %}
-                {{ form.as_p }}
-
-                {% if user.is_authenticated %}
-                    <button type="submit" class="btn btn-success mt-3">Pagar</button>
-                {% else %}
-                    <div class="alert alert-warning mt-3" role="alert">
-                        Debes <a href="{% url 'login' %}?next={% url 'carrito' %}">iniciar sesión</a> antes de pagar.
+            <div class="card shadow-sm border-0 p-4">
+                <h5 class="fw-bold mb-3"><i class="bi bi-person-standing me-2 text-danger"></i>Datos del Comprador</h5>
+                <form method="post" action="{% url 'iniciar_pago' %}">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        {{ form.nombre.label_tag }} {{ form.nombre }}
+                        {% if form.nombre.errors %}
+                            <div class="invalid-feedback d-block">{{ form.nombre.errors.0 }}</div>
+                        {% endif %}
                     </div>
-                {% endif %}
-            </form>
+
+                    <div class="mb-3">
+                        {{ form.rut.label_tag }} {{ form.rut }}
+                        {% if form.rut.errors %}
+                            <div class="invalid-feedback d-block">{{ form.rut.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.direccion.label_tag }} {{ form.direccion }}
+                        {% if form.direccion.errors %}
+                            <div class="invalid-feedback d-block">{{ form.direccion.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.telefono.label_tag }} {{ form.telefono }}
+                        {% if form.telefono.errors %}
+                            <div class="invalid-feedback d-block">{{ form.telefono.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.codigo_postal.label_tag }} {{ form.codigo_postal }}
+                        {% if form.codigo_postal.errors %}
+                            <div class="invalid-feedback d-block">{{ form.codigo_postal.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-check mb-4">
+                        {{ form.envio }} {{ form.envio.label_tag }}
+                    </div>
+
+                    
+                    {% if user.is_authenticated %}
+                        <button type="submit" class="btn btn-bronze btn-lg mt-3">
+                            <i class="bi bi-wallet2 me-1"></i>Pagar ahora
+                        </button>
+                    {% else %}
+                        <div class="alert alert-warning mt-3" role="alert">
+                            Debes <a href="{% url 'login' %}?next={% url 'carrito' %}">iniciar sesión</a> antes de pagar.
+                        </div>
+                    {% endif %}
+                </form>
+            </div>
         </div>
 
-        <!-- Carrito de compras -->
+        <!-- Tabla Carrito -->
         <div class="col-md-7">
-            <h4>Tu Carrito</h4>
+            <div class="card shadow-sm border-0 p-4">
+                <h5 class="fw-bold mb-3"><i class="bi bi-cart3 me-2 text-secondary"></i>Tu Carrito</h5>
 
-            {% if carrito_items %}
+                {% if carrito_items %}
                 <div class="table-responsive">
-                    <table class="table table-bordered table-striped">
+                    <table class="table table-bordered align-middle text-center">
                         <thead class="table-light">
                             <tr>
                                 <th>Producto</th>
@@ -42,27 +87,28 @@
                         </thead>
                         <tbody>
                             {% for item in carrito_items %}
-                                <tr>
-                                    <td>{{ item.producto.nombre }}</td>
-                                    <td><img src="{{ item.producto.imagen.url }}" alt="{{ item.producto.nombre }}" style="height: 60px;"></td>
-                                    <td>{{ item.cantidad }}</td>
-                                    <td>${{ item.producto.precio }}</td>
-                                    <td>${{ item.subtotal }}</td>
-                                </tr>
-                            {% endfor %}
                             <tr>
-                                <td colspan="4" class="text-end fw-bold">Total:</td>
-                                <td class="fw-bold">${{ carrito_total }}</td>
+                                <td>{{ item.producto.nombre }}</td>
+                                <td><img src="{{ item.producto.imagen.url }}" alt="{{ item.producto.nombre }}" style="height: 60px;"></td>
+                                <td>{{ item.cantidad }}</td>
+                                <td>${{ item.producto.precio }}</td>
+                                <td>${{ item.subtotal }}</td>
                             </tr>
+                            {% endfor %}
                         </tbody>
                     </table>
                 </div>
-            {% else %}
-                <div class="alert alert-info" role="alert">
-                    Tu carrito está vacío.
+
+                <div class="alert alert-light mt-3 text-end fw-semibold fs-5">
+                    <i class="bi bi-receipt me-1 text-muted"></i> Total a pagar: 
+                    <span class="text-success">${{ carrito_total }}</span>
                 </div>
-            {% endif %}
+                {% else %}
+                <div class="alert alert-info">Tu carrito está vacío.</div>
+                {% endif %}
+            </div>
         </div>
     </div>
 </div>
 {% endblock %}
+
