@@ -104,3 +104,11 @@ class DatosCompraForm(forms.ModelForm):
     class Meta:
         model = DatosCompra
         fields = ['nombre', 'rut', 'direccion', 'telefono', 'codigo_postal', 'envio']
+        widgets = {
+            'nombre': forms.TextInput(attrs={'class': 'form-control'}),
+            'rut': forms.TextInput(attrs={'class': 'form-control'}),
+            'direccion': forms.TextInput(attrs={'class': 'form-control'}),
+            'telefono': forms.TextInput(attrs={'class': 'form-control'}),
+            'codigo_postal': forms.TextInput(attrs={'class': 'form-control'}),
+            'envio': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+        }

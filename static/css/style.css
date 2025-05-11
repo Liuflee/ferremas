@@ -179,7 +179,7 @@ footer a {
     border-radius: 50px;
 }
 
-/* --- Mejor separación entre secciones --- */
+
 section, .row {
     margin-bottom: 2rem;
 }
@@ -205,3 +205,94 @@ section, .row {
     transform: scale(1.05);
 }
 
+
+/* Estilos de la sección de detalle */
+.detalle-img-container {
+    width: 100%;
+    max-width: 450px;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    overflow: hidden;
+}
+
+.detalle-img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+
+
+form .form-control-sm {
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    height: calc(1.5em + 0.75rem + 2px);
+}
+
+.btn-primary {
+    background-color: #0069ed;
+    border-color: #0069ed;
+    font-weight: 500;
+    transition: all 0.2s ease-in-out;
+}
+
+.btn-primary:hover {
+    background-color: #0053ba;
+    border-color: #0053ba;
+}
+
+
+.breadcrumb-line {
+    background-color: #f8f9fa;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.breadcrumb-line a {
+    text-decoration: none;
+    color: #6c757d;
+    transition: color 0.2s;
+}
+
+.breadcrumb-line a:hover {
+    color: #0d6efd;
+    text-decoration: underline;
+}
+
+.separator {
+    color: #adb5bd;
+    margin: 0 6px;
+}
+
+.back-link i {
+    font-size: 1rem;
+}
+
+.text-bronze {
+    color: #202429;
+}
+
+.btn-bronze {
+    background-color: #0750be;
+    color: white;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+.btn-bronze:hover {
+    color: white;
+    background-color: #032c6a;
+}
+
+.card h5 i {
+    vertical-align: -1px;
+}

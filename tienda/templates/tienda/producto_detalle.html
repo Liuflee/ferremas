@@ -1,13 +1,74 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="product-detail">
-    <h1>{{ producto.nombre }}</h1>
-    <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}" class="product-image">
-    <p><strong>Precio:</strong> ${{ producto.precio }}</p>
-    <p><strong>Descripción:</strong> {{ producto.descripcion }}</p>
-    <p><strong>Categoría:</strong> {{ producto.categoria }}</p>
-    <p><strong>Disponibilidad:</strong> {{ producto.disponibilidad }}</p>
-    <a href="" class="btn btn-primary">Agregar al carrito</a>
+
+<div class="container py-4">
+    <nav class="breadcrumb-line d-flex align-items-center px-3 py-2 mb-4">
+        <a href="{% url 'home' %}" class="text-muted me-2 d-flex align-items-center back-link">
+            <i class="bi bi-arrow-left me-1"></i> Inicio
+        </a>
+        <span class="separator">›</span>
+        <a href="{% url 'catalogo' %}" class="text-muted mx-2">Categoría</a>
+        <span class="separator">›</span>
+        <span class="fw-semibold text-dark">{{ producto.nombre }}</span>
+    </nav>
+    <div class="row align-items-center">
+        <!-- Imagen -->
+        <div class="col-md-5 mb-4 mb-md-0 d-flex justify-content-center">
+            <div class="detalle-img-container">
+                <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}" class="img-fluid detalle-img">
+            </div>
+        </div>
+
+        <!-- Información -->
+        <div class="col-md-7">
+            <h2 class="fw-bold text-primary">{{ producto.nombre }}</h2>
+            <p class="text-muted mb-1">Antes: <span class="text-decoration-line-through">${{ producto.precio }}</span></p>
+            <p class="fs-4 text-success fw-bold mb-2">${{ producto.precio }}</p>
+            <p class="text-danger fw-semibold mb-4">¡Precio exclusivo online!</p>
+
+            <p class="text-muted">{{ producto.descripcion }}</p>
+
+            <ul class="list-unstyled small mb-3">
+                <li><strong>Categoría:</strong> {{ producto.categoria }}</li>
+                <li><strong>Disponibilidad:</strong> {{ producto.stock }}</li>
+            </ul>
+
+            <!-- Badges -->
+            <div class="d-flex flex-wrap gap-2 mb-3">
+                {% if producto.stock < 5 %}
+                <span class="badge bg-warning text-dark">
+                    <i class="bi bi-exclamation-triangle-fill me-1"></i>Últimas unidades
+                </span>
+                {% endif %}
+                {% if producto.precio >= 50000 %}
+                <span class="badge bg-light text-success border border-success fw-semibold">
+                    <i class="bi bi-truck me-1"></i>Envío gratis sobre $50.000
+                </span>
+                {% endif %}
+            </div>
+
+            <!-- Iconos de disponibilidad -->
+            <ul class="list-unstyled mb-4">
+                <li>
+                    <i class="bi bi-truck me-1 text-success"></i>
+                    <span class="fw-semibold">Disponible para despacho</span>
+                </li>
+                <li>
+                    <i class="bi bi-shop me-1 text-success"></i>
+                    <span class="fw-semibold">Retiro en tienda disponible</span>
+                </li>
+            </ul>
+
+            <!-- Botón agregar al carrito -->
+            <form method="post" action="{% url 'agregar_al_carrito' producto.pk %}" class="d-flex align-items-center gap-3 mt-3">
+                {% csrf_token %}
+                <input type="number" name="cantidad" value="1" min="1" class="form-control form-control-sm" style="width: 70px; text-align: center;">
+                <button type="submit" class="btn btn-primary btn-lg px-4 rounded-pill">
+                    <i class="bi bi-cart-plus me-2"></i>Agregar al carrito
+                </button>
+            </form>
+        </div>
+    </div>
 </div>
 {% endblock %}

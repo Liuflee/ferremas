@@ -4,11 +4,16 @@
 {% block title %}Catálogo completo - Ferremas{% endblock %}
 
 {% block content %}
+
 <div class="container py-4">
+    <nav class="breadcrumb-line d-flex align-items-center px-3 py-2 mb-4">
+        <a href="{% url 'home' %}" class="text-muted me-2 d-flex align-items-center back-link">
+            <i class="bi bi-arrow-left me-1"></i> Inicio
+        </a>
+        <span class="separator">›</span>
+        <span class="fw-semibold text-dark">Categoría</span>
+    </nav>
     <h2 class="seccion-titulo mb-4">Catálogo completo de productos</h2>
-
-    
-
     <!-- Barra de búsqueda -->
     <div class="row mb-4">
         <div class="col-md-4 mb-3 mb-md-0">
@@ -109,12 +114,12 @@
                     <div class="card-footer bg-white border-0 d-flex justify-content-between">
                         <form method="post" action="{% url 'agregar_al_carrito' producto.pk %}">
                             {% csrf_token %}
-                            <button type="submit" class="btn btn-outline-primary btn-sm">
-                                <i class="bi bi-cart-plus me-1"></i>Agregar al carrito
-                            </button>
+                            <button type="submit" class="btn btn-outline-primary btn-sm rounded-pill shadow-sm px-3 d-flex align-items-center gap-1 transition">
+                                <i class="bi bi-cart-plus"></i> Agregar al carrito
+                            </button>   
                         </form>
-                        <a href="{% url 'producto_detalle' producto.pk %}" class="btn btn-outline-secondary btn-sm">
-                            <i class="bi bi-info-circle me-1"></i>Ver más
+                        <a href="{% url 'producto_detalle' producto.pk %}" class="btn btn-outline-secondary btn-sm rounded-pill shadow-sm px-3 d-flex align-items-center gap-1 transition">
+                            <i class="bi bi-info-circle"></i> Ver más
                         </a>
                     </div>
                 {% endif %}
