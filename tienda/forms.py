@@ -5,22 +5,21 @@ from django.contrib.auth.models import User
 
 
 class ProductoForm(forms.ModelForm):
+    precio = forms.DecimalField(
+        max_digits=10, decimal_places=2,
+        widget=forms.NumberInput(attrs={'class': 'form-control form-control-sm', 'style': 'max-width: 300px;'})
+    )
+
     class Meta:
         model = Producto
-        fields = ['nombre', 'descripcion', 'categoria', 'precio', 'stock', 'imagen']
+        fields = ['nombre', 'descripcion', 'categoria', 'stock', 'imagen']  # NO incluir 'precio' aquí
+
         widgets = {
-            'nombre': forms.TextInput(attrs={
-                'class': 'form-control form-control-sm', 'style': 'max-width: 500px;'}),
-            'descripcion': forms.Textarea(attrs={
-                'class': 'form-control form-control-sm', 'rows': 3, 'style': 'max-width: 500px;'}),
-            'categoria': forms.Select(attrs={
-                'class': 'form-control form-control-sm', 'style': 'max-width: 500px;'}),
-            'precio': forms.NumberInput(attrs={
-                'class': 'form-control form-control-sm', 'style': 'max-width: 300px;'}),
-            'stock': forms.NumberInput(attrs={
-                'class': 'form-control form-control-sm', 'style': 'max-width: 300px;'}),
-            'imagen': forms.ClearableFileInput(attrs={
-                'class': 'form-control form-control-sm', 'style': 'max-width: 500px;'}),
+            'nombre': forms.TextInput(attrs={'class': 'form-control form-control-sm', 'style': 'max-width: 500px;'}),
+            'descripcion': forms.Textarea(attrs={'class': 'form-control form-control-sm', 'rows': 3, 'style': 'max-width: 500px;'}),
+            'categoria': forms.Select(attrs={'class': 'form-control form-control-sm', 'style': 'max-width: 500px;'}),
+            'stock': forms.NumberInput(attrs={'class': 'form-control form-control-sm', 'style': 'max-width: 300px;'}),
+            'imagen': forms.ClearableFileInput(attrs={'class': 'form-control form-control-sm', 'style': 'max-width: 500px;'}),
         }
 
 

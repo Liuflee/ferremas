@@ -1,7 +1,8 @@
+from django.utils import timezone
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.urls import reverse
-from .models import DatosCompra, Producto
+from .models import DatosCompra, PrecioHistorico, Producto
 from .forms import DatosCompraForm, ProductoForm, RegistroForm  
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.views import LoginView
@@ -13,6 +14,9 @@ from transbank.webpay.webpay_plus.transaction import Transaction
 from transbank.common.integration_type import IntegrationType
 from transbank.common.options import WebpayOptions
 
+def obtener_precio_actual(producto):
+    ultimo_precio = producto.precios.first()  # Ordenado por fecha descendente en el modelo
+    return ultimo_precio.valor if ultimo_precio else 0
 
 def home(request):
     productos = Producto.objects.all()[:6]  # vista previa de productos
@@ -24,18 +28,23 @@ def redirect_back_or_home(request):
 @login_required
 @user_passes_test(lambda u: u.is_staff)
 def producto_crear(request):
-    next_url = request.GET.get('next', 'home')  # Leer 'next' del GET
-
+    next_url = request.GET.get('next', 'home')
+    
     if request.method == 'POST':
         form = ProductoForm(request.POST, request.FILES)
-        next_url = request.POST.get('next', 'home')  # Leer 'next' del POST
+        next_url = request.POST.get('next', 'home')
         if form.is_valid():
-            form.save()
-            return redirect(next_url)  # Redirigir a la URL que venga en 'next'
+            producto = form.save()
+            precio_valor = form.cleaned_data['precio']
+            PrecioHistorico.objects.create(
+                producto=producto,
+                fecha=timezone.now(),
+                valor=precio_valor
+            )
+            return redirect(next_url)
     else:
         form = ProductoForm()
-    
-    # Pasar 'next' al contexto para el formulario
+
     return render(request, 'tienda/producto_form.html', {'form': form, 'next': next_url})
 
 
@@ -43,18 +52,35 @@ def producto_crear(request):
 @user_passes_test(lambda u: u.is_staff)
 def producto_editar(request, pk):
     producto = get_object_or_404(Producto, pk=pk)
-    next_url = request.GET.get('next', 'home')  # Leer 'next' del GET
+    next_url = request.GET.get('next', 'home')
 
     if request.method == 'POST':
         form = ProductoForm(request.POST, request.FILES, instance=producto)
-        next_url = request.POST.get('next', 'home')  # Leer 'next' del POST
+        next_url = request.POST.get('next', 'home')
         if form.is_valid():
-            form.save()
-            return redirect(next_url)  # Redirigir a la URL que venga en 'next'
+            producto = form.save()  # Guardar cambios en producto
+            precio_valor = form.cleaned_data['precio']
+
+            # Obtener el último precio histórico
+            ultimo_precio = producto.precios.first()  # recordemos que el ordering es '-fecha'
+
+            if not ultimo_precio or ultimo_precio.valor != precio_valor:
+                # Solo crear un nuevo registro si el precio cambió o no existe
+                PrecioHistorico.objects.create(
+                    producto=producto,
+                    fecha=timezone.now(),
+                    valor=precio_valor
+                )
+            # Si no cambió el precio, no creamos un registro nuevo
+            return redirect(next_url)
     else:
-        form = ProductoForm(instance=producto)
-    
-    # Pasar 'next' al contexto para el formulario
+        # Aquí para mostrar el valor actual del precio en el formulario
+        ultimo_precio = producto.precios.first()
+        initial_data = {}
+        if ultimo_precio:
+            initial_data['precio'] = ultimo_precio.valor
+        form = ProductoForm(instance=producto, initial=initial_data)
+
     return render(request, 'tienda/producto_form.html', {'form': form, 'next': next_url})
 
 
@@ -152,6 +178,7 @@ def carrito(request):
     carrito_items = []
     carrito_total = 0
     form = DatosCompraForm()
+
     if request.method == 'POST':
         form = DatosCompraForm(request.POST)
         if form.is_valid():
@@ -163,11 +190,13 @@ def carrito(request):
 
     for producto_id, cantidad in carrito.items():
         producto = get_object_or_404(Producto, pk=producto_id)
-        subtotal = producto.precio * cantidad
+        precio_actual = obtener_precio_actual(producto)
+        subtotal = precio_actual * cantidad
         carrito_items.append({
             'producto': producto,
             'cantidad': cantidad,
-            'subtotal': subtotal
+            'subtotal': subtotal,
+            'precio_actual': precio_actual,  # Si quieres mostrarlo en la plantilla
         })
         carrito_total += subtotal
 
@@ -183,7 +212,6 @@ def carrito(request):
     })
 
 
-@login_required
 def iniciar_pago(request):
     if request.method == 'POST':
         form = DatosCompraForm(request.POST)
@@ -199,11 +227,11 @@ def iniciar_pago(request):
             datos_compra.save()
             request.session['datos_compra_id'] = datos_compra.id
 
-            # Total del carrito
             carrito_total = 0
             for producto_id, cantidad in carrito.items():
                 producto = get_object_or_404(Producto, pk=producto_id)
-                carrito_total += producto.precio * cantidad
+                precio_actual = obtener_precio_actual(producto)
+                carrito_total += precio_actual * cantidad
 
             # Crear transacción con Transbank
             buy_order = str(uuid.uuid4())[:26]  # ID único, max 26 caracteres

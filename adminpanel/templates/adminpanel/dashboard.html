@@ -1,0 +1,42 @@
+{% extends "base_admin.html" %}
+
+{% block title %}Dashboard - Panel de Administración{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+    <h1>Panel de Administración</h1>
+    
+    <section class="section">
+        <h2>Productos disponibles</h2>
+        {% if productos %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Precio</th>
+                        <th>Stock</th>
+                        <th>Categoría</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for producto in productos %}
+                        <tr>
+                            <td>{{ producto.nombre }}</td>
+                            <td>${{ producto.precio }}</td>
+                            <td>{{ producto.stock }}</td>
+                            <td>{{ producto.categoria.nombre }}</td>
+                            <td>
+                                <a href="{% url 'producto_editar' producto.id %}">Editar</a> |
+                                <a href="{% url 'producto_eliminar' producto.id %}" onclick="return confirm('¿Estás segura de que quieres eliminar este producto?')">Eliminar</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No hay productos disponibles.</p>
+        {% endif %}
+    </section>
+</div>
+{% endblock %}

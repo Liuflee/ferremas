@@ -1,27 +1,109 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
 
 class Producto(models.Model):
-
     CATEGORIAS = [
         ('herramientas', 'Herramientas'),
         ('materiales', 'Materiales'),
         ('accesorios', 'Accesorios'),
         ('pinturas', 'Pinturas'),
         ('electricidad', 'Electricidad'),
-        # agrega más categorías si quieres
     ]
 
     nombre = models.CharField(max_length=255)
     descripcion = models.TextField()
     categoria = models.CharField(max_length=100, choices=CATEGORIAS)  
-    precio = models.DecimalField(max_digits=10, decimal_places=2)
     stock = models.IntegerField()
     imagen = models.ImageField(upload_to='static/productos/')
 
+    # Nota: aquí sacamos precio y lo movemos a PrecioHistorico para tener historial
     def __str__(self):
         return self.nombre
     
+    @property
+    def oferta_vigente(self):
+        ahora = timezone.now()
+        return self.ofertas.filter(fecha_inicio__lte=ahora, fecha_fin__gte=ahora).first()
+
+    @property
+    def precio_actual(self):
+        oferta = self.oferta_vigente
+        if oferta:
+            return oferta.precio_oferta
+        precio = self.precios.first()
+        return precio.valor if precio else None
+
+    @property
+    def precio_original(self):
+        precio = self.precios.first()
+        return precio.valor if precio else None
+
+class Oferta(models.Model):
+    producto = models.ForeignKey(Producto, on_delete=models.CASCADE, related_name='ofertas')
+    precio_oferta = models.DecimalField(max_digits=10, decimal_places=2)
+    fecha_inicio = models.DateTimeField()
+    fecha_fin = models.DateTimeField()
+
+    def esta_activa(self):
+        ahora = timezone.now()
+        return self.fecha_inicio <= ahora <= self.fecha_fin
+
+    def __str__(self):
+        return f"Oferta para {self.producto.nombre} - ${self.precio_oferta}"
+    
+class PrecioHistorico(models.Model):
+    producto = models.ForeignKey(Producto, on_delete=models.CASCADE, related_name='precios')
+    fecha = models.DateTimeField()
+    valor = models.DecimalField(max_digits=10, decimal_places=2)
+
+    class Meta:
+        ordering = ['-fecha']
+
+    def __str__(self):
+        return f"{self.producto.nombre} - {self.valor} ({self.fecha.date()})"
+
+
+class Pedido(models.Model):
+    ESTADOS = [
+        ('pendiente', 'Pendiente'),
+        ('aprobado', 'Aprobado'),
+        ('rechazado', 'Rechazado'),
+        ('en_preparacion', 'En preparación'),
+        ('entregado', 'Entregado'),
+        ('finalizado', 'Finalizado'),
+    ]
+
+    usuario = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    fecha_creacion = models.DateTimeField(auto_now_add=True)
+    estado = models.CharField(max_length=20, choices=ESTADOS, default='pendiente')
+    # Dirección, teléfono y otros datos podrían venir desde DatosCompra o guardarse aquí también
+
+    def __str__(self):
+        return f"Pedido #{self.id} - {self.estado}"
+
+
+class ItemPedido(models.Model):
+    pedido = models.ForeignKey(Pedido, on_delete=models.CASCADE, related_name='items')
+    producto = models.ForeignKey(Producto, on_delete=models.PROTECT)
+    cantidad = models.PositiveIntegerField()
+    precio_unitario = models.DecimalField(max_digits=10, decimal_places=2)  # Precio al momento de compra
+
+    def __str__(self):
+        return f"{self.cantidad} x {self.producto.nombre}"
+
+
+class TransferenciaPago(models.Model):
+    pedido = models.OneToOneField(Pedido, on_delete=models.CASCADE)
+    confirmado = models.BooleanField(default=False)
+    fecha_transferencia = models.DateTimeField(null=True, blank=True)
+    comprobante = models.FileField(upload_to='comprobantes/', null=True, blank=True)
+
+    def __str__(self):
+        return f"Pago Transferencia Pedido #{self.pedido.id} - Confirmado: {self.confirmado}"
+
+
+# Puedes mantener DatosCompra para almacenar info adicional o historial de compras
 class DatosCompra(models.Model):
     usuario = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     nombre = models.CharField(max_length=100)

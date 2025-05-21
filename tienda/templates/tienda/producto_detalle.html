@@ -23,9 +23,14 @@
         <!-- Información -->
         <div class="col-md-7">
             <h2 class="fw-bold text-primary">{{ producto.nombre }}</h2>
-            <p class="text-muted mb-1">Antes: <span class="text-decoration-line-through">${{ producto.precio }}</span></p>
-            <p class="fs-4 text-success fw-bold mb-2">${{ producto.precio }}</p>
-            <p class="text-danger fw-semibold mb-4">¡Precio exclusivo online!</p>
+            {% if producto.oferta_vigente %}
+                <p class="text-muted mb-1">Antes: <span class="text-decoration-line-through">${{ producto.precio_original }}</span></p>
+                <p class="fs-4 text-success fw-bold mb-2">${{ producto.precio_actual }}</p>
+                <p class="text-danger fw-semibold mb-4">¡Oferta válida hasta {{ producto.oferta_vigente.fecha_fin|date:"d M Y H:i" }}!</p>
+            {% else %}
+                <p class="fs-4 fw-bold mb-2">${{ producto.precio_actual }}</p>
+            {% endif %}
+
 
             <p class="text-muted">{{ producto.descripcion }}</p>
 
