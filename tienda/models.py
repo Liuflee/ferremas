@@ -17,7 +17,6 @@ class Producto(models.Model):
     stock = models.IntegerField()
     imagen = models.ImageField(upload_to='static/productos/')
 
-    # Nota: aquí sacamos precio y lo movemos a PrecioHistorico para tener historial
     def __str__(self):
         return self.nombre
     
@@ -77,10 +76,14 @@ class Pedido(models.Model):
     usuario = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     estado = models.CharField(max_length=20, choices=ESTADOS, default='pendiente')
-    # Dirección, teléfono y otros datos podrían venir desde DatosCompra o guardarse aquí también
+    datos_compra = models.OneToOneField('DatosCompra', on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return f"Pedido #{self.id} - {self.estado}"
+    
+    def total(self):
+        return sum(item.cantidad * item.precio_unitario for item in self.items.all())
+
 
 
 class ItemPedido(models.Model):
@@ -103,7 +106,6 @@ class TransferenciaPago(models.Model):
         return f"Pago Transferencia Pedido #{self.pedido.id} - Confirmado: {self.confirmado}"
 
 
-# Puedes mantener DatosCompra para almacenar info adicional o historial de compras
 class DatosCompra(models.Model):
     usuario = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     nombre = models.CharField(max_length=100)
@@ -113,3 +115,20 @@ class DatosCompra(models.Model):
     codigo_postal = models.CharField(max_length=10)
     envio = models.BooleanField(default=True)  # True: envío, False: retiro
     fecha = models.DateTimeField(auto_now_add=True)
+
+class OrdenDespacho(models.Model):
+    pedido = models.OneToOneField(Pedido, on_delete=models.CASCADE, related_name='orden_despacho')
+    fecha_creacion = models.DateTimeField(auto_now_add=True)
+    observaciones = models.TextField(blank=True, null=True)
+    estado = models.CharField(max_length=20, choices=[
+        ('pendiente', 'Pendiente'),
+        ('preparando', 'Preparando'),
+        ('listo', 'Listo para entregar'),
+        ('entregado', 'Entregado'),
+    ], default='pendiente')
+
+    def __str__(self):
+        return f"Orden Despacho #{self.id} - Pedido #{self.pedido.id}"
+    
+    def total(self):
+        return sum(item.cantidad * item.precio_unitario for item in self.pedido.items.all())

@@ -23,7 +23,9 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('tienda.urls')),
-    path('adminpanel/', include('adminpanel.urls')),  
+    path('adminpanel/', include('adminpanel.urls')),
+    #path('bodegueroapp/', include('bodegueroapp.urls')),
+    path('vendedorapp/', include('vendedorapp.urls')),  
 ]
 
 if settings.DEBUG:
