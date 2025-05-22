@@ -29,14 +29,14 @@ class Producto(models.Model):
     def precio_actual(self):
         oferta = self.oferta_vigente
         if oferta:
-            return oferta.precio_oferta
+            return round((oferta.precio_oferta), 0)
         precio = self.precios.first()
         return precio.valor if precio else None
 
     @property
     def precio_original(self):
         precio = self.precios.first()
-        return precio.valor if precio else None
+        return round((precio.valor),0) if precio else None
 
 class Oferta(models.Model):
     producto = models.ForeignKey(Producto, on_delete=models.CASCADE, related_name='ofertas')
