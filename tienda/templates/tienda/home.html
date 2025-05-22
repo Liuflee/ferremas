@@ -59,7 +59,7 @@
 
                 <div class="card-body">
                     <h5 class="card-title fw-bold text-primary">{{ producto.nombre }}</h5>
-                    <p class="card-text fs-5 text-success">${{ producto.precio }}</p>
+                    <p class="card-text fs-5 text-success">${{ producto.precio_actual }}</p>
                     <p class="card-text text-muted small">{{ producto.descripcion|truncatewords:12 }}</p>
                 </div>
             </a>
@@ -122,7 +122,7 @@
                 {% endif %}
                 <div class="card-body">
                 <h5 class="card-title text-danger">{{ producto.nombre }}</h5>
-                <p class="card-text">${{ producto.precio }}</p>
+                <p class="card-text">${{ producto.precio_actual }}</p>
                 <p class="card-text">{{ producto.descripcion|truncatewords:10 }}</p>
                 <span class="badge bg-danger">Oferta</span>
                 <a href="{% url 'producto_editar' producto.pk %}" class="btn btn-sm btn-warning">Editar</a>

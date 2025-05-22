@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'tienda',
     'adminpanel',
+    'bodegueroapp',
+    'vendedorapp'
 ]
 
 STATIC_URL = '/static/'

@@ -1,0 +1,42 @@
+{% extends 'base_vendedor.html' %}
+
+{% block content %}
+<div class="container">
+    <h1>Pedidos para despacho</h1>
+
+    {% if pedidos %}
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Usuario</th>
+                    <th>Fecha de creación</th>
+                    <th>Total</th>
+                    <th>Estado</th>
+                    <th>Items</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for pedido in pedidos %}
+                    <tr>
+                        <td>#{{ pedido.id }}</td>
+                        <td>{{ pedido.usuario.username|default:"Anónimo" }}</td>
+                        <td>{{ pedido.fecha_creacion|date:"d/m/Y H:i" }}</td>
+                        <td>${{ pedido.total }}</td>
+                        <td>{{ pedido.get_estado_display }}</td>
+                        <td>
+                            <ul>
+                                {% for item in pedido.items.all %}
+                                    <li>{{ item.cantidad }} x {{ item.producto.nombre }} @ ${{ item.precio_unitario }}</li>
+                                {% endfor %}
+                            </ul>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No hay pedidos pendientes para despacho.</p>
+    {% endif %}
+</div>
+{% endblock %}

@@ -2,7 +2,7 @@ from django.utils import timezone
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.urls import reverse
-from .models import DatosCompra, PrecioHistorico, Producto
+from .models import *
 from .forms import DatosCompraForm, ProductoForm, RegistroForm  
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.views import LoginView
@@ -15,11 +15,11 @@ from transbank.common.integration_type import IntegrationType
 from transbank.common.options import WebpayOptions
 
 def obtener_precio_actual(producto):
-    ultimo_precio = producto.precios.first()  # Ordenado por fecha descendente en el modelo
-    return ultimo_precio.valor if ultimo_precio else 0
+    ultimo_precio = producto.precio_actual 
+    return ultimo_precio if ultimo_precio else 0
 
 def home(request):
-    productos = Producto.objects.all()[:6]  # vista previa de productos
+    productos = Producto.objects.all()[:6] 
     return render(request, 'tienda/home.html', {'productos': productos})
 
 def redirect_back_or_home(request):
@@ -58,23 +58,20 @@ def producto_editar(request, pk):
         form = ProductoForm(request.POST, request.FILES, instance=producto)
         next_url = request.POST.get('next', 'home')
         if form.is_valid():
-            producto = form.save()  # Guardar cambios en producto
+            producto = form.save() 
             precio_valor = form.cleaned_data['precio']
-
-            # Obtener el último precio histórico
-            ultimo_precio = producto.precios.first()  # recordemos que el ordering es '-fecha'
+            ultimo_precio = producto.precios.first()  
 
             if not ultimo_precio or ultimo_precio.valor != precio_valor:
-                # Solo crear un nuevo registro si el precio cambió o no existe
                 PrecioHistorico.objects.create(
                     producto=producto,
                     fecha=timezone.now(),
                     valor=precio_valor
                 )
-            # Si no cambió el precio, no creamos un registro nuevo
+
             return redirect(next_url)
     else:
-        # Aquí para mostrar el valor actual del precio en el formulario
+
         ultimo_precio = producto.precios.first()
         initial_data = {}
         if ultimo_precio:
@@ -88,13 +85,12 @@ def producto_editar(request, pk):
 @user_passes_test(lambda u: u.is_staff)
 def producto_eliminar(request, pk):
     producto = get_object_or_404(Producto, pk=pk)
-    next_url = request.GET.get('next', 'home')  # Leer 'next' del GET
+    next_url = request.GET.get('next', 'home') 
 
     if request.method == 'POST':
         producto.delete()
-        return redirect(next_url)  # Redirigir a la URL que venga en 'next'
+        return redirect(next_url) 
 
-    # Pasar 'next' al contexto para el formulario
     return render(request, 'tienda/producto_confirmar_eliminar.html', {'producto': producto, 'next': next_url})
 
 
@@ -110,7 +106,7 @@ def registro(request):
             form.save()
             return redirect('login')
     else:
-        form = RegistroForm(initial={'first_name': '', 'last_name': '', 'email': '', 'username': ''})  # Valores iniciales vacíos para evitar 'None'
+        form = RegistroForm(initial={'first_name': '', 'last_name': '', 'email': '', 'username': ''}) 
 
     return render(request, 'tienda/registro.html', {'form': form})
 
@@ -132,24 +128,19 @@ def logout_view(request):
 
 
 def catalogo(request):
-    # Obtener todos los productos
     productos = Producto.objects.all()
 
-    # Filtro por categoría
     categoria_filter = request.GET.get('categoria')
     if categoria_filter:
         productos = productos.filter(categoria=categoria_filter)
 
-    # Filtro por búsqueda de nombre o descripción
     search_query = request.GET.get('search')
     if search_query:
         productos = productos.filter(nombre__icontains=search_query) | productos.filter(descripcion__icontains=search_query)
 
-    # Ordenar productos
-    order_by = request.GET.get('order_by', 'nombre')  # 'nombre' es el valor predeterminado
+    order_by = request.GET.get('order_by', 'nombre') 
     productos = productos.order_by(order_by)
 
-    # Obtener todas las categorías para el filtro
     categorias = Producto.CATEGORIAS
 
     return render(request, 'tienda/catalogo.html', {
@@ -161,17 +152,31 @@ def catalogo(request):
     })
 
 def agregar_al_carrito(request, producto_id):
-    # lógica para agregar al carrito, simplificada
-    producto = Producto.objects.get(pk=producto_id)
+    producto = get_object_or_404(Producto, pk=producto_id)
     carrito = request.session.get('carrito', {})
-    carrito[producto_id] = carrito.get(producto_id, 0) + 1
+    
+    cantidad = int(request.POST.get('cantidad', 1))
+    if cantidad < 1:
+        cantidad = 1
+
+    carrito[str(producto_id)] = carrito.get(str(producto_id), 0) + cantidad
     request.session['carrito'] = carrito
-    return redirect_back_or_home(request)
+    return redirect('carrito')
 
 def limpiar_carrito(request):
     if 'carrito' in request.session:
         del request.session['carrito']
     return redirect_back_or_home(request)
+
+def eliminar_del_carrito(request, producto_id):
+    carrito = request.session.get('carrito', {})
+    producto_id = str(producto_id)
+
+    if producto_id in carrito:
+        del carrito[producto_id]
+        request.session['carrito'] = carrito
+
+    return redirect('carrito')
 
 def carrito(request):
     carrito = request.session.get('carrito', {})
@@ -196,7 +201,7 @@ def carrito(request):
             'producto': producto,
             'cantidad': cantidad,
             'subtotal': subtotal,
-            'precio_actual': precio_actual,  # Si quieres mostrarlo en la plantilla
+            'precio_actual': precio_actual, 
         })
         carrito_total += subtotal
 
@@ -210,7 +215,6 @@ def carrito(request):
         'datos_compra': datos_compra,
         'form': form
     })
-
 
 def iniciar_pago(request):
     if request.method == 'POST':
@@ -233,21 +237,20 @@ def iniciar_pago(request):
                 precio_actual = obtener_precio_actual(producto)
                 carrito_total += precio_actual * cantidad
 
-            # Crear transacción con Transbank
-            buy_order = str(uuid.uuid4())[:26]  # ID único, max 26 caracteres
+            # crear transacción con Transbank
+            buy_order = str(uuid.uuid4())[:26]  
             session_id = str(uuid.uuid4())
             amount = carrito_total
             return_url = request.build_absolute_uri(reverse('webpay_respuesta'))
 
             tx = Transaction(WebpayOptions(
                 commerce_code='597055555532',  # código de comercio de integración
-                api_key='579B532A7440BB0C9079DED94D31EA1615BACEB56610332264630D42D0A36B1C',  # usa el valor por defecto de integración o el tuyo si tienes producción
+                api_key='579B532A7440BB0C9079DED94D31EA1615BACEB56610332264630D42D0A36B1C',  # valor por defecto de integración 
                 integration_type=IntegrationType.TEST
             ))
 
             response = tx.create(buy_order=buy_order, session_id=session_id, amount=amount, return_url=return_url)
 
-            # Guardar la orden en sesión (podrías también hacer un modelo de Orden)
             request.session['webpay_token'] = response['token']
             request.session['webpay_order'] = buy_order
 
@@ -271,61 +274,83 @@ def webpay_respuesta(request):
     ))
 
     response = tx.commit(token)
-    
+
     if response['status'] == 'AUTHORIZED':
-        # Puedes guardar una orden con estado pagado aquí
-        messages.success(request, "¡Pago realizado con éxito!")
+        carrito = request.session.get('carrito', {})
+        if not carrito:
+            messages.error(request, "No se pudo procesar el pedido: el carrito está vacío.")
+            return redirect('carrito')
 
-        # Vaciar carrito
-        if 'carrito' in request.session:
-            del request.session['carrito']
+        datos_compra_id = request.session.get('datos_compra_id')
+        datos_compra = get_object_or_404(DatosCompra, pk=datos_compra_id, usuario=request.user)
 
-        return redirect('pago_exitoso')  # Redirigir a una página de éxito
-    elif response['status'] == 'FAILED':
-        messages.error(request, "El pago ha fallado.")
+        pedido = Pedido.objects.create(
+            usuario=request.user,
+            estado='pendiente',
+            datos_compra=datos_compra
+        )
+
+
+        for producto_id, cantidad in carrito.items():
+            producto = get_object_or_404(Producto, pk=producto_id)
+            precio_unitario = producto.precio_actual
+            if precio_unitario is None:
+                messages.error(request, f"El producto '{producto.nombre}' no tiene un precio válido.")
+                return redirect('carrito')
+
+            # verificar stock 
+            if producto.stock < cantidad:
+                messages.error(request, f"No hay suficiente stock para {producto.nombre}.")
+                return redirect('carrito')
+
+            ItemPedido.objects.create(
+                pedido=pedido,
+                producto=producto,
+                cantidad=cantidad,
+                precio_unitario=precio_unitario,
+            )
+
+            producto.stock -= cantidad
+            producto.save()
+
+        messages.success(request, "¡Pago realizado y pedido registrado exitosamente!")
+        return redirect('pago_exitoso')
+
+    elif response['status'] in ['FAILED', 'REJECTED', 'ERROR', 'TIMEOUT']:
+        messages.error(request, f"El pago no fue exitoso: {response['status']}")
         return redirect('pago_error')
-    elif response['status'] == 'REJECTED':
-        messages.error(request, "El pago fue rechazado.")
-        return redirect('pago_error')
-    elif response['status'] == 'ERROR':
-        messages.error(request, "Error en el pago.")
-        return redirect('pago_error')
-    elif response['status'] == 'TIMEOUT':
-        messages.error(request, "El pago ha expirado.")
-        return redirect('pago_error')
-    else:
-        messages.error(request, "El pago no fue exitoso.")
-        return redirect('carrito')
+
     
 def pago_exitoso(request):
     if 'webpay_order' in request.session and 'webpay_token' in request.session:
         order = request.session['webpay_order']
         token = request.session['webpay_token']
 
-        # Aquí puedes obtener los detalles de la transacción
+
         tx = Transaction(WebpayOptions(
             commerce_code='597055555532',
             api_key='579B532A7440BB0C9079DED94D31EA1615BACEB56610332264630D42D0A36B1C',
             integration_type=IntegrationType.TEST
         ))
 
-        response = tx.commit(token)  # Obtener detalles completos de la transacción
+        response = tx.commit(token) 
 
-        # Obtener los datos de compra del usuario
         datos_compra = get_object_or_404(DatosCompra, usuario=request.user, id=request.session.get('datos_compra_id'))
 
-        # Agregar los datos de compra al contexto
+
         context = {
             'order': order,
             'amount': response['amount'],
             'status': response['status'],
             'buy_order': response['buy_order'],
             'session_id': response['session_id'],
-            'datos_compra': datos_compra,  # Datos del comprador
+            'datos_compra': datos_compra,  
         }
 
-        del request.session['webpay_order']  # Limpiar la sesión después de usarla
-        del request.session['webpay_token']  # Limpiar el token también
+        del request.session['webpay_order']  
+        del request.session['webpay_token'] 
+        del request.session['carrito']
+        del request.session['datos_compra_id']
 
         return render(request, 'tienda/pago_exitoso.html', context)
 
@@ -338,7 +363,6 @@ def pago_error(request):
         order = request.session['webpay_order']
         token = request.session['webpay_token']
 
-        # Aquí puedes hacer lo mismo, obtener más detalles sobre la transacción
         tx = Transaction(WebpayOptions(
             commerce_code='597055555532',
             api_key='579B532A7440BB0C9079DED94D31EA1615BACEB56610332264630D42D0A36B1C',
@@ -347,7 +371,6 @@ def pago_error(request):
 
         response = tx.commit(token)
 
-        # Pasar la información a la plantilla
         context = {
             'order': order,
             'amount': response['amount'],
@@ -356,8 +379,8 @@ def pago_error(request):
             'session_id': response['session_id'],
         }
 
-        del request.session['webpay_order']  # Limpiar la sesión después de usarla
-        del request.session['webpay_token']  # Limpiar el token también
+        del request.session['webpay_order']  
+        del request.session['webpay_token']  
 
         return render(request, 'tienda/pago_error.html', context)
     

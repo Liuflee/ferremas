@@ -1,0 +1,30 @@
+{% extends 'base_vendedor.html' %}
+
+{% block title %}Productos en Bodega{% endblock %}
+
+{% block content %}
+<h1>Productos en Bodega</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Categoría</th>
+            <th>Stock</th>
+            <th>Precio</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for producto in productos %}
+        <tr>
+            <td>{{ producto.nombre }}</td>
+            <td>{{ producto.get_categoria_display }}</td>
+            <td>{{ producto.stock }}</td>
+            <td>{{ producto.precio_actual }}</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="4">No hay productos en bodega.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
