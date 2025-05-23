@@ -1,58 +1,48 @@
 {% extends 'base_vendedor.html' %}
-
 {% block title %}Pedidos por Aprobar{% endblock %}
 
 {% block content %}
-<h1>Pedidos por Aprobar</h1>
+<div class="container">
+    <h1 class="mb-4 fw-bold"><i class="bi bi-clipboard-check me-2"></i>Pedidos por Aprobar</h1>
 
-<table>
-    <thead>
-        <tr>
-            <th>Usuario</th>
-            <th>Fecha</th>
-            <th>Items</th>
-            <th>Total</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for pedido in pedidos %}
-        <tr>
-            <td>{{ pedido.usuario.username }}</td>
-            <td>{{ pedido.fecha_creacion }}</td>
-            <td>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Producto</th>
-                            <th>Cantidad</th>
-                            <th>Precio Unitario</th>
-                            <th>Subtotal</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for item in pedido.items.all %}
-                        <tr>
-                            <td>{{ item.producto.nombre }}</td>
-                            <td>{{ item.cantidad }}</td>
-                            <td>${{ item.precio_unitario }}</td>
-                            <td>${{ item.precio_unitario|floatformat:2|add:"0"|floatformat:2|stringformat:"f"|add:"0"|floatformat:2|stringformat:"f"|add:"0"|floatformat:2 }}</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </td>
-            <td>
-                ${{ pedido.total|floatformat:2 }} <!-- Mejor opción: calcular total en el modelo -->
-            </td>
-            <td>
-                <a href="{% url 'aprobar_pedido' pedido.id %}">Aprobar</a> |
-                <a href="{% url 'rechazar_pedido' pedido.id %}">Rechazar</a>
-            </td>
-        </tr>
-        {% empty %}
-        <tr><td colspan="5">No hay pedidos pendientes.</td></tr>
-        {% endfor %}
-    </tbody>
-</table>
+    <div class="table-responsive">
+        <table class="table table-bordered align-middle">
+            <thead class="table-dark text-center">
+                <tr>
+                    <th>Usuario</th>
+                    <th>Fecha</th>
+                    <th>Items</th>
+                    <th>Total</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for pedido in pedidos %}
+                <tr>
+                    <td class="text-center">{{ pedido.usuario.username }}</td>
+                    <td class="text-center">{{ pedido.fecha_creacion|date:"d/m/Y H:i" }}</td>
+                    <td>
+                        <ul class="mb-0">
+                            {% for item in pedido.items.all %}
+                                <li>{{ item.cantidad }} x {{ item.producto.nombre }} @ ${{ item.precio_unitario }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                    <td class="text-end fw-bold text-center">${{ pedido.total|floatformat:2 }}</td>
+                    <td class="text-center">
+                        <a href="{% url 'aprobar_pedido' pedido.id %}" class="btn btn-success btn-sm me-1">
+                            <i class="bi bi-check-circle"></i> Aprobar
+                        </a>
+                        <a href="{% url 'rechazar_pedido' pedido.id %}" class="btn btn-danger btn-sm">
+                            <i class="bi bi-x-circle"></i> Rechazar
+                        </a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="5" class="text-muted text-center">No hay pedidos pendientes.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
 {% endblock %}
