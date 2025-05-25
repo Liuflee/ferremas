@@ -47,7 +47,7 @@ def generar_orden_despacho(request, pedido_id):
     # Solo permitir generar si el pedido está aprobado y aún no tiene orden
     if pedido.estado == 'aprobado' and not hasattr(pedido, 'orden_despacho'):
         orden = OrdenDespacho.objects.create(pedido=pedido)
-        pedido.estado = 'en_preparacion'  # Nuevo estado, agrégalo a tus choices
+        pedido.estado = 'preparando'  # Nuevo estado, agrégalo a tus choices
         pedido.save()
     
     return redirect('pedidos_para_despacho')

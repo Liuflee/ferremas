@@ -1,0 +1,58 @@
+{% extends 'base_bodeguero.html' %}
+{% block title %}ordenes{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="my-4">Órdenes de Despacho</h2>
+    
+    {% if ordenes %}
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Fecha de Creación</th>
+                    <th>Observaciones</th>
+                    <th>Estado</th>
+                    <th>Pedido</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for orden in ordenes %}
+                <tr>
+                    <td>{{ orden.id }}</td>
+                    <td>{{ orden.fecha_creacion }}</td>
+                    <td>{{ orden.observaciones }}</td>
+                    <td>{{ orden.estado }}</td>
+                    <td>{{ orden.pedido.id }}</td>
+                    <td>
+                        <ul class="list-unstyled">
+                            {% for item in orden.pedido.item_set.all %}
+                            <li>{{ item.producto.nombre }} - {{ item.stock }} unidades</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                    <td>
+                        {% if orden.preparado %}
+                            <span class="badge bg-success">Preparado</span>
+                        {% else %}
+                            <span class="badge bg-warning">Pendiente</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if not orden.preparado %}
+                        <a href="{% url 'marcar_preparado' orden.id %}" class="btn btn-sm btn-success"> 
+                            Marcar como Preparado
+                        </a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="alert alert-info">No hay órdenes de despacho pendientes.</div>
+    {% endif %}
+</div>
+{% endblock %}
