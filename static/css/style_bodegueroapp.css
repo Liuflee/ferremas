@@ -1,0 +1,8 @@
+.text-end {
+    text-align: right !important;
+}
+
+.table td.text-end,
+.table th.text-end {
+    padding-right: 1rem;
+}
