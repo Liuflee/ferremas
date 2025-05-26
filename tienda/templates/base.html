@@ -17,77 +17,89 @@
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg bg-white shadow-sm py-2">
-    <div class="container d-flex align-items-center">
-        <a class="navbar-brand d-flex align-items-center gap-2" href="/">
-        <img src="{% static 'img/logo_ferreteria.png' %}" alt="Logo Ferretería" class="logo-navbar">
-        </a>
-    
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-        <span class="navbar-toggler-icon"></span>
-        </button>
-    
-        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-        <ul class="navbar-nav align-items-center gap-3">
-            <li class="nav-item">
-            <a class="nav-link nav-link-custom" href="/"><i class="bi bi-house-door-fill me-1"></i>Inicio</a>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link nav-link-custom dropdown-toggle d-flex align-items-center" href="#" id="dropdownCarrito" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="bi bi-cart-fill me-1"></i>Carrito
-                </a>
-            <ul class="dropdown-menu dropdown-menu-end p-3" aria-labelledby="dropdownCarrito" style="min-width: 300px;">
+<nav class="navbar navbar-expand-lg bg-white shadow-sm py-2">
+<div class="container d-flex align-items-center">
+    <a class="navbar-brand d-flex align-items-center gap-2" href="/">
+    <img src="{% static 'img/logo_ferreteria.png' %}" alt="Logo Ferretería" class="logo-navbar">
+    </a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+    <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+    <ul class="navbar-nav align-items-center gap-3">
+        <li class="nav-item">
+        <a class="nav-link nav-link-custom" href="/"><i class="bi bi-house-door-fill me-1"></i>Inicio</a>
+        </li>
+        <!-- mostrar cantidad de productos en carrito arriba del icono de carrito-->
+            
+        <li class="nav-item dropdown">
             {% if carrito_items %}
-                {% for item in carrito_items %}
-                <li class="d-flex justify-content-between align-items-start mb-2">
-                    <div>
-                    <strong>{{ item.producto.nombre }}</strong><br>
-                    Cant: {{ item.cantidad }}<br>
-                    Subtotal: ${{ item.subtotal }}
-                    </div>
-                    <!-- Botón eliminar -->
-                    <form method="post" action="{% url 'eliminar_del_carrito' item.producto.id %}">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-sm btn-outline-danger ms-2" title="Eliminar">
-                        <i class="bi bi-trash"></i>
-                    </button>
-                    </form>
-                </li>
-                <hr class="my-1">
-                {% endfor %}
+            <a class="nav-link nav-link-custom dropdown-toggle d-flex align-items-center" href="#" id="dropdownCarrito" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-cart-fill me-1"></i>Carrito
+                <span class="badge bg-danger ms-1">{{ carrito_items|length }}</span>
+            </a>
+            {% else %}    
+            <a class="nav-link nav-link-custom dropdown-toggle d-flex align-items-center" href="#" id="dropdownCarrito" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-cart-fill me-1"></i>Carrito
+            </a>
+            {% endif %}
+        
 
-                <!-- Total -->
-                <li class="d-flex justify-content-between mt-2">
-                <strong>Total:</strong>
-                <span>${{ carrito_total }}</span>
-                </li>
-
-                <!-- Botones: Ir a pagar / Limpiar -->
-                <li class="mt-3 d-flex justify-content-between">
-                <a href="{% url 'carrito' %}" class="btn btn-primary btn-sm w-50 me-1">Ir a Pagar</a>
-                <form method="post" action="{% url 'limpiar_carrito' %}" class="w-50 ms-1">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-danger btn-sm w-100">Limpiar</button>
+        
+        <ul class="dropdown-menu dropdown-menu-end p-3" aria-labelledby="dropdownCarrito" style="min-width: 300px;">
+        {% if carrito_items %}
+            {% for item in carrito_items %}
+            <li class="d-flex justify-content-between align-items-start mb-2">
+                <div>
+                <strong>{{ item.producto.nombre }}</strong><br>
+                Cant: {{ item.cantidad }}<br>
+                Subtotal: ${{ item.subtotal }}
+                </div>
+                <!-- Botón eliminar -->
+                <form method="post" action="{% url 'eliminar_del_carrito' item.producto.id %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-sm btn-outline-danger ms-2" title="Eliminar">
+                    <i class="bi bi-trash"></i>
+                </button>
                 </form>
-                </li>
-            {% else %}
-                <li class="text-center text-muted">El carrito está vacío</li>
-            {% endif %}
-            </ul>
+            </li>
+            <hr class="my-1">
+            {% endfor %}
 
-                </li>
-            <li class="nav-item">
-            {% if user.is_authenticated %}
-                <a class="nav-link nav-link-custom" href="/logout/"><i class="bi bi-person-fill me-1"></i>Cerrar sesión</a>
-            {% else %}
-                <a class="nav-link nav-link-custom" href="/login/"><i class="bi bi-person-fill me-1"></i>Iniciar sesión</a>
-            {% endif %}
+            <!-- Total -->
+            <li class="d-flex justify-content-between mt-2">
+            <strong>Total:</strong>
+            <span>${{ carrito_total }}</span>
+            </li>
+
+            <!-- Botones: Ir a pagar / Limpiar -->
+            <li class="mt-3 d-flex justify-content-between">
+            <a href="{% url 'carrito' %}" class="btn btn-primary btn-sm w-50 me-1">Ir a Pagar</a>
+            <form method="post" action="{% url 'limpiar_carrito' %}" class="w-50 ms-1">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger btn-sm w-100">Limpiar</button>
+            </form>
+            </li>
+        {% else %}
+            <li class="text-center text-muted">El carrito está vacío</li>
+        {% endif %}
+        </ul>
 
             </li>
-        </ul>
-        </div>
+        <li class="nav-item">
+        {% if user.is_authenticated %}
+            <a class="nav-link nav-link-custom" href="/logout/"><i class="bi bi-person-fill me-1"></i>Cerrar sesión</a>
+        {% else %}
+            <a class="nav-link nav-link-custom" href="/login/"><i class="bi bi-person-fill me-1"></i>Iniciar sesión</a>
+        {% endif %}
+
+        </li>
+    </ul>
     </div>
-    </nav>
+</div>
+</nav>
 
     
 
@@ -95,7 +107,7 @@
 <!-- Aquí cada página mete su contenido -->
 {% endblock %}
 
-</body>
+
 
 <br>
 
@@ -144,10 +156,12 @@
             <!-- Suscripción y redes -->
             <div class="col-md-3">
                 <h6 class="fw-bold">SUSCRÍBETE A NUESTRAS OFERTAS</h6>
-                <form class="d-flex mb-3">
-                    <input type="email" class="form-control me-2" placeholder="Ingrese su correo" required>
-                    <button class="btn btn-outline-light">Enviar</button>
+                <form id="form-suscripcion" class="d-flex mb-3">
+                    <input type="email" id="user_email" name="user_email" class="form-control me-2" placeholder="Ingrese su correo" required>
+                    <button type="submit" class="btn btn-outline-light">Enviar</button>
                 </form>
+                <p id="msg" class="text-white small mt-2"></p>
+
                 <div class="mb-2">
                     <img src="{% static 'img/ssl.png' %}" alt="SSL" style="max-height: 130px;">
                 </div>
@@ -182,3 +196,30 @@ function togglePassword() {
     icon.classList.toggle("bi-eye-slash");
 }
 </script>
+
+<script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
+<script>
+    (function(){
+        emailjs.init("LK0u50hihuFdV4RRl"); 
+    })();
+</script>
+
+<script>
+document.getElementById('form-suscripcion').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    emailjs.sendForm('service_s2yl7xd', 'template_26suoed', this)
+        .then(function(response) {
+            console.log('SUCCESS!', response.status, response.text);
+            document.getElementById('msg').innerText = '¡Te has suscrito correctamente!';
+        }, function(error) {
+            console.log('FAILED...', error);
+            document.getElementById('msg').innerText = 'Error al enviar el correo. Intenta de nuevo.';
+        });
+
+    this.reset();
+});
+</script>
+
+
+</body>

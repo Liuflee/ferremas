@@ -14,6 +14,14 @@ from transbank.webpay.webpay_plus.transaction import Transaction
 from transbank.common.integration_type import IntegrationType
 from transbank.common.options import WebpayOptions
 
+def redirect_back_or_home(request):
+    next_url = request.META.get('HTTP_REFERER', 'home')
+    if not next_url or 'carrito' in next_url:
+        return redirect('home')
+    return redirect(next_url)
+
+
+
 def obtener_precio_actual(producto):
     ultimo_precio = producto.precio_actual 
     return ultimo_precio if ultimo_precio else 0
@@ -186,7 +194,7 @@ def agregar_al_carrito(request, producto_id):
 
     carrito[str(producto_id)] = carrito.get(str(producto_id), 0) + cantidad
     request.session['carrito'] = carrito
-    return redirect('carrito')
+    return redirect_back_or_home(request)
 
 def limpiar_carrito(request):
     if 'carrito' in request.session:
@@ -234,11 +242,14 @@ def carrito(request):
     if 'datos_compra_id' in request.session:
         datos_compra = get_object_or_404(DatosCompra, pk=request.session['datos_compra_id'])
 
+    carrito_total_items = sum(item['cantidad'] for item in carrito_items)
+
     return render(request, 'tienda/carrito.html', {
         'carrito_items': carrito_items,
         'carrito_total': carrito_total,
         'datos_compra': datos_compra,
-        'form': form
+        'form': form,
+        'carrito_total_items': carrito_total_items,
     })
 
 def iniciar_pago(request):

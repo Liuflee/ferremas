@@ -1,0 +1,21 @@
+{% extends 'base_admin.html' %}
+
+{% block content %}
+<h2>Editar Usuario: {{ usuario.username }}</h2>
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-success">Guardar cambios</button>
+    <a href="{% url 'panel_usuarios' %}" class="btn btn-secondary">Cancelar</a>
+</form>
+{% if usuario.groups.all %}
+    <h3>Roles del Usuario</h3>
+    <ul>
+        {% for group in usuario.groups.all %}
+            <li>{{ group.name }}</li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Este usuario no tiene roles asignados.</p>
+{% endif %}
+{% endblock %}

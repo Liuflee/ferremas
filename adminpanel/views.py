@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from tienda.models import Producto, PrecioHistorico, Oferta
 from tienda.forms import ProductoForm, OfertaForm
+from tienda.forms import CustomUserCreationForm, CustomUserCreationForm
 from django.utils import timezone
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.models import User
 
 @login_required
 @user_passes_test(lambda u: u.is_staff)
@@ -108,3 +110,54 @@ def eliminar_oferta(request, oferta_id):
     oferta.delete()
     messages.success(request, "Oferta eliminada correctamente.")
     return redirect('panel_ofertas')
+
+'''CRUD para usuarios y roles con permisos de acceso (bodeguer, vendedor y contador). Con customauthentication form'''
+
+
+@login_required
+@user_passes_test(lambda u: u.is_staff)
+def panel_usuarios(request):
+    usuarios = User.objects.all().order_by('username')
+
+    if request.method == 'POST':
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            group = form.cleaned_data['group']
+            messages.success(request, f"Usuario creado exitosamente con rol: {group.name}")
+            return redirect('panel_usuarios')
+    else:
+        form = CustomUserCreationForm()
+
+    return render(request, 'adminpanel/panel_usuarios.html', {
+        'usuarios': usuarios,
+        'form': form,
+    })
+
+
+@login_required
+@user_passes_test(lambda u: u.is_staff)
+def editar_usuario(request, usuario_id):
+    usuario = get_object_or_404(User, id=usuario_id)
+
+    if request.method == 'POST':
+        form = CustomUserCreationForm(request.POST, instance=usuario)
+        if form.is_valid():
+            form.save()
+            group = form.cleaned_data['group']
+            messages.success(request, f"Usuario editado exitosamente con rol: {group.name}")
+            return redirect('panel_usuarios')
+    else:
+        form = CustomUserCreationForm(instance=usuario)
+
+    return render(request, 'adminpanel/editar_usuario.html', {'form': form, 'usuario': usuario})
+
+
+@login_required
+@user_passes_test(lambda u: u.is_staff)
+def eliminar_usuario(request, usuario_id):
+    usuario = get_object_or_404(User, id=usuario_id)
+    if request.method == "POST":
+        usuario.delete()
+        messages.success(request, "Usuario eliminado correctamente.")
+    return redirect('panel_usuarios')

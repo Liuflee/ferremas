@@ -66,6 +66,10 @@
                 <a href="{% url 'panel_ofertas' %}" class="nav-link {% if request.resolver_match.url_name == 'ofertas' %}active{% endif %}">
                     <i class="bi bi-tags"></i> Ofertas
                 </a>
+                <!-- usuarios -->
+                <a href="{% url 'panel_usuarios' %}" class="nav-link {% if request.resolver_match.url_name == 'usuarios' %}active{% endif %}">
+                    <i class="bi bi-people"></i> Usuarios
+                </a>
             </div>
   
         </nav>

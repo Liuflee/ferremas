@@ -125,8 +125,6 @@
                 <p class="card-text">${{ producto.precio_actual }}</p>
                 <p class="card-text">{{ producto.descripcion|truncatewords:10 }}</p>
                 <span class="badge bg-danger">Oferta</span>
-                <a href="{% url 'producto_editar' producto.pk %}" class="btn btn-sm btn-warning">Editar</a>
-                <a href="{% url 'producto_eliminar' producto.pk %}" class="btn btn-sm btn-danger">Eliminar</a>
                 </div>
             </div>
             </a>
