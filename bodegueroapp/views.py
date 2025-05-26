@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.decorators import login_required, user_passes_test
 from tienda.models import *
 from django.contrib import messages
-
+from tienda.decorators import es_bodeguero
 
 ''' Ver órdenes de pedidos asignadas
 
@@ -11,7 +11,7 @@ Lista de pedidos pendientes por preparar.
 Detalles de cada orden (productos, cantidades, urgencia).'''
 
 @login_required
-@user_passes_test(lambda u: u.is_staff)
+@user_passes_test(es_bodeguero)
 def pedidos_para_despacho(request):
     # Esta vista muestra los pedidos que están listos para ser preparados para despacho
     # Filtrar pedidos que están en estado 'aprobado' y 'en preparacion' y tienen datos de compra
@@ -34,7 +34,7 @@ def verificar_stock(pedido):
 '''Preparar pedido para despacho
 Esta vista prepara un pedido para despacho, cambiando su estado a "en_preparacion" si tiene stock suficiente.'''''
 @login_required
-@user_passes_test(lambda u: u.is_staff)
+@user_passes_test(es_bodeguero)
 def preparar_pedido(request, pedido_id):
     #Esta vista prepara un pedido para despacho
     pedido = get_object_or_404(Pedido, id=pedido_id)
@@ -56,7 +56,7 @@ def preparar_pedido(request, pedido_id):
 '''Generar orden de despacho, crea una orden de depacho para un pedido con estado "en_preparacion".
 La orden de despacho se asocia al pedido y cambia su estado a "enviado".'''
 @login_required
-@user_passes_test(lambda u: u.is_staff)
+@user_passes_test(es_bodeguero)
 def generar_orden_despacho(request, pedido_id):
     # Esta vista genera una orden de despacho para un pedido aprobado
     pedido = get_object_or_404(Pedido, id=pedido_id)

@@ -33,14 +33,29 @@ def panel_productos(request):
 @user_passes_test(lambda u: u.is_staff)
 def editar_producto(request, producto_id):
     producto = get_object_or_404(Producto, id=producto_id)
+
     if request.method == 'POST':
         form = ProductoForm(request.POST, request.FILES, instance=producto)
         if form.is_valid():
-            form.save()
-            messages.success(request, "Producto editado correctamente.")
+            producto = form.save() 
+            precio_valor = form.cleaned_data['precio']
+            ultimo_precio = producto.precios.first()  
+
+            if not ultimo_precio or ultimo_precio.valor != precio_valor:
+                PrecioHistorico.objects.create(
+                    producto=producto,
+                    fecha=timezone.now(),
+                    valor=precio_valor
+                )
+
             return redirect('panel_productos')
     else:
-        form = ProductoForm(instance=producto)
+
+        ultimo_precio = producto.precios.first()
+        initial_data = {}
+        if ultimo_precio:
+            initial_data['precio'] = ultimo_precio.valor
+        form = ProductoForm(instance=producto, initial=initial_data)
 
     return render(request, 'adminpanel/editar_producto.html', {'form': form, 'producto': producto})
 
@@ -51,7 +66,6 @@ def eliminar_producto(request, producto_id):
     producto.delete()
     messages.success(request, "Producto eliminado correctamente.")
     return redirect('panel_productos')
-
 
 @login_required
 @user_passes_test(lambda u: u.is_staff)

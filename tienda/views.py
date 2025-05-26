@@ -19,11 +19,20 @@ def obtener_precio_actual(producto):
     return ultimo_precio if ultimo_precio else 0
 
 def home(request):
-    productos = Producto.objects.all().filter(activo=True)[:6] 
-    return render(request, 'tienda/home.html', {'productos': productos})
+    productos = Producto.objects.filter(activo=True)[:6]
 
-def redirect_back_or_home(request):
-    return redirect(request.META.get('HTTP_REFERER', 'home'))
+    ahora = timezone.now()
+    productos_en_oferta = Producto.objects.filter(
+        activo=True,
+        ofertas__fecha_inicio__lte=ahora,
+        ofertas__fecha_fin__gte=ahora
+    ).distinct()[:6]
+
+    context = {
+        'productos': productos,
+        'productos_en_oferta': productos_en_oferta,
+    }
+    return render(request, 'tienda/home.html', context)
 
 @login_required
 @user_passes_test(lambda u: u.is_staff)
@@ -112,6 +121,7 @@ def registro(request):
     return render(request, 'tienda/registro.html', {'form': form})
 
 
+
 class CustomLoginView(LoginView):
     template_name = 'tienda/login.html'
     authentication_form = CustomAuthenticationForm
@@ -121,7 +131,16 @@ class CustomLoginView(LoginView):
         return super().form_invalid(form)
 
     def get_success_url(self):
-        return reverse('home')  
+        user = self.request.user
+
+        if user.is_superuser:
+            return reverse('panel_productos')  # Redirige a la vista del administrador
+        elif user.groups.filter(name='Vendedor').exists():
+            return reverse('bodega')  # Vista principal del vendedor
+        elif user.groups.filter(name='Bodeguero').exists():
+            return reverse('pedidos_para_despacho')  # Vista del bodeguero
+        else:
+            return reverse('home')  # Usuario normal
     
 def logout_view(request):
     logout(request)
@@ -395,43 +414,3 @@ def pago_error(request):
     
 def error_404(request):
     return render(request, 'tienda/error_404.html', status=404)
-
-@login_required
-@user_passes_test(lambda u: u.is_staff)
-def oferta_crear(request):
-    if request.method == 'POST':
-        form = OfertaForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('oferta_listar')  # Ajusta según tu URL
-    else:
-        form = OfertaForm()
-    return render(request, 'tienda/oferta_form.html', {'form': form})
-
-@login_required
-@user_passes_test(lambda u: u.is_staff)
-def oferta_listar(request):
-    ofertas = Oferta.objects.select_related('producto').all()
-    return render(request, 'tienda/oferta_listar.html', {'ofertas': ofertas})
-
-@login_required
-@user_passes_test(lambda u: u.is_staff)
-def oferta_editar(request, pk):
-    oferta = get_object_or_404(Oferta, pk=pk)
-    if request.method == 'POST':
-        form = OfertaForm(request.POST, instance=oferta)
-        if form.is_valid():
-            form.save()
-            return redirect('oferta_listar')
-    else:
-        form = OfertaForm(instance=oferta)
-    return render(request, 'tienda/oferta_form.html', {'form': form})
-
-@login_required
-@user_passes_test(lambda u: u.is_staff)
-def oferta_eliminar(request, pk):
-    oferta = get_object_or_404(Oferta, pk=pk)
-    if request.method == 'POST':
-        oferta.delete()
-        return redirect('oferta_listar')
-    return render(request, 'tienda/oferta_confirmar_eliminar.html', {'oferta': oferta})
