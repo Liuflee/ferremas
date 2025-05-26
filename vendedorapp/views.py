@@ -6,18 +6,21 @@ from tienda.models import *
 @login_required
 @user_passes_test(lambda u: u.is_staff)  # o un test más específico para "vendedor"
 def productos_bodega(request):
+    # Esta vista muestra los productos disponibles en la bodega
     productos = Producto.objects.all()
     return render(request, 'vendedorapp/productos_bodega.html', {'productos': productos})
 
 @login_required
 @user_passes_test(lambda u: u.is_staff)
 def pedidos_por_aprobar(request):
+    # Esta vista muestra los pedidos pendientes de aprobación
     pedidos = Pedido.objects.filter(estado='pendiente')  # O el estado que uses
     return render(request, 'vendedorapp/pedidos_por_aprobar.html', {'pedidos': pedidos})
 
 @login_required
 @user_passes_test(lambda u: u.is_staff)
 def aprobar_pedido(request, pedido_id):
+    # Esta vista aprueba un pedido y lo marca como aprobado
     pedido = get_object_or_404(Pedido, id=pedido_id)
     pedido.estado = 'aprobado'
     pedido.save()
@@ -27,27 +30,27 @@ def aprobar_pedido(request, pedido_id):
 @login_required
 @user_passes_test(lambda u: u.is_staff)
 def rechazar_pedido(request, pedido_id):
+    # Esta vista rechaza un pedido y lo marca como rechazado
     pedido = get_object_or_404(Pedido, id=pedido_id)
     pedido.estado = 'rechazado'
     pedido.save()
     return redirect('pedidos_por_aprobar')
 
-#Enviar a bodega
-@login_required
-@user_passes_test(lambda u: u.is_staff)
-def pedidos_para_despacho(request):
-    pedidos = Pedido.objects.filter(estado='aprobado')  # Listos para preparar
-    return render(request, 'vendedorapp/despacho.html', {'pedidos': pedidos})
 
 @login_required
 @user_passes_test(lambda u: u.is_staff)
-def generar_orden_despacho(request, pedido_id):
-    pedido = get_object_or_404(Pedido, id=pedido_id)
+def ordenes_de_despacho(request):
+    # Esta vista muestra las órdenes de despacho generadas
+    ordenes = OrdenDespacho.objects.all()
+    return render(request, 'vendedorapp/despacho.html', {'ordenes': ordenes})
 
-    # Solo permitir generar si el pedido está aprobado y aún no tiene orden
-    if pedido.estado == 'aprobado' and not hasattr(pedido, 'orden_despacho'):
-        orden = OrdenDespacho.objects.create(pedido=pedido)
-        pedido.estado = 'preparando'  # Nuevo estado, agrégalo a tus choices
-        pedido.save()
-    
-    return redirect('pedidos_para_despacho')
+'''Marcar ordenes listas para despacho.'''
+@login_required
+@user_passes_test(lambda u: u.is_staff)
+def aprobar_orden(request, orden_id):
+    # Esta vista marca una orden de despacho como lista para entregar
+    orden = get_object_or_404(OrdenDespacho, id=orden_id)
+    orden.estado = 'listo'
+    orden.save()
+    return redirect('ordenes_de_despacho')
+

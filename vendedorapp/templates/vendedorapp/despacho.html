@@ -1,37 +1,50 @@
 {% extends 'base_vendedor.html' %}
-{% block title %}Despacho de Pedidos{% endblock %}
+{% block title %}ordenes{% endblock %}
 
 {% block content %}
 <div class="container">
-    <h1 class="mb-4 fw-bold"><i class="bi bi-truck me-2"></i>Pedidos para despacho</h1>
-
-    {% if pedidos %}
+    <h2 class="my-4">Órdenes de Despacho</h2>
+    
+    {% if ordenes %}
     <div class="table-responsive">
-        <table class="table table-bordered align-middle">
-            <thead class="table-dark text-center">
+        <table class="table table-striped">
+            <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Usuario</th>
-                    <th>Fecha</th>
-                    <th>Total</th>
+                    <th>Fecha de Creación</th>
+                    <th>Observaciones</th>
                     <th>Estado</th>
-                    <th>Items</th>
+                    <th>Pedido</th>
                 </tr>
             </thead>
             <tbody>
-                {% for pedido in pedidos %}
+                {% for orden in ordenes %}
                 <tr>
-                    <td class="text-center">#{{ pedido.id }}</td>
-                    <td class="text-center">{{ pedido.usuario.username|default:"Anónimo" }}</td>
-                    <td class="text-center">{{ pedido.fecha_creacion|date:"d/m/Y H:i" }}</td>
-                    <td class="text-end">${{ pedido.total }}</td>
-                    <td class="text-center">{{ pedido.get_estado_display }}</td>
+                    <td>{{ orden.id }}</td>
+                    <td>{{ orden.fecha_creacion }}</td>
+                    <td>{{ orden.observaciones }}</td>
+                    <td>{{ orden.estado }}</td>
+                    <td>{{ orden.pedido.id }}</td>
                     <td>
-                        <ul class="mb-0">
-                            {% for item in pedido.items.all %}
-                                <li>{{ item.cantidad }} x {{ item.producto.nombre }} @ ${{ item.precio_unitario }}</li>
+                        <ul class="list-unstyled">
+                            {% for item in orden.pedido.item_set.all %}
+                            <li>{{ item.producto.nombre }} - {{ item.stock }} unidades</li>
                             {% endfor %}
                         </ul>
+                    </td>
+                    <td>
+                        {% if orden.preparado %}
+                            <span class="badge bg-success">Preparado</span>
+                        {% else %}
+                            <span class="badge bg-warning">Pendiente</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if not orden.preparado %}
+                        <a href="{% url 'aprobar_orden' orden.id %}" class="btn btn-sm btn-success"> 
+                            Aprobar Orden
+                        </a>
+                        {% endif %}
                     </td>
                 </tr>
                 {% endfor %}
@@ -39,7 +52,7 @@
         </table>
     </div>
     {% else %}
-        <div class="alert alert-info">No hay pedidos pendientes para despacho.</div>
+    <div class="alert alert-info">No hay órdenes de despacho pendientes.</div>
     {% endif %}
 </div>
 {% endblock %}

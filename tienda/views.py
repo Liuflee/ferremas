@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.urls import reverse
 from .models import *
-from .forms import DatosCompraForm, ProductoForm, RegistroForm  
+from .forms import DatosCompraForm, OfertaForm, ProductoForm, RegistroForm  
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.views import LoginView
 from django.contrib import messages
@@ -19,7 +19,7 @@ def obtener_precio_actual(producto):
     return ultimo_precio if ultimo_precio else 0
 
 def home(request):
-    productos = Producto.objects.all()[:6] 
+    productos = Producto.objects.all().filter(activo=True)[:6] 
     return render(request, 'tienda/home.html', {'productos': productos})
 
 def redirect_back_or_home(request):
@@ -88,7 +88,8 @@ def producto_eliminar(request, pk):
     next_url = request.GET.get('next', 'home') 
 
     if request.method == 'POST':
-        producto.delete()
+        producto.activo = False
+        producto.save()
         return redirect(next_url) 
 
     return render(request, 'tienda/producto_confirmar_eliminar.html', {'producto': producto, 'next': next_url})
@@ -126,9 +127,8 @@ def logout_view(request):
     logout(request)
     return redirect('home')
 
-
 def catalogo(request):
-    productos = Producto.objects.all()
+    productos = Producto.objects.filter(activo=True)
 
     categoria_filter = request.GET.get('categoria')
     if categoria_filter:
@@ -139,7 +139,12 @@ def catalogo(request):
         productos = productos.filter(nombre__icontains=search_query) | productos.filter(descripcion__icontains=search_query)
 
     order_by = request.GET.get('order_by', 'nombre') 
-    productos = productos.order_by(order_by)
+
+    if order_by in ['precio_actual', '-precio_actual']:
+        productos = list(productos)  # convertir a lista para ordenar en Python
+        productos.sort(key=lambda p: p.precio_actual or 0, reverse=order_by.startswith('-'))
+    else:
+        productos = productos.order_by(order_by)
 
     categorias = Producto.CATEGORIAS
 
@@ -150,6 +155,7 @@ def catalogo(request):
         'categoria_filter': categoria_filter,
         'order_by': order_by,
     })
+
 
 def agregar_al_carrito(request, producto_id):
     producto = get_object_or_404(Producto, pk=producto_id)
@@ -390,3 +396,42 @@ def pago_error(request):
 def error_404(request):
     return render(request, 'tienda/error_404.html', status=404)
 
+@login_required
+@user_passes_test(lambda u: u.is_staff)
+def oferta_crear(request):
+    if request.method == 'POST':
+        form = OfertaForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('oferta_listar')  # Ajusta según tu URL
+    else:
+        form = OfertaForm()
+    return render(request, 'tienda/oferta_form.html', {'form': form})
+
+@login_required
+@user_passes_test(lambda u: u.is_staff)
+def oferta_listar(request):
+    ofertas = Oferta.objects.select_related('producto').all()
+    return render(request, 'tienda/oferta_listar.html', {'ofertas': ofertas})
+
+@login_required
+@user_passes_test(lambda u: u.is_staff)
+def oferta_editar(request, pk):
+    oferta = get_object_or_404(Oferta, pk=pk)
+    if request.method == 'POST':
+        form = OfertaForm(request.POST, instance=oferta)
+        if form.is_valid():
+            form.save()
+            return redirect('oferta_listar')
+    else:
+        form = OfertaForm(instance=oferta)
+    return render(request, 'tienda/oferta_form.html', {'form': form})
+
+@login_required
+@user_passes_test(lambda u: u.is_staff)
+def oferta_eliminar(request, pk):
+    oferta = get_object_or_404(Oferta, pk=pk)
+    if request.method == 'POST':
+        oferta.delete()
+        return redirect('oferta_listar')
+    return render(request, 'tienda/oferta_confirmar_eliminar.html', {'oferta': oferta})

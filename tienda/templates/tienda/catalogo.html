@@ -63,7 +63,9 @@
                                 <label for="ordenar" class="form-label">Ordenar por</label>
                                 <select name="order_by" class="form-select" id="ordenar">
                                     <option value="nombre" {% if order_by == 'nombre' %}selected{% endif %}>Nombre</option>
-                                    <option value="precio" {% if order_by == 'precio' %}selected{% endif %}>Precio</option>
+                                    <!-- Usar precio historico-->
+                                    <option value="precio_actual" {% if order_by == 'precio_actual' %}selected{% endif %}>Precio: Menor a mayor</option>
+                                    <option value="-precio_actual" {% if order_by == '-precio_actual' %}selected{% endif %}>Precio: Mayor a menor</option>
                                     <option value="stock" {% if order_by == 'stock' %}selected{% endif %}>Stock</option>
                                 </select>
                             </div>

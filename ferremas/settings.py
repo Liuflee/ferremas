@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'tienda',
     'adminpanel',
     'bodegueroapp',
-    'vendedorapp'
+    'vendedorapp',
+    'contadorapp',
 ]
 
 STATIC_URL = '/static/'

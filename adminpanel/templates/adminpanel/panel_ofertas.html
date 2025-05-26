@@ -1,0 +1,28 @@
+{% extends 'base_admin.html' %}
+
+{% block content %}
+<h2>Administrar Ofertas</h2>
+
+<form method="POST">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Agregar oferta</button>
+</form>
+
+<hr>
+
+<h3>Ofertas activas y pasadas</h3>
+<ul>
+  {% for oferta in ofertas %}
+    <li>
+      {{ oferta.producto.nombre }} - ${{ oferta.precio_oferta }} 
+      desde {{ oferta.fecha_inicio }} hasta {{ oferta.fecha_fin }}
+      {% if oferta.esta_activa %} (Activa) {% endif %}
+      <a href="{% url 'editar_oferta' oferta.id %}" class="btn btn-sm btn-outline-primary ms-2">Editar</a>
+      <a href="{% url 'eliminar_oferta' oferta.id %}" class="btn btn-sm btn-outline-danger ms-1" 
+         onclick="return confirm('¿Seguro que quieres eliminar esta oferta?')">Eliminar</a>
+    </li>
+  {% endfor %}
+</ul>
+
+{% endblock %}

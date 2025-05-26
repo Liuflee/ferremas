@@ -6,6 +6,7 @@ urlpatterns = [
     path('pedidos/', views.pedidos_por_aprobar, name='pedidos_por_aprobar'),
     path('pedidos/aprobar/<int:pedido_id>/', views.aprobar_pedido, name='aprobar_pedido'),
     path('pedidos/rechazar/<int:pedido_id>/', views.rechazar_pedido, name='rechazar_pedido'),
-    path('despacho/', views.pedidos_para_despacho, name='despacho'),
-    path('orden_despacho/generar/<int:pedido_id>/', views.generar_orden_despacho, name='generar_orden_despacho'),
+    path('ordenes_despacho/', views.ordenes_de_despacho, name='ordenes_de_despacho'),
+    path('despacho/', views.ordenes_de_despacho, name='despacho'),
+    path('ordenes_despacho/aprobar/<int:orden_id>/', views.aprobar_orden, name='aprobar_orden'),
 ]

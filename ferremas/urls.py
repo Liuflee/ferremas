@@ -26,6 +26,7 @@ urlpatterns = [
     path('adminpanel/', include('adminpanel.urls')),
     path('bodegueroapp/', include('bodegueroapp.urls')),
     path('vendedorapp/', include('vendedorapp.urls')),  
+    path('contadorapp/', include('contadorapp.urls')),
 ]
 
 if settings.DEBUG:

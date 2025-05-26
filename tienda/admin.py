@@ -44,3 +44,5 @@ class DatosCompraAdmin(admin.ModelAdmin):
     list_filter = ('envio', 'fecha')
 
 admin.site.register(Oferta)
+
+admin.site.register(OrdenDespacho)

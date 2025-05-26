@@ -1,9 +1,19 @@
 from django import forms
-from .models import DatosCompra, Producto
+from .models import DatosCompra, Oferta, Producto
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 
-
+class OfertaForm(forms.ModelForm):
+    class Meta:
+        model = Oferta
+        fields = ['producto', 'precio_oferta', 'fecha_inicio', 'fecha_fin']
+        widgets = {
+            'producto': forms.Select(attrs={'class': 'form-control form-control-sm'}),
+            'precio_oferta': forms.NumberInput(attrs={'class': 'form-control form-control-sm'}),
+            'fecha_inicio': forms.DateTimeInput(attrs={'type': 'datetime-local', 'class': 'form-control form-control-sm'}),
+            'fecha_fin': forms.DateTimeInput(attrs={'type': 'datetime-local', 'class': 'form-control form-control-sm'}),
+        }
+        
 class ProductoForm(forms.ModelForm):
     precio = forms.DecimalField(
         max_digits=10, decimal_places=2,

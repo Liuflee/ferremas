@@ -16,6 +16,7 @@ class Producto(models.Model):
     categoria = models.CharField(max_length=100, choices=CATEGORIAS)  
     stock = models.IntegerField()
     imagen = models.ImageField(upload_to='static/productos/')
+    activo = models.BooleanField(default=True)
 
     def __str__(self):
         return self.nombre
@@ -69,6 +70,7 @@ class Pedido(models.Model):
         ('aprobado', 'Aprobado'),
         ('rechazado', 'Rechazado'),
         ('en_preparacion', 'En preparación'),
+        ('enviado', 'Enviado'),
         ('entregado', 'Entregado'),
         ('finalizado', 'Finalizado'),
     ]
