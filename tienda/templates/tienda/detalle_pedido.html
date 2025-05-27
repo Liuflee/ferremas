@@ -7,6 +7,9 @@
 
 {% if pedido.orden_despacho %}
     <p><strong>Estado de despacho:</strong> {{ pedido.orden_despacho.get_estado_display }}</p>
+    {% if pedido.orden_despacho.get_estado_display == "rechazada" %}
+        <p><strong>Motivo de rechazo:</strong> {{ pedido.orden_despacho.motivo_rechazo }}</p>
+    {% endif %}
     {% if pedido.orden_despacho.observaciones %}
         <p><strong>Observaciones:</strong> {{ pedido.orden_despacho.observaciones }}</p>
     {% endif %}

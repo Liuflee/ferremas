@@ -1,5 +1,6 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.decorators import login_required, user_passes_test
+from tienda.forms import ObservacionesForm
 from tienda.models import *
 from django.contrib import messages
 from tienda.decorators import es_bodeguero
@@ -55,17 +56,29 @@ def preparar_pedido(request, pedido_id):
 
 '''Generar orden de despacho, crea una orden de depacho para un pedido con estado "en_preparacion".
 La orden de despacho se asocia al pedido y cambia su estado a "enviado".'''
+
 @login_required
 @user_passes_test(es_bodeguero)
 def generar_orden_despacho(request, pedido_id):
-    # Esta vista genera una orden de despacho para un pedido aprobado
     pedido = get_object_or_404(Pedido, id=pedido_id)
-    # Solo permitir generar si el pedido está aprobado y aún no tiene orden
-    if pedido.estado == 'en_preparacion' and not hasattr(pedido, 'orden_despacho'):
-        OrdenDespacho.objects.create(pedido=pedido)
-        pedido.estado = 'enviado'  # Cambiar estado del pedido a enviado
-        messages.success(request, f'Orden de despacho generada para el pedido #{pedido.id}.')
-        pedido.save()
-    
-    return redirect('pedidos_para_despacho')
 
+    if not (pedido.estado == 'en_preparacion' and not hasattr(pedido, 'orden_despacho')):
+        messages.error(request, "No se puede generar la orden de despacho para este pedido.")
+        return redirect('pedidos_para_despacho')
+
+    if request.method == 'POST':
+        form = ObservacionesForm(request.POST)
+        if form.is_valid():
+            observaciones = form.cleaned_data['observaciones']
+            OrdenDespacho.objects.create(pedido=pedido, observaciones=observaciones)
+            pedido.estado = 'enviado'
+            pedido.save()
+            messages.success(request, f'Orden de despacho generada para el pedido #{pedido.id}.')
+            return redirect('pedidos_para_despacho')
+    else:
+        form = ObservacionesForm()
+
+    return render(request, 'bodegueroapp/generar_orden.html', {
+        'pedido': pedido,
+        'form': form
+    })

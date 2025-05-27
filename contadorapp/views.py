@@ -1,7 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.db.models import Sum, F, ExpressionWrapper, DecimalField
-from tienda.models import Pedido, TransferenciaPago, OrdenDespacho
+from tienda.forms import MotivoRechazoForm
+from tienda.models import Pedido, OrdenDespacho
 from tienda.decorators import es_contador
 
 
@@ -79,3 +80,23 @@ def marcar_entregado(request, orden_id):
     pedido.save()
 
     return redirect('ordenes_enviadas')
+
+@login_required
+@user_passes_test(es_contador)
+def rechazar_orden(request, orden_id):
+    orden = get_object_or_404(OrdenDespacho, id=orden_id)
+    
+    if orden.estado != 'enviado':
+        return redirect('ordenes_enviadas')
+
+    if request.method == 'POST':
+        form = MotivoRechazoForm(request.POST)
+        if form.is_valid():
+            orden.estado = 'rechazada'
+            orden.motivo_rechazo = form.cleaned_data['motivo']
+            orden.save()
+            return redirect('ordenes_enviadas')
+    else:
+        form = MotivoRechazoForm()
+
+    return render(request, 'contadorapp/rechazar_orden.html', {'orden': orden, 'form': form})

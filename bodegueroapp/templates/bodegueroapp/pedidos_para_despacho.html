@@ -42,10 +42,7 @@
                         <button type="submit" class="btn btn-primary btn-sm">Preparar Pedido</button>
                     </form>
                 {% elif pedido.estado == 'en_preparacion' and not pedido.orden_despacho %}
-                    <form method="post" action="{% url 'generar_orden_despacho' pedido.id %}">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-success btn-sm">Generar Orden</button>
-                    </form>
+                    <a href="{% url 'generar_orden_despacho' pedido.id %}" class="btn btn-success btn-sm">Generar Orden</a>
                 {% elif pedido.orden_despacho %}
                     <span class="badge bg-secondary">Orden generada</span>
                 {% else %}

@@ -39,6 +39,10 @@
                             {% csrf_token %}
                             <button class="btn btn-sm btn-success">Marcar como Entregado</button>
                         </form>
+                        <form method="post" action="{% url 'rechazar_orden' orden.id %}" class="mt-1">
+                            {% csrf_token %}
+                            <button class="btn btn-sm btn-danger">Rechazar</button>
+                        </form>
                     </td>
                 </tr>
                 {% endfor %}

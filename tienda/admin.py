@@ -32,10 +32,6 @@ class ItemPedidoAdmin(admin.ModelAdmin):
     search_fields = ('producto__nombre',)
     list_filter = ('pedido',)
 
-@admin.register(TransferenciaPago)
-class TransferenciaPagoAdmin(admin.ModelAdmin):
-    list_display = ('pedido', 'confirmado', 'fecha_transferencia')
-    list_filter = ('confirmado', 'fecha_transferencia')
 
 @admin.register(DatosCompra)
 class DatosCompraAdmin(admin.ModelAdmin):
