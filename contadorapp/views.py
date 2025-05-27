@@ -5,16 +5,17 @@ from tienda.models import Pedido, TransferenciaPago, OrdenDespacho
 from tienda.decorators import es_contador
 
 
+# Vista para mostrar un resumen de compras al contador
 @login_required
 @user_passes_test(es_contador)
 def resumen_compras(request):
     # Filtrar solo pedidos confirmados y finalizados
     pedidos = Pedido.objects.filter(estado__in=['aprobado', 'enviado', 'entregado', 'finalizado'])
 
-    # Totales generales
+    # Calcular el total de ingresos sumando el precio unitario de los items
     total_ingresos = pedidos.aggregate(total=Sum('items__precio_unitario'))['total']
 
-    # Si quieres permitir filtrar por fechas
+    # Permitir filtrar por fechas si se proporcionan en la solicitud
     fecha_inicio = request.GET.get('inicio')
     fecha_fin = request.GET.get('fin')
 
@@ -29,12 +30,14 @@ def resumen_compras(request):
     }
     return render(request, 'contadorapp/resumen_compras.html', context)
 
-
+# Vista para mostrar el resumen general del contador
 @login_required
 @user_passes_test(es_contador)
 def vista_contador(request):
+    # Obtener todos los pedidos finalizados
     pedidos_finalizados = Pedido.objects.filter(estado='finalizado')
 
+    # Calcular el total de ventas sumando cantidad por precio unitario de los items
     total_ventas = pedidos_finalizados.aggregate(
         total=Sum(
             ExpressionWrapper(
@@ -44,7 +47,7 @@ def vista_contador(request):
         )
     )['total'] or 0
 
-#cantidad de pedidos finalizados
+    # Contar la cantidad de pedidos finalizados
     pagos_confirmados = Pedido.objects.filter(estado='finalizado').count()
 
     contexto = {
@@ -54,8 +57,7 @@ def vista_contador(request):
     }
     return render(request, 'contadorapp/resumen_contador.html', contexto)
 
-
-
+# Vista para mostrar las órdenes de despacho que ya fueron enviadas
 @login_required
 @user_passes_test(es_contador)
 def ordenes_enviadas(request):
@@ -63,7 +65,7 @@ def ordenes_enviadas(request):
     ordenes = OrdenDespacho.objects.filter(estado='enviado')
     return render(request, 'contadorapp/ordenes_enviadas.html', {'ordenes': ordenes})
 
-
+# Vista para marcar una orden de despacho como entregada
 @login_required
 @user_passes_test(es_contador)
 def marcar_entregado(request, orden_id):

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Mis Pedidos</h2>
+
+{% if pedidos %}
+    <ul>
+    {% for pedido in pedidos %}
+        <li style="margin-bottom: 20px; border: 1px solid #ccc; padding: 10px;">
+            <strong>Pedido #{{ pedido.id }}</strong><br>
+            Fecha: {{ pedido.fecha_creacion|date:"d/m/Y H:i" }}<br>
+            Estado general: {{ pedido.get_estado_display }}<br>
+            {% if pedido.orden_despacho %}
+                Estado de despacho: {{ pedido.orden_despacho.get_estado_display }}
+            {% else %}
+                Aún no se ha generado la orden de despacho.
+            {% endif %}
+            <br><a href="{% url 'detalle_pedido' pedido.id %}">Ver detalles</a>
+        </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No tienes pedidos registrados.</p>
+{% endif %}
+{% endblock %}

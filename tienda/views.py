@@ -148,7 +148,7 @@ class CustomLoginView(LoginView):
         elif user.groups.filter(name='Bodeguero').exists():
             return reverse('pedidos_para_despacho')  # Vista del bodeguero
         elif user.groups.filter(name='Contador').exists():
-            return reverse('resumen_compras')
+            return reverse('vista_contador')  # Vista del contador
         else:
             return reverse('home')  # Usuario normal
     
@@ -159,9 +159,19 @@ def logout_view(request):
 def catalogo(request):
     productos = Producto.objects.filter(activo=True)
 
-    categoria_filter = request.GET.get('categoria')
+    categoria_filter = request.GET.getlist('categoria')
     if categoria_filter:
-        productos = productos.filter(categoria=categoria_filter)
+        productos = productos.filter(categoria__in=categoria_filter)
+
+    # Filtro por productos con oferta activa
+    oferta_activa = request.GET.get('oferta_activa')
+    if oferta_activa == 'true':
+        ahora = timezone.now()
+        productos = productos.filter(
+            ofertas__fecha_inicio__lte=ahora,
+            ofertas__fecha_fin__gte=ahora
+        ).distinct()
+
 
     search_query = request.GET.get('search')
     if search_query:
@@ -427,3 +437,18 @@ def pago_error(request):
     
 def error_404(request):
     return render(request, 'tienda/error_404.html', status=404)
+
+@login_required
+def estado_pedidos_usuario(request):
+    pedidos = Pedido.objects.filter(usuario=request.user).order_by('-fecha_creacion').select_related('orden_despacho')
+    return render(request, 'tienda/estado_pedidos.html', {'pedidos': pedidos})
+
+@login_required
+def detalle_pedido(request, pedido_id):
+    pedido = get_object_or_404(Pedido.objects.select_related('orden_despacho', 'datos_compra'), id=pedido_id, usuario=request.user)
+    items = pedido.items.select_related('producto')
+
+    for item in items:
+        item.total = item.cantidad * item.precio_unitario
+
+    return render(request, 'tienda/detalle_pedido.html', {'pedido': pedido, 'items': items})

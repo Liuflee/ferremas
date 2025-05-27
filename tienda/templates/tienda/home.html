@@ -97,17 +97,24 @@
 
 
     <h2 class="seccion-titulo mt-5">Liquidación de Temporada</h2>
-        <div class="row g-3 align-items-stretch">
-            <!-- Columna izquierda -->
-            <div class="col-md-6">
-                <img src="{% static 'img/liquidacion_accesorios.jpg' %}" class="img-fluid w-100 h-100 promo-img" alt="...">
-            </div>
-            <!-- Columna derecha -->
-            <div class="col-md-6 d-flex flex-column gap-3">
-                <img src="{% static 'img/liquidacion_manuales.jpg' %}" class="img-fluid w-100 flex-fill promo-img" alt="...">
-                <img src="{% static 'img/liquidacion_electricas.jpg' %}" class="img-fluid w-100 flex-fill promo-img" alt="...">
-            </div>
+    <div class="row g-3 align-items-stretch">
+        <!-- Columna izquierda -->
+        <div class="col-md-6">
+            <a href="{% url 'catalogo' %}?categoria=accesorios&oferta_activa=true">
+                <img src="{% static 'img/liquidacion_accesorios.jpg' %}" class="img-fluid w-100 h-100 promo-img" alt="Accesorios en oferta">
+            </a>
         </div>
+        <!-- Columna derecha -->
+        <div class="col-md-6 d-flex flex-column gap-3">
+            <a href="{% url 'catalogo' %}?categoria=herramientas_manuales&oferta_activa=true">
+                <img src="{% static 'img/liquidacion_manuales.jpg' %}" class="img-fluid w-100 flex-fill promo-img" alt="Manuales en oferta">
+            </a>
+            <a href="{% url 'catalogo' %}?categoria=herramientas_electricas&oferta_activa=true">
+                <img src="{% static 'img/liquidacion_electricas.jpg' %}" class="img-fluid w-100 flex-fill promo-img" alt="Eléctricas en oferta">
+            </a>
+        </div>
+    </div>
+
 
     <h2 class="seccion-titulo mt-5">Productos en Oferta</h2>
         <div class="row">
@@ -129,22 +136,36 @@
             </div>
             </a>
         </div>
+        <!-- ver todos los productos en oferta-->
+        
+
+        
         {% empty %}
         <p>No hay productos en oferta actualmente.</p>
         {% endfor %}
+        
         </div>
-
+        <a href="{% url 'catalogo' %}?oferta_activa=true" class="btn btn-outline-dark mb-4">Ver todos los productos en oferta</a>
 
         <h2 class="seccion-titulo mt-5">Liquidación de Temporada</h2>
         <div class="row g-3 align-items-stretch">
             <!-- Columna izquierda -->
+            
             <div class="col-md-6">
+                <a href="{% url 'catalogo' %}?categoria=medicion&oferta_activa=true">
                 <img src="{% static 'img/liquidacion_medicion.jpg' %}" class="img-fluid w-100 h-100 promo-img" alt="...">
+                </a>
             </div>
+            
             <!-- Columna derecha -->
+            
             <div class="col-md-6 d-flex flex-column gap-3">
+                <a href="{% url 'catalogo' %}?categoria=inalambricas&oferta_activa=true">
                 <img src="{% static 'img/liquidacion_inalambricas.jpg' %}" class="img-fluid w-100 flex-fill promo-img" alt="...">
+                </a>
             </div>
+
+
         </div>
     </div>
 

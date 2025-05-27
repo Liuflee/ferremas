@@ -133,7 +133,6 @@ class CustomUserCreationForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.instance = kwargs.get('instance', None)
 
     def clean_username(self):
         username = self.cleaned_data['username']

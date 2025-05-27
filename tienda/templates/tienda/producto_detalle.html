@@ -35,7 +35,7 @@
             <p class="text-muted">{{ producto.descripcion }}</p>
 
             <ul class="list-unstyled small mb-3">
-                <li><strong>Categoría:</strong> {{ producto.categoria }}</li>
+                <li><strong>Categoría:</strong> {{ producto.get_categoria_display }}</li>
                 <li><strong>Disponibilidad:</strong> {{ producto.stock }}</li>
             </ul>
 

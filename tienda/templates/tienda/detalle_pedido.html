@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Detalle del Pedido #{{ pedido.id }}</h2>
+
+<p><strong>Fecha de creación:</strong> {{ pedido.fecha_creacion|date:"d/m/Y H:i" }}</p>
+<p><strong>Estado del pedido:</strong> {{ pedido.get_estado_display }}</p>
+
+{% if pedido.orden_despacho %}
+    <p><strong>Estado de despacho:</strong> {{ pedido.orden_despacho.get_estado_display }}</p>
+    {% if pedido.orden_despacho.observaciones %}
+        <p><strong>Observaciones:</strong> {{ pedido.orden_despacho.observaciones }}</p>
+    {% endif %}
+{% else %}
+    <p><strong>Estado de despacho:</strong> No asignado</p>
+{% endif %}
+
+<h3>Productos</h3>
+<table>
+    <thead>
+        <tr>
+            <th>Producto</th>
+            <th>Cantidad</th>
+            <th>Precio unitario</th>
+            <th>Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in items %}
+        <tr>
+            <td>{{ item.producto.nombre }}</td>
+            <td>{{ item.cantidad }}</td>
+            <td>${{ item.precio_unitario }}</td>
+            <td>${{ item.total|floatformat:0 }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<p><strong>Total del pedido:</strong> ${{ pedido.total|floatformat:0 }}</p>
+
+{% if pedido.datos_compra %}
+    <h3>Datos de Envío</h3>
+    <p><strong>Nombre:</strong> {{ pedido.datos_compra.nombre }}</p>
+    <p><strong>RUT:</strong> {{ pedido.datos_compra.rut }}</p>
+    <p><strong>Dirección:</strong> {{ pedido.datos_compra.direccion }}</p>
+    <p><strong>Teléfono:</strong> {{ pedido.datos_compra.telefono }}</p>
+    <p><strong>Tipo de entrega:</strong> {% if pedido.datos_compra.envio %}Envío{% else %}Retiro{% endif %}</p>
+{% endif %}
+
+<a href="{% url 'estado_pedidos' %}">← Volver a mis pedidos</a>
+{% endblock %}

@@ -5,10 +5,14 @@ from django.utils import timezone
 class Producto(models.Model):
     CATEGORIAS = [
         ('herramientas', 'Herramientas'),
+        ('herramientas_electricas', 'Herramientas Eléctricas'),
+        ('herramientas_manuales', 'Herramientas Manuales'),
         ('materiales', 'Materiales'),
         ('accesorios', 'Accesorios'),
         ('pinturas', 'Pinturas'),
         ('electricidad', 'Electricidad'),
+        ('inalambricas', 'Inalámbricas'),
+        ('medicion', 'Medición'),
     ]
 
     nombre = models.CharField(max_length=255)
