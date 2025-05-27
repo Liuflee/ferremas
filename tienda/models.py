@@ -102,16 +102,6 @@ class ItemPedido(models.Model):
         return f"{self.cantidad} x {self.producto.nombre}"
 
 
-class TransferenciaPago(models.Model):
-    pedido = models.OneToOneField(Pedido, on_delete=models.CASCADE)
-    confirmado = models.BooleanField(default=False)
-    fecha_transferencia = models.DateTimeField(null=True, blank=True)
-    comprobante = models.FileField(upload_to='comprobantes/', null=True, blank=True)
-
-    def __str__(self):
-        return f"Pago Transferencia Pedido #{self.pedido.id} - Confirmado: {self.confirmado}"
-
-
 class DatosCompra(models.Model):
     usuario = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     nombre = models.CharField(max_length=100)
@@ -126,6 +116,7 @@ class OrdenDespacho(models.Model):
     pedido = models.OneToOneField(Pedido, on_delete=models.CASCADE, related_name='orden_despacho')
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     observaciones = models.TextField(blank=True, null=True)
+    motivo_rechazo = models.TextField(blank=True, null=True)
     estado = models.CharField(max_length=20, choices=[
         ('pendiente', 'Pendiente'),
         ('preparando', 'Preparando'),

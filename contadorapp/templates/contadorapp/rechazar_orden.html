@@ -1,0 +1,11 @@
+{% extends 'base_contador.html' %}
+
+{% block content %}
+<h2>Rechazar Orden de Despacho #{{ orden.id }}</h2>
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit" class="btn btn-danger">Rechazar</button>
+  <a href="{% url 'ordenes_enviadas' %}" class="btn btn-secondary">Cancelar</a>
+</form>
+{% endblock %}

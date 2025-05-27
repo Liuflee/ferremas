@@ -1,0 +1,13 @@
+{% extends "base_bodeguero.html" %}
+
+{% block title %}Generar Orden de Despacho{% endblock %}
+
+{% block content %}
+<h2>Generar Orden de Despacho para Pedido #{{ pedido.id }}</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Generar orden</button>
+</form>
+
+{% endblock %}

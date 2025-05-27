@@ -122,6 +122,20 @@ class DatosCompraForm(forms.ModelForm):
             'envio': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
         }
 
+class MotivoRechazoForm(forms.Form):
+    motivo = forms.CharField(
+        label='Motivo del rechazo',
+        widget=forms.Textarea(attrs={'rows': 4}),
+        required=True
+    )
+
+class ObservacionesForm(forms.Form):
+    observaciones = forms.CharField(
+        label='Observaciones',
+        widget=forms.Textarea(attrs={'rows': 4}),
+        required=False
+    )
+
 class CustomUserCreationForm(forms.ModelForm):
     password1 = forms.CharField(label="Contraseña", widget=forms.PasswordInput, required=False)
     password2 = forms.CharField(label="Confirmar Contraseña", widget=forms.PasswordInput, required=False)
