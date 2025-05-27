@@ -37,20 +37,28 @@ Esta vista prepara un pedido para despacho, cambiando su estado a "en_preparacio
 @login_required
 @user_passes_test(es_bodeguero)
 def preparar_pedido(request, pedido_id):
-    #Esta vista prepara un pedido para despacho
     pedido = get_object_or_404(Pedido, id=pedido_id)
-    
+
     if pedido.estado != 'aprobado':
         messages.error(request, 'El pedido no está en estado aprobado para preparar.')
         return redirect('pedidos_para_despacho')
+
     # Verificar stock antes de preparar
     stock_suficiente, mensaje = verificar_stock(pedido)
     if not stock_suficiente:
         messages.error(request, mensaje)
         return redirect('pedidos_para_despacho')
-    pedido.estado = 'en_preparacion' 
+
+    # Descontar stock
+    for item in pedido.items.all():
+        producto = item.producto
+        producto.stock -= item.cantidad
+        producto.save()
+
+    # Cambiar estado del pedido
+    pedido.estado = 'en_preparacion'
     pedido.save()
-    
+
     messages.success(request, f'Pedido #{pedido.id} preparado correctamente.')
     return redirect('pedidos_para_despacho')
 
@@ -82,3 +90,25 @@ def generar_orden_despacho(request, pedido_id):
         'pedido': pedido,
         'form': form
     })
+
+@login_required
+@user_passes_test(es_bodeguero)
+def gestionar_stock_productos(request):
+    productos = Producto.objects.all()
+
+    if request.method == 'POST':
+        for producto in productos:
+            nuevo_stock = request.POST.get(f'stock_{producto.id}')
+            if nuevo_stock is not None:
+                try:
+                    nuevo_stock = int(nuevo_stock)
+                    if nuevo_stock >= 0:
+                        producto.stock = nuevo_stock
+                        producto.save()
+                except ValueError:
+                    messages.error(request, f'Stock inválido para {producto.nombre}.')
+
+        messages.success(request, 'Stock actualizado correctamente.')
+        return redirect('gestionar_stock_productos')
+
+    return render(request, 'bodegueroapp/gestionar_stock.html', {'productos': productos})

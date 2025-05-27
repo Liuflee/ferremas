@@ -15,11 +15,20 @@
     </a>
 
     <div class="collapse navbar-collapse">
+        
+
         <ul class="navbar-nav me-auto">
             <li class="nav-item">
                 <a class="nav-link {% if request.resolver_match.url_name == 'ordenes' %}active fw-bold text-warning{% endif %}" 
                     href="{% url 'pedidos_para_despacho' %}">
                     <i class="bi bi-box-seam me-1"></i>Ordenes de pedidos
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link {% if request.resolver_match.url_name == 'gestionar_stock' %}active fw-bold text-warning{% endif %}" 
+                    href="{% url 'gestionar_stock_productos' %}">
+                    <i class="bi bi-boxes me-1"></i>Gestionar Stock
                 </a>
             </li>
         </ul>
@@ -55,7 +64,7 @@
 <footer class="bg-dark text-white text-center py-4 mt-5 border-top shadow-sm">
     <div class="container">
         <p class="mb-1">&copy; {{ year }} - Ferremás 2025</p>
-        <small>Desarrollado el Dui | <small><small><i class="bi bi-envelope"></i> soporte@ferremas.cl</small>
+        <small>Desarrollado por el Dui | <small><small><i class="bi bi-envelope"></i> soporte@ferremas.cl</small>
 
 </small>
     </div>
