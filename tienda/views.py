@@ -147,6 +147,8 @@ class CustomLoginView(LoginView):
             return reverse('bodega')  # Vista principal del vendedor
         elif user.groups.filter(name='Bodeguero').exists():
             return reverse('pedidos_para_despacho')  # Vista del bodeguero
+        elif user.groups.filter(name='Contador').exists():
+            return reverse('resumen_compras')
         else:
             return reverse('home')  # Usuario normal
     
