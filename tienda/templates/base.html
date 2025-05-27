@@ -89,10 +89,12 @@
 
             </li>
         <!-- estado pedidos -->
+        {% if user.is_authenticated %}
         <li class="nav-item">
             <a class="nav-link nav-link-custom" href="{% url 'estado_pedidos' %}"><i class="bi bi-box-fill me-1"></i>Estado de pedidos</a>
         </li>
         <li class="nav-item">
+        {% endif %}
         {% if user.is_authenticated %}
             <a class="nav-link nav-link-custom" href="/logout/"><i class="bi bi-person-fill me-1"></i>Cerrar sesión</a>
         {% else %}
@@ -211,18 +213,27 @@ function togglePassword() {
 <script>
 document.getElementById('form-suscripcion').addEventListener('submit', function(e) {
     e.preventDefault();
+    const form = this;
 
-    emailjs.sendForm('service_s2yl7xd', 'template_26suoed', this)
+    emailjs.sendForm('service_s2yl7xd', 'template_26suoed', form)
         .then(function(response) {
-            console.log('SUCCESS!', response.status, response.text);
+            console.log('Correo al admin enviado');
+        }, function(error) {
+            console.error('Error al enviar al admin', error);
+        });
+
+    emailjs.sendForm('service_s2yl7xd', 'template_mg42krc', form)
+        .then(function(response) {
+            console.log('Correo al usuario enviado');
             document.getElementById('msg').innerText = '¡Te has suscrito correctamente!';
         }, function(error) {
-            console.log('FAILED...', error);
+            console.error('Error al enviar al usuario', error);
             document.getElementById('msg').innerText = 'Error al enviar el correo. Intenta de nuevo.';
         });
 
-    this.reset();
+    form.reset();
 });
+
 </script>
 
 

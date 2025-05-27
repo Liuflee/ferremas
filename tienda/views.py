@@ -144,7 +144,7 @@ class CustomLoginView(LoginView):
         if user.is_superuser:
             return reverse('panel_productos')  # Redirige a la vista del administrador
         elif user.groups.filter(name='Vendedor').exists():
-            return reverse('bodega')  # Vista principal del vendedor
+            return reverse('productos_bodega')  # Vista principal del vendedor
         elif user.groups.filter(name='Bodeguero').exists():
             return reverse('pedidos_para_despacho')  # Vista del bodeguero
         elif user.groups.filter(name='Contador').exists():
@@ -358,7 +358,7 @@ def webpay_respuesta(request):
                 precio_unitario=precio_unitario,
             )
 
-            producto.stock -= cantidad
+
             producto.save()
 
         messages.success(request, "¡Pago realizado y pedido registrado exitosamente!")

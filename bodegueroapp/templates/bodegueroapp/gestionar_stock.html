@@ -1,0 +1,33 @@
+{% extends 'base_bodeguero.html' %}
+{% load static %}
+
+{% block content %}
+<h2>Gestión de Stock</h2>
+
+<form method="POST">
+    {% csrf_token %}
+    <table>
+        <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Stock actual</th>
+                <th>Nuevo stock</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for producto in productos %}
+                <tr>
+                    <td>{{ producto.nombre }}</td>
+                    <td>{{ producto.stock }}</td>
+                    <td>
+                        <input type="number" name="stock_{{ producto.id }}" value="{{ producto.stock }}" min="0">
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <button type="submit">Guardar cambios</button>
+</form>
+
+{% endblock %}
