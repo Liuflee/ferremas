@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="{% static 'css/style_contador.css' %}">
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4 mb-4 shadow-sm">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4 mb-4 shadow-lg">
         <a class="navbar-brand fw-bold" href="{% url 'vista_contador' %}">
             <i class="bi bi-cash-coin me-1"></i> Panel Contador
         </a>
@@ -18,13 +18,13 @@
             <ul class="navbar-nav me-auto">
                 <li class="nav-item">
                     <a class="nav-link {% if request.resolver_match.url_name == 'vista_contador' %}active fw-bold text-warning{% endif %}" 
-                       href="{% url 'vista_contador' %}">
+                        href="{% url 'vista_contador' %}">
                         <i class="bi bi-clipboard-data me-1"></i>Resumen
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {% if request.resolver_match.url_name == 'ordenes_enviadas' %}active fw-bold text-warning{% endif %}" 
-                       href="{% url 'ordenes_enviadas' %}">
+                        href="{% url 'ordenes_enviadas' %}">
                         <i class="bi bi-truck me-1"></i>Órdenes Enviadas
                     </a>
                 </li>
@@ -47,15 +47,7 @@
     </nav>
 
     <main class="container mb-5">
-        {% if messages %}
-        <div class="alert alert-info">
-            {% for message in messages %}
-                <p class="mb-0">{{ message }}</p>
-            {% endfor %}
-        </div>
-        {% endif %}
-
-        {% block content %}{% endblock %}
+    {% block content %}{% endblock %}
     </main>
 
     <footer class="bg-dark text-white text-center py-4 mt-5 border-top shadow-sm">

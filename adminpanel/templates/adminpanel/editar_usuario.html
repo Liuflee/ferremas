@@ -1,21 +1,58 @@
 {% extends 'base_admin.html' %}
-
 {% block content %}
-<h2>Editar Usuario: {{ usuario.username }}</h2>
-<form method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-success">Guardar cambios</button>
-    <a href="{% url 'panel_usuarios' %}" class="btn btn-secondary">Cancelar</a>
-</form>
-{% if usuario.groups.all %}
-    <h3>Roles del Usuario</h3>
-    <ul>
-        {% for group in usuario.groups.all %}
+
+<div class="container-fluid">
+    <h2 class="mb-4 fw-bold">Editar Usuario: <span class="text-primary">{{ usuario.username }}</span></h2>
+
+    <div class="card shadow-sm p-4 bg-white rounded" style="max-width: 800px;">
+        <form method="POST">
+        {% csrf_token %}
+        <div class="mb-3">
+            {{ form.username.label_tag }}
+            {{ form.username }}
+        </div>
+        <div class="mb-3">
+            {{ form.first_name.label_tag }}
+            {{ form.first_name }}
+        </div>
+        <div class="mb-3">
+            {{ form.last_name.label_tag }}
+            {{ form.last_name }}
+        </div>
+        <div class="mb-3">
+            {{ form.email.label_tag }}
+            {{ form.email }}
+        </div>
+        <div class="mb-3">
+            {{ form.password1.label_tag }}
+            {{ form.password1 }}
+        </div>
+        <div class="mb-3">
+            {{ form.password2.label_tag }}
+            {{ form.password2 }}
+        </div>
+        <div class="mb-3">
+            {{ form.group.label_tag }}
+            {{ form.group }}
+        </div>
+
+        <button type="submit" class="btn btn-success me-2">
+            <i class="bi bi-check-circle-fill"></i> Guardar cambios
+        </button>
+        <a href="{% url 'panel_usuarios' %}" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+
+    {% if usuario.groups.all %}
+        <div class="mt-4">
+        <h4 class="fw-semibold">Roles del Usuario</h4>
+        <ul>
+            {% for group in usuario.groups.all %}
             <li>{{ group.name }}</li>
-        {% endfor %}
-    </ul>
-{% else %}
-    <p>Este usuario no tiene roles asignados.</p>
-{% endif %}
+            {% endfor %}
+        </ul>
+        </div>
+    {% endif %}
+    </div>
+
 {% endblock %}

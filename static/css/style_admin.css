@@ -1,0 +1,124 @@
+
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f4f6f8;
+    color: #333;
+}
+
+.topbar {
+    background-color: #ffffff;
+    border-bottom: 1px solid #ddd;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+}
+
+.sidebar {
+    background-color: #212529;
+    padding: 1.5rem 1rem;
+    color: white;
+    height: 100vh;
+    min-width: 220px;
+    position: sticky;
+    top: 0;
+}
+
+.sidebar .nav-link {
+    display: block;
+    color: #adb5bd;
+    text-decoration: none;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+}
+
+.sidebar .nav-link:hover {
+    background-color: #343a40;
+    color: #ffffff;
+}
+
+.sidebar .nav-link.active {
+    background-color: #ffc107;
+    color: #212529;
+    font-weight: 600;
+}
+
+
+.admin-wrapper {
+    display: flex;
+    min-height: 100vh;
+}
+
+.main-content {
+    flex-grow: 1;
+    padding: 2rem;
+}
+
+/*  formularios */
+form {
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 0 8px rgba(0,0,0,0.05);
+    margin-bottom: 2rem;
+}
+
+form .form-control {
+    margin-bottom: 1rem;
+}
+
+/* Tablas */
+.table-custom {
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.table-custom th {
+    background-color: #343a40;
+    color: white;
+    padding: 1rem;
+}
+
+.table-custom td {
+    padding: 1rem;
+    border-top: 1px solid #dee2e6;
+}
+
+.table thead th {
+    vertical-align: middle;
+}
+.list-group-item {
+    background-color: #f8f9fa;
+    border: none;
+}
+
+
+/*Botones */
+.btn {
+    border-radius: 4px;
+}
+
+.btn-outline-primary:hover,
+.btn-outline-danger:hover {
+    color: #fff;
+}
+
+.admin-header {
+    position: sticky;
+    top: 0;
+    z-index: 1030;
+    background-color: #ffffff;
+    border-bottom: 1px solid #dee2e6;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    height: 64px;
+}
+.admin-header h5 {
+    font-size: 1.25rem;
+}

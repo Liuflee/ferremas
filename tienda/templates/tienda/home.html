@@ -32,15 +32,8 @@
 
 <div class="container">
 
-    <h2 class="seccion-titulo mb-4">Catálogo de Productos</h2>
+    <h2 class="seccion-titulo">Catálogo de Productos</h2>
 
-<div class="d-flex justify-content-between align-items-center mb-4">
-    {% if False %}
-    <a href="{% url 'producto_crear' %}" class="btn btn-success px-4">
-        <i class="bi bi-plus-circle me-2"></i>Nuevo Producto
-    </a>
-{% endif %}
-</div>
 
 <div class="row">
     {% for producto in productos %}
@@ -48,7 +41,6 @@
         <div class="card h-100 shadow-sm border-0 hover-shadow">
             <a href="{% url 'producto_detalle' producto.pk %}" style="text-decoration: none; color: inherit;">
                 
-                <!-- Imagen envuelta para mejor control de escalado -->
                 <div class="product-image-wrapper">
                     {% if producto.imagen %}
                     <img src="{{ producto.imagen.url }}" class="product-img" alt="{{ producto.nombre }}">
@@ -60,7 +52,8 @@
                 <div class="card-body">
                     <h5 class="card-title fw-bold text-primary">{{ producto.nombre }}</h5>
                     <p class="card-text fs-5 text-success">${{ producto.precio_actual }}</p>
-                    <p class="card-text text-muted small">{{ producto.descripcion|truncatewords:12 }}</p>
+                    <p class="text-muted small">{{ producto.descripcion|truncatechars:80 }}</p>
+
                 </div>
             </a>
             {% if False %}
@@ -73,17 +66,18 @@
                 </a>
             </div>
             {% else %}
-            <div class="card-footer bg-white border-0 d-flex justify-content-between">
+            <div class="card-footer bg-white border-0 d-flex justify-content-between mt-auto">
                 <form method="post" action="{% url 'agregar_al_carrito' producto.pk %}">
                     {% csrf_token %}
-                    <button type="submit" class="btn btn-outline-primary btn-sm rounded-pill shadow-sm px-3 d-flex align-items-center gap-1 transition">
+                    <button type="submit" class="btn btn-outline-primary btn-sm rounded-pill shadow-sm d-flex align-items-center gap-1">
                         <i class="bi bi-cart-plus"></i> Agregar al carrito
                     </button>   
                 </form>
-                <a href="{% url 'producto_detalle' producto.pk %}" class="btn btn-outline-secondary btn-sm rounded-pill shadow-sm px-3 d-flex align-items-center gap-1 transition">
-                    <i class="bi bi-info-circle"></i> Ver más
+                <a href="{% url 'producto_detalle' producto.pk %}" class="btn btn-outline-secondary btn-sm rounded-pill shadow-sm d-flex align-items-center gap-1">
+                    <i class="bi bi-info-circle"></i> Ver detalle
                 </a>
             </div>
+
             {% endif %}
         </div>
     </div>
@@ -120,22 +114,39 @@
         <div class="row">
         {% for producto in productos_en_oferta %}
         <div class="col-md-4 mb-4">
-            <a href="{% url 'producto_detalle' producto.pk %}" class="card-link" style="text-decoration: none; color: inherit;">
-            <div class="card h-100 border-danger">
-                {% if producto.imagen %}
-                <img src="{{ producto.imagen.url }}" class="card-img-top" alt="{{ producto.nombre }}">
-                {% else %}
-                <img src="{% static 'default_product.jpg' %}" class="card-img-top" alt="Sin imagen">
-                {% endif %}
-                <div class="card-body">
-                <h5 class="card-title text-danger">{{ producto.nombre }}</h5>
-                <p class="card-text">${{ producto.precio_actual }}</p>
-                <p class="card-text">{{ producto.descripcion|truncatewords:10 }}</p>
-                <span class="badge bg-danger">Oferta</span>
+            <div class="card h-100 border-danger shadow-sm">
+                <a href="{% url 'producto_detalle' producto.pk %}" class="card-link" style="text-decoration: none; color: inherit;">
+                    
+                    <div class="product-image-wrapper">
+                        {% if producto.imagen %}
+                        <img src="{{ producto.imagen.url }}" class="product-img" alt="{{ producto.nombre }}">
+                        {% else %}
+                        <img src="{% static 'default_product.jpg' %}" class="product-img" alt="Sin imagen">
+                        {% endif %}
+                    </div>
+
+
+                    <div class="card-body">
+                        <h5 class="card-title text-danger">{{ producto.nombre }}</h5>
+                        <p class="card-text text-success">${{ producto.precio_actual }}</p>
+                        <p class="card-text text-muted small">{{ producto.descripcion|truncatewords:10 }}</p>
+                        <span class="badge bg-danger">Oferta</span>
+                    </div>
+                </a>
+                <div class="card-footer bg-white border-0 d-flex justify-content-between">
+                    <form method="post" action="{% url 'agregar_al_carrito' producto.pk %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-outline-primary btn-sm rounded-pill shadow-sm px-3 d-flex align-items-center gap-1">
+                            <i class="bi bi-cart-plus"></i> Agregar al carrito
+                        </button>
+                    </form>
+                    <a href="{% url 'producto_detalle' producto.pk %}" class="btn btn-outline-secondary btn-sm rounded-pill shadow-sm px-3 d-flex align-items-center gap-1">
+                        <i class="bi bi-info-circle"></i> Ver más
+                    </a>
                 </div>
             </div>
-            </a>
         </div>
+
         <!-- ver todos los productos en oferta-->
         
 

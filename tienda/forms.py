@@ -137,13 +137,32 @@ class ObservacionesForm(forms.Form):
     )
 
 class CustomUserCreationForm(forms.ModelForm):
-    password1 = forms.CharField(label="Contraseña", widget=forms.PasswordInput, required=False)
-    password2 = forms.CharField(label="Confirmar Contraseña", widget=forms.PasswordInput, required=False)
-    group = forms.ModelChoiceField(queryset=Group.objects.all(), required=True, label="Rol")
+    password1 = forms.CharField(
+        label="Contraseña",
+        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Ingrese una contraseña'}),
+        required=False
+    )
+    password2 = forms.CharField(
+        label="Confirmar Contraseña",
+        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Confirme la contraseña'}),
+        required=False
+    )
+    group = forms.ModelChoiceField(
+        queryset=Group.objects.all(),
+        required=True,
+        label="Rol",
+        widget=forms.Select(attrs={'class': 'form-control'})
+    )
 
     class Meta:
         model = User
         fields = ['username', 'first_name', 'last_name', 'email']
+        widgets = {
+            'username': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nombre de usuario'}),
+            'first_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nombre'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Apellido'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Correo electrónico'}),
+        }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -161,15 +180,13 @@ class CustomUserCreationForm(forms.ModelForm):
         cleaned_data = super().clean()
         password1 = cleaned_data.get("password1")
         password2 = cleaned_data.get("password2")
-
-        # Si el usuario es nuevo, la contraseña es obligatoria
+        
         if not self.instance or not self.instance.pk:
             if not password1:
                 self.add_error('password1', "La contraseña es obligatoria para nuevos usuarios.")
             if password1 != password2:
                 self.add_error('password2', "Las contraseñas no coinciden.")
         else:
-            # Si está editando, solo validar si se ingresa alguna contraseña
             if password1 or password2:
                 if password1 != password2:
                     self.add_error('password2', "Las contraseñas no coinciden.")
@@ -180,11 +197,10 @@ class CustomUserCreationForm(forms.ModelForm):
         user = super().save(commit=False)
         password = self.cleaned_data.get('password1')
         if password:
-            user.set_password(password)  # Encripta y guarda la contraseña
+            user.set_password(password)
 
         if commit:
             user.save()
-
             group = self.cleaned_data['group']
             user.groups.clear()
             user.groups.add(group)

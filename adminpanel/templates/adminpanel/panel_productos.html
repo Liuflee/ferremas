@@ -1,32 +1,57 @@
 {% extends 'base_admin.html' %}
-{% load static %}
-
 {% block content %}
-<h2>Administrar Productos</h2>
 
-<form method="POST" enctype="multipart/form-data">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Agregar producto</button>
-</form>
+<h2 class="mb-4">Administrar Productos</h2>
 
-<hr>
+<div class="row">
+  <!-- Formulario de producto -->
+  <div class="col-md-5">
+    <div class="p-3 bg-white rounded shadow-sm mb-4">
+      <h3>Agregar producto</h3>
+      <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-success">
+          <i class="bi bi-plus-circle"></i> Agregar producto
+        </button>
+      </form>
+    </div>
+  </div>
 
-<h3>Listado de productos</h3>
-<<ul>
-  {% for producto in productos %}
-    <li>
-      <strong>{{ producto.nombre }}</strong> - 
-      Stock: {{ producto.stock }} - 
-      Precio: ${{ producto.precio_actual }}
-      {% if producto.oferta_vigente %}
-        (¡En oferta: ${{ producto.precio_actual }}!)
-      {% endif %}
-      <a href="{% url 'editar_producto' producto.id %}" class="btn btn-sm btn-outline-primary ms-2">Editar</a>
-      <a href="{% url 'eliminar_producto' producto.id %}" class="btn btn-sm btn-outline-danger ms-1" 
-         onclick="return confirm('¿Seguro que quieres eliminar este producto?')">Eliminar</a>
-    </li>
-  {% endfor %}
-</ul>
+  <!-- Lista de productos -->
+  <div class="col-md-7">
+    <div class="p-3 bg-white rounded shadow-sm">
+      <h3>Listado de productos</h3>
+      <table class="table table-striped table-hover">
+        <thead class="table-dark">
+          <tr>
+            <th>Nombre</th>
+            <th>Stock</th>
+            <th>Precio</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for producto in productos %}
+            <tr>
+              <td>{{ producto.nombre }}</td>
+              <td>{{ producto.stock }}</td>
+              <td>${{ producto.precio_actual }}</td>
+              <td class="d-flex gap-2">
+                <a href="{% url 'editar_producto' producto.id %}" class="btn btn-sm btn-outline-primary">
+                  <i class="bi bi-pencil-square"></i> Editar
+                </a>
+                <a href="{% url 'eliminar_producto' producto.id %}" class="btn btn-sm btn-outline-danger"
+                    onclick="return confirm('¿Seguro que quieres eliminar este producto?')">
+                  <i class="bi bi-trash"></i> Eliminar
+                </a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
 
 {% endblock %}
