@@ -55,3 +55,22 @@ def aprobar_orden(request, orden_id):
     orden.save()
     return redirect('ordenes_de_despacho')
 
+@login_required
+@user_passes_test(es_vendedor)
+def marcar_enviado(request, orden_id):
+    # Esta vista marca una orden como entregada y su pedido como finalizado
+    orden = get_object_or_404(OrdenDespacho, id=orden_id)
+
+    if orden.estado != 'listo':
+        # Solo se pueden marcar como entregadas las órdenes listas
+        return redirect('ordenes_de_despacho')
+
+    orden.estado = 'enviado'
+    orden.save()
+
+    # Cambiar el estado del pedido relacionado a 'finalizado'
+    pedido = orden.pedido
+    pedido.estado = 'enviado'
+    pedido.save()
+
+    return redirect('ordenes_de_despacho')

@@ -5,3 +5,6 @@ def es_vendedor(user):
 
 def es_bodeguero(user):
     return user.is_authenticated and user.groups.filter(name='Bodeguero').exists()
+
+def es_contador(user):
+    return user.is_authenticated and user.groups.filter(name='Contador').exists()

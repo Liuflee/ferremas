@@ -9,4 +9,5 @@ urlpatterns = [
     path('ordenes_despacho/', views.ordenes_de_despacho, name='ordenes_de_despacho'),
     path('despacho/', views.ordenes_de_despacho, name='despacho'),
     path('ordenes_despacho/aprobar/<int:orden_id>/', views.aprobar_orden, name='aprobar_orden'),
+    path('ordenes_despacho/marcar_enviado/<int:orden_id>/', views.marcar_enviado, name='marcar_enviado'),
 ]

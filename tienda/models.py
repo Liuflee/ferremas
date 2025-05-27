@@ -126,6 +126,7 @@ class OrdenDespacho(models.Model):
         ('pendiente', 'Pendiente'),
         ('preparando', 'Preparando'),
         ('listo', 'Listo para entregar'),
+        ('enviado', 'Enviado'),
         ('entregado', 'Entregado'),
     ], default='pendiente')
 
