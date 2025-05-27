@@ -1,54 +1,81 @@
 {% extends "base.html" %}
+
 {% block content %}
-<h2>Detalle del Pedido #{{ pedido.id }}</h2>
+<div class="container py-4">
+    <h2 class="seccion-titulo mb-4">Detalle del Pedido #{{ pedido.id }}</h2>
 
-<p><strong>Fecha de creación:</strong> {{ pedido.fecha_creacion|date:"d/m/Y H:i" }}</p>
-<p><strong>Estado del pedido:</strong> {{ pedido.get_estado_display }}</p>
+    <div class="card mb-4 shadow-sm">
+        <div class="card-body">
+            <p><strong>Fecha de creación:</strong> {{ pedido.fecha_creacion|date:"d/m/Y H:i" }}</p>
+            <p><strong>Estado del pedido:</strong> 
+                <span class="badge bg-info">{{ pedido.get_estado_display }}</span>
+            </p>
 
-{% if pedido.orden_despacho %}
-    <p><strong>Estado de despacho:</strong> {{ pedido.orden_despacho.get_estado_display }}</p>
-    {% if pedido.orden_despacho.get_estado_display == "rechazada" %}
-        <p><strong>Motivo de rechazo:</strong> {{ pedido.orden_despacho.motivo_rechazo }}</p>
+            {% if pedido.orden_despacho %}
+                <p><strong>Estado de despacho:</strong> 
+                    <span class="badge bg-secondary">{{ pedido.orden_despacho.get_estado_display }}</span>
+                </p>
+                {% if pedido.orden_despacho.get_estado_display == "rechazada" %}
+                    <p><strong>Motivo de rechazo:</strong> {{ pedido.orden_despacho.motivo_rechazo }}</p>
+                {% endif %}
+                {% if pedido.orden_despacho.observaciones %}
+                    <p><strong>Observaciones:</strong> {{ pedido.orden_despacho.observaciones }}</p>
+                {% endif %}
+            {% else %}
+                <p><strong>Estado de despacho:</strong> 
+                    <span class="text-muted fst-italic">No asignado</span>
+                </p>
+            {% endif %}
+        </div>
+    </div>
+
+    <h4 class="mb-3">Productos</h4>
+    <div class="table-responsive mb-4">
+        <table class="table table-bordered align-middle text-center">
+            <thead class="table-light">
+                <tr>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Precio unitario</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td>{{ item.producto.nombre }}</td>
+                    <td>{{ item.cantidad }}</td>
+                    <td>${{ item.precio_unitario }}</td>
+                    <td>${{ item.total|floatformat:0 }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <p class="fs-5"><strong>Total del pedido:</strong> <span class="text-success">${{ pedido.total|floatformat:0 }}</span></p>
+
+    {% if pedido.datos_compra %}
+        <h4 class="mt-5 mb-3">Datos de Envío</h4>
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <p><strong>Nombre:</strong> {{ pedido.datos_compra.nombre }}</p>
+                <p><strong>RUT:</strong> {{ pedido.datos_compra.rut }}</p>
+                <p><strong>Dirección:</strong> {{ pedido.datos_compra.direccion }}</p>
+                <p><strong>Teléfono:</strong> {{ pedido.datos_compra.telefono }}</p>
+                <p><strong>Tipo de entrega:</strong> 
+                    {% if pedido.datos_compra.envio %}
+                        <span class="badge bg-primary">Envío</span>
+                    {% else %}
+                        <span class="badge bg-warning text-dark">Retiro</span>
+                    {% endif %}
+                </p>
+            </div>
+        </div>
     {% endif %}
-    {% if pedido.orden_despacho.observaciones %}
-        <p><strong>Observaciones:</strong> {{ pedido.orden_despacho.observaciones }}</p>
-    {% endif %}
-{% else %}
-    <p><strong>Estado de despacho:</strong> No asignado</p>
-{% endif %}
 
-<h3>Productos</h3>
-<table>
-    <thead>
-        <tr>
-            <th>Producto</th>
-            <th>Cantidad</th>
-            <th>Precio unitario</th>
-            <th>Total</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for item in items %}
-        <tr>
-            <td>{{ item.producto.nombre }}</td>
-            <td>{{ item.cantidad }}</td>
-            <td>${{ item.precio_unitario }}</td>
-            <td>${{ item.total|floatformat:0 }}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
-
-<p><strong>Total del pedido:</strong> ${{ pedido.total|floatformat:0 }}</p>
-
-{% if pedido.datos_compra %}
-    <h3>Datos de Envío</h3>
-    <p><strong>Nombre:</strong> {{ pedido.datos_compra.nombre }}</p>
-    <p><strong>RUT:</strong> {{ pedido.datos_compra.rut }}</p>
-    <p><strong>Dirección:</strong> {{ pedido.datos_compra.direccion }}</p>
-    <p><strong>Teléfono:</strong> {{ pedido.datos_compra.telefono }}</p>
-    <p><strong>Tipo de entrega:</strong> {% if pedido.datos_compra.envio %}Envío{% else %}Retiro{% endif %}</p>
-{% endif %}
-
-<a href="{% url 'estado_pedidos' %}">← Volver a mis pedidos</a>
+    <a href="{% url 'estado_pedidos' %}" class="btn btn-link mt-4">
+        ← Volver a mis pedidos
+    </a>
+</div>
 {% endblock %}
