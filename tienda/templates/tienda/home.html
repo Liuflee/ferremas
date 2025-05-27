@@ -35,7 +35,7 @@
     <h2 class="seccion-titulo mb-4">Catálogo de Productos</h2>
 
 <div class="d-flex justify-content-between align-items-center mb-4">
-    {% if user.is_authenticated and user.is_staff %}
+    {% if False %}
     <a href="{% url 'producto_crear' %}" class="btn btn-success px-4">
         <i class="bi bi-plus-circle me-2"></i>Nuevo Producto
     </a>
@@ -63,7 +63,7 @@
                     <p class="card-text text-muted small">{{ producto.descripcion|truncatewords:12 }}</p>
                 </div>
             </a>
-            {% if user.is_authenticated and user.is_staff %}
+            {% if False %}
             <div class="card-footer bg-white border-0 d-flex justify-content-between">
                 <a href="{% url 'producto_editar' producto.pk %}" class="btn btn-outline-warning btn-sm">
                     <i class="bi bi-pencil-square me-1"></i>Editar
@@ -97,21 +97,28 @@
 
 
     <h2 class="seccion-titulo mt-5">Liquidación de Temporada</h2>
-        <div class="row g-3 align-items-stretch">
-            <!-- Columna izquierda -->
-            <div class="col-md-6">
-                <img src="{% static 'img/liquidacion_accesorios.jpg' %}" class="img-fluid w-100 h-100 promo-img" alt="...">
-            </div>
-            <!-- Columna derecha -->
-            <div class="col-md-6 d-flex flex-column gap-3">
-                <img src="{% static 'img/liquidacion_manuales.jpg' %}" class="img-fluid w-100 flex-fill promo-img" alt="...">
-                <img src="{% static 'img/liquidacion_electricas.jpg' %}" class="img-fluid w-100 flex-fill promo-img" alt="...">
-            </div>
+    <div class="row g-3 align-items-stretch">
+        <!-- Columna izquierda -->
+        <div class="col-md-6">
+            <a href="{% url 'catalogo' %}?categoria=accesorios&oferta_activa=true">
+                <img src="{% static 'img/liquidacion_accesorios.jpg' %}" class="img-fluid w-100 h-100 promo-img" alt="Accesorios en oferta">
+            </a>
         </div>
+        <!-- Columna derecha -->
+        <div class="col-md-6 d-flex flex-column gap-3">
+            <a href="{% url 'catalogo' %}?categoria=herramientas_manuales&oferta_activa=true">
+                <img src="{% static 'img/liquidacion_manuales.jpg' %}" class="img-fluid w-100 flex-fill promo-img" alt="Manuales en oferta">
+            </a>
+            <a href="{% url 'catalogo' %}?categoria=herramientas_electricas&oferta_activa=true">
+                <img src="{% static 'img/liquidacion_electricas.jpg' %}" class="img-fluid w-100 flex-fill promo-img" alt="Eléctricas en oferta">
+            </a>
+        </div>
+    </div>
+
 
     <h2 class="seccion-titulo mt-5">Productos en Oferta</h2>
         <div class="row">
-        {% for producto in productos_oferta %}
+        {% for producto in productos_en_oferta %}
         <div class="col-md-4 mb-4">
             <a href="{% url 'producto_detalle' producto.pk %}" class="card-link" style="text-decoration: none; color: inherit;">
             <div class="card h-100 border-danger">
@@ -125,28 +132,40 @@
                 <p class="card-text">${{ producto.precio_actual }}</p>
                 <p class="card-text">{{ producto.descripcion|truncatewords:10 }}</p>
                 <span class="badge bg-danger">Oferta</span>
-                <a href="{% url 'producto_editar' producto.pk %}" class="btn btn-sm btn-warning">Editar</a>
-                <a href="{% url 'producto_eliminar' producto.pk %}" class="btn btn-sm btn-danger">Eliminar</a>
                 </div>
             </div>
             </a>
         </div>
+        <!-- ver todos los productos en oferta-->
+        
+
+        
         {% empty %}
         <p>No hay productos en oferta actualmente.</p>
         {% endfor %}
+        
         </div>
-
+        <a href="{% url 'catalogo' %}?oferta_activa=true" class="btn btn-outline-dark mb-4">Ver todos los productos en oferta</a>
 
         <h2 class="seccion-titulo mt-5">Liquidación de Temporada</h2>
         <div class="row g-3 align-items-stretch">
             <!-- Columna izquierda -->
+            
             <div class="col-md-6">
+                <a href="{% url 'catalogo' %}?categoria=medicion&oferta_activa=true">
                 <img src="{% static 'img/liquidacion_medicion.jpg' %}" class="img-fluid w-100 h-100 promo-img" alt="...">
+                </a>
             </div>
+            
             <!-- Columna derecha -->
+            
             <div class="col-md-6 d-flex flex-column gap-3">
+                <a href="{% url 'catalogo' %}?categoria=inalambricas&oferta_activa=true">
                 <img src="{% static 'img/liquidacion_inalambricas.jpg' %}" class="img-fluid w-100 flex-fill promo-img" alt="...">
+                </a>
             </div>
+
+
         </div>
     </div>
 

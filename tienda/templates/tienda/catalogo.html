@@ -63,7 +63,9 @@
                                 <label for="ordenar" class="form-label">Ordenar por</label>
                                 <select name="order_by" class="form-select" id="ordenar">
                                     <option value="nombre" {% if order_by == 'nombre' %}selected{% endif %}>Nombre</option>
-                                    <option value="precio" {% if order_by == 'precio' %}selected{% endif %}>Precio</option>
+                                    <!-- Usar precio historico-->
+                                    <option value="precio_actual" {% if order_by == 'precio_actual' %}selected{% endif %}>Precio: Menor a mayor</option>
+                                    <option value="-precio_actual" {% if order_by == '-precio_actual' %}selected{% endif %}>Precio: Mayor a menor</option>
                                     <option value="stock" {% if order_by == 'stock' %}selected{% endif %}>Stock</option>
                                 </select>
                             </div>
@@ -75,12 +77,7 @@
         </div>
     </div>
 
-    
-    {% if user.is_authenticated and user.is_staff %}
-        <a href="{% url 'producto_crear' %}?next={{ request.get_full_path }}" class="btn btn-success px-4 mb-4">
-            <i class="bi bi-plus-circle me-2"></i>Nuevo Producto
-        </a>
-    {% endif %}
+        
 
     <!-- Mostrar productos -->
     <div class="row">
@@ -101,7 +98,7 @@
                         <p class="card-text text-muted small">{{ producto.descripcion|truncatewords:12 }}</p>
                     </div>
                 </a>
-                {% if user.is_authenticated and user.is_staff %}
+                {% if False %}
                     <div class="card-footer bg-white border-0 d-flex justify-content-between">
                         <a href="{% url 'producto_editar' producto.pk %}?next={{ request.get_full_path }}" class="btn btn-outline-warning btn-sm">
                             <i class="bi bi-pencil-square me-1"></i>Editar

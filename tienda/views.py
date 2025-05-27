@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.urls import reverse
 from .models import *
-from .forms import DatosCompraForm, ProductoForm, RegistroForm  
+from .forms import DatosCompraForm, OfertaForm, ProductoForm, RegistroForm  
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.views import LoginView
 from django.contrib import messages
@@ -14,16 +14,33 @@ from transbank.webpay.webpay_plus.transaction import Transaction
 from transbank.common.integration_type import IntegrationType
 from transbank.common.options import WebpayOptions
 
+def redirect_back_or_home(request):
+    next_url = request.META.get('HTTP_REFERER', 'home')
+    if not next_url or 'carrito' in next_url:
+        return redirect('home')
+    return redirect(next_url)
+
+
+
 def obtener_precio_actual(producto):
     ultimo_precio = producto.precio_actual 
     return ultimo_precio if ultimo_precio else 0
 
 def home(request):
-    productos = Producto.objects.all()[:6] 
-    return render(request, 'tienda/home.html', {'productos': productos})
+    productos = Producto.objects.filter(activo=True)[:6]
 
-def redirect_back_or_home(request):
-    return redirect(request.META.get('HTTP_REFERER', 'home'))
+    ahora = timezone.now()
+    productos_en_oferta = Producto.objects.filter(
+        activo=True,
+        ofertas__fecha_inicio__lte=ahora,
+        ofertas__fecha_fin__gte=ahora
+    ).distinct()[:6]
+
+    context = {
+        'productos': productos,
+        'productos_en_oferta': productos_en_oferta,
+    }
+    return render(request, 'tienda/home.html', context)
 
 @login_required
 @user_passes_test(lambda u: u.is_staff)
@@ -88,7 +105,8 @@ def producto_eliminar(request, pk):
     next_url = request.GET.get('next', 'home') 
 
     if request.method == 'POST':
-        producto.delete()
+        producto.activo = False
+        producto.save()
         return redirect(next_url) 
 
     return render(request, 'tienda/producto_confirmar_eliminar.html', {'producto': producto, 'next': next_url})
@@ -111,6 +129,7 @@ def registro(request):
     return render(request, 'tienda/registro.html', {'form': form})
 
 
+
 class CustomLoginView(LoginView):
     template_name = 'tienda/login.html'
     authentication_form = CustomAuthenticationForm
@@ -120,26 +139,51 @@ class CustomLoginView(LoginView):
         return super().form_invalid(form)
 
     def get_success_url(self):
-        return reverse('home')  
+        user = self.request.user
+
+        if user.is_superuser:
+            return reverse('panel_productos')  # Redirige a la vista del administrador
+        elif user.groups.filter(name='Vendedor').exists():
+            return reverse('bodega')  # Vista principal del vendedor
+        elif user.groups.filter(name='Bodeguero').exists():
+            return reverse('pedidos_para_despacho')  # Vista del bodeguero
+        elif user.groups.filter(name='Contador').exists():
+            return reverse('vista_contador')  # Vista del contador
+        else:
+            return reverse('home')  # Usuario normal
     
 def logout_view(request):
     logout(request)
     return redirect('home')
 
-
 def catalogo(request):
-    productos = Producto.objects.all()
+    productos = Producto.objects.filter(activo=True)
 
-    categoria_filter = request.GET.get('categoria')
+    categoria_filter = request.GET.getlist('categoria')
     if categoria_filter:
-        productos = productos.filter(categoria=categoria_filter)
+        productos = productos.filter(categoria__in=categoria_filter)
+
+    # Filtro por productos con oferta activa
+    oferta_activa = request.GET.get('oferta_activa')
+    if oferta_activa == 'true':
+        ahora = timezone.now()
+        productos = productos.filter(
+            ofertas__fecha_inicio__lte=ahora,
+            ofertas__fecha_fin__gte=ahora
+        ).distinct()
+
 
     search_query = request.GET.get('search')
     if search_query:
         productos = productos.filter(nombre__icontains=search_query) | productos.filter(descripcion__icontains=search_query)
 
     order_by = request.GET.get('order_by', 'nombre') 
-    productos = productos.order_by(order_by)
+
+    if order_by in ['precio_actual', '-precio_actual']:
+        productos = list(productos)  # convertir a lista para ordenar en Python
+        productos.sort(key=lambda p: p.precio_actual or 0, reverse=order_by.startswith('-'))
+    else:
+        productos = productos.order_by(order_by)
 
     categorias = Producto.CATEGORIAS
 
@@ -151,6 +195,7 @@ def catalogo(request):
         'order_by': order_by,
     })
 
+
 def agregar_al_carrito(request, producto_id):
     producto = get_object_or_404(Producto, pk=producto_id)
     carrito = request.session.get('carrito', {})
@@ -161,7 +206,7 @@ def agregar_al_carrito(request, producto_id):
 
     carrito[str(producto_id)] = carrito.get(str(producto_id), 0) + cantidad
     request.session['carrito'] = carrito
-    return redirect('carrito')
+    return redirect_back_or_home(request)
 
 def limpiar_carrito(request):
     if 'carrito' in request.session:
@@ -209,11 +254,14 @@ def carrito(request):
     if 'datos_compra_id' in request.session:
         datos_compra = get_object_or_404(DatosCompra, pk=request.session['datos_compra_id'])
 
+    carrito_total_items = sum(item['cantidad'] for item in carrito_items)
+
     return render(request, 'tienda/carrito.html', {
         'carrito_items': carrito_items,
         'carrito_total': carrito_total,
         'datos_compra': datos_compra,
-        'form': form
+        'form': form,
+        'carrito_total_items': carrito_total_items,
     })
 
 def iniciar_pago(request):
@@ -390,3 +438,17 @@ def pago_error(request):
 def error_404(request):
     return render(request, 'tienda/error_404.html', status=404)
 
+@login_required
+def estado_pedidos_usuario(request):
+    pedidos = Pedido.objects.filter(usuario=request.user).order_by('-fecha_creacion').select_related('orden_despacho')
+    return render(request, 'tienda/estado_pedidos.html', {'pedidos': pedidos})
+
+@login_required
+def detalle_pedido(request, pedido_id):
+    pedido = get_object_or_404(Pedido.objects.select_related('orden_despacho', 'datos_compra'), id=pedido_id, usuario=request.user)
+    items = pedido.items.select_related('producto')
+
+    for item in items:
+        item.total = item.cantidad * item.precio_unitario
+
+    return render(request, 'tienda/detalle_pedido.html', {'pedido': pedido, 'items': items})

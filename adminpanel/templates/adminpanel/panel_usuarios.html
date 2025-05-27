@@ -1,0 +1,36 @@
+<!-- templates/adminpanel/panel_usuarios.html -->
+{% extends 'base_admin.html' %}
+{% load static %}
+
+{% block content %}
+
+<h2>Crear nuevo usuario</h2>
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Crear usuario</button>
+</form>
+
+<h2>Lista de usuarios</h2>
+<ul>
+    {% for usuario in usuarios %}
+        <li>
+
+            {{ usuario.username }} -
+            {% if usuario.groups.all %}
+                {{ usuario.groups.first.name }}
+            {% else %}
+                Sin rol
+            {% endif %}
+            
+            <a href="{% url 'editar_usuario' usuario.id %}" class="btn btn-sm btn-outline-primary ms-2">Editar</a>
+            <form method="POST" action="{% url 'eliminar_usuario' usuario.id %}" class="d-inline">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-sm btn-outline-danger ms-1"
+                        onclick="return confirm('¿Seguro que quieres eliminar este usuario?')">Eliminar
+                </button>
+        </li>
+    {% endfor %}
+</ul>
+
+{% endblock %}

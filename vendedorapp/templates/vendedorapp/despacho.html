@@ -1,37 +1,61 @@
 {% extends 'base_vendedor.html' %}
-{% block title %}Despacho de Pedidos{% endblock %}
+{% block title %}Órdenes de Despacho{% endblock %}
 
 {% block content %}
 <div class="container">
-    <h1 class="mb-4 fw-bold"><i class="bi bi-truck me-2"></i>Pedidos para despacho</h1>
-
-    {% if pedidos %}
+    <h2 class="my-4">Órdenes de Despacho</h2>
+    
+    {% if ordenes %}
     <div class="table-responsive">
-        <table class="table table-bordered align-middle">
-            <thead class="table-dark text-center">
+        <table class="table table-striped align-middle">
+            <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Usuario</th>
-                    <th>Fecha</th>
-                    <th>Total</th>
+                    <th>Fecha de Creación</th>
+                    <th>Observaciones</th>
                     <th>Estado</th>
-                    <th>Items</th>
+                    <th>Pedido</th>
+                    <th>Productos</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
-                {% for pedido in pedidos %}
+                {% for orden in ordenes %}
                 <tr>
-                    <td class="text-center">#{{ pedido.id }}</td>
-                    <td class="text-center">{{ pedido.usuario.username|default:"Anónimo" }}</td>
-                    <td class="text-center">{{ pedido.fecha_creacion|date:"d/m/Y H:i" }}</td>
-                    <td class="text-end">${{ pedido.total }}</td>
-                    <td class="text-center">{{ pedido.get_estado_display }}</td>
+                    <td>{{ orden.id }}</td>
+                    <td>{{ orden.fecha_creacion }}</td>
+                    <td>{{ orden.observaciones }}</td>
                     <td>
-                        <ul class="mb-0">
-                            {% for item in pedido.items.all %}
-                                <li>{{ item.cantidad }} x {{ item.producto.nombre }} @ ${{ item.precio_unitario }}</li>
+                        {% if orden.estado == 'entregado' %}
+                            <span class="badge bg-secondary">Entregado</span>
+                        {% elif orden.estado == 'listo' %}
+                            <span class="badge bg-success">Listo para entregar</span>
+                        {% elif orden.estado == 'enviado' %}
+                            <span class="badge bg-primary">Enviado</span>
+                        {% else %}
+                            <span class="badge bg-warning text-dark">Pendiente</span>
+                        {% endif %}
+                    </td>
+                    <td>#{{ orden.pedido.id }}</td>
+                    <td>
+                        <ul class="list-unstyled mb-0">
+                            {% for item in orden.pedido.items.all %}
+                            <li>{{ item.producto.nombre }} - {{ item.cantidad }} un.</li>
+                            {% empty %}
+                            <li class="text-muted">Sin productos</li>
                             {% endfor %}
                         </ul>
+                    </td>
+
+                    <td>
+                        {% if orden.estado == 'pendiente' %}
+                            <a href="{% url 'aprobar_orden' orden.id %}" class="btn btn-sm btn-primary mb-1">Marcar como lista</a>
+                        {% elif orden.estado == 'listo' %}
+                            <a href="{% url 'marcar_enviado' orden.id %}" class="btn btn-sm btn-success mb-1">Marcar como enviado</a>
+                        {% elif orden.estado == 'enviado' %}
+                            <em class="text-muted">Ya enviada</em>
+                        {% endif %}
+
                     </td>
                 </tr>
                 {% endfor %}
@@ -39,7 +63,7 @@
         </table>
     </div>
     {% else %}
-        <div class="alert alert-info">No hay pedidos pendientes para despacho.</div>
+    <div class="alert alert-info">No hay órdenes de despacho registradas.</div>
     {% endif %}
 </div>
 {% endblock %}

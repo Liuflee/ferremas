@@ -57,6 +57,20 @@
 
     <div class="admin-wrapper">
         <nav class="sidebar">
+            <div>
+                <!-- productos -->
+                <a href="{% url 'panel_productos' %}" class="nav-link {% if request.resolver_match.url_name == 'productos' %}active{% endif %}">
+                    <i class="bi bi-box-seam"></i> Productos
+                </a>
+                <!-- ofertas -->
+                <a href="{% url 'panel_ofertas' %}" class="nav-link {% if request.resolver_match.url_name == 'ofertas' %}active{% endif %}">
+                    <i class="bi bi-tags"></i> Ofertas
+                </a>
+                <!-- usuarios -->
+                <a href="{% url 'panel_usuarios' %}" class="nav-link {% if request.resolver_match.url_name == 'usuarios' %}active{% endif %}">
+                    <i class="bi bi-people"></i> Usuarios
+                </a>
+            </div>
   
         </nav>
 

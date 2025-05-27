@@ -1,0 +1,10 @@
+{% extends 'base_admin.html' %}
+{% block content %}
+<h2>Editar Producto: {{ producto.nombre }}</h2>
+<form method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit" class="btn btn-success">Guardar cambios</button>
+  <a href="{% url 'panel_productos' %}" class="btn btn-secondary">Cancelar</a>
+</form>
+{% endblock %}

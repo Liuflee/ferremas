@@ -1,9 +1,19 @@
 from django import forms
-from .models import DatosCompra, Producto
+from .models import DatosCompra, Oferta, Producto
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 
-
+class OfertaForm(forms.ModelForm):
+    class Meta:
+        model = Oferta
+        fields = ['producto', 'precio_oferta', 'fecha_inicio', 'fecha_fin']
+        widgets = {
+            'producto': forms.Select(attrs={'class': 'form-control form-control-sm'}),
+            'precio_oferta': forms.NumberInput(attrs={'class': 'form-control form-control-sm'}),
+            'fecha_inicio': forms.DateTimeInput(attrs={'type': 'datetime-local', 'class': 'form-control form-control-sm'}),
+            'fecha_fin': forms.DateTimeInput(attrs={'type': 'datetime-local', 'class': 'form-control form-control-sm'}),
+        }
+        
 class ProductoForm(forms.ModelForm):
     precio = forms.DecimalField(
         max_digits=10, decimal_places=2,
@@ -111,3 +121,57 @@ class DatosCompraForm(forms.ModelForm):
             'codigo_postal': forms.TextInput(attrs={'class': 'form-control'}),
             'envio': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
         }
+
+class CustomUserCreationForm(forms.ModelForm):
+    password1 = forms.CharField(label="Contraseña", widget=forms.PasswordInput, required=False)
+    password2 = forms.CharField(label="Confirmar Contraseña", widget=forms.PasswordInput, required=False)
+    group = forms.ModelChoiceField(queryset=Group.objects.all(), required=True, label="Rol")
+
+    class Meta:
+        model = User
+        fields = ['username', 'first_name', 'last_name', 'email']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+    def clean_username(self):
+        username = self.cleaned_data['username']
+        qs = User.objects.filter(username=username)
+        if self.instance and self.instance.pk:
+            qs = qs.exclude(pk=self.instance.pk)
+        if qs.exists():
+            raise forms.ValidationError("Ya existe un usuario con ese nombre.")
+        return username
+
+    def clean(self):
+        cleaned_data = super().clean()
+        password1 = cleaned_data.get("password1")
+        password2 = cleaned_data.get("password2")
+
+        # Si el usuario es nuevo, la contraseña es obligatoria
+        if not self.instance or not self.instance.pk:
+            if not password1:
+                self.add_error('password1', "La contraseña es obligatoria para nuevos usuarios.")
+            if password1 != password2:
+                self.add_error('password2', "Las contraseñas no coinciden.")
+        else:
+            # Si está editando, solo validar si se ingresa alguna contraseña
+            if password1 or password2:
+                if password1 != password2:
+                    self.add_error('password2', "Las contraseñas no coinciden.")
+
+        return cleaned_data
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        password = self.cleaned_data.get('password1')
+        if password:
+            user.set_password(password)  # Encripta y guarda la contraseña
+
+        if commit:
+            user.save()
+
+            group = self.cleaned_data['group']
+            user.groups.clear()
+            user.groups.add(group)
+        return user

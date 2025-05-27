@@ -21,6 +21,8 @@ urlpatterns = [
     path('pagar/', views.iniciar_pago, name='iniciar_pago'),
     path('webpay/respuesta/', views.webpay_respuesta, name='webpay_respuesta'),
     path('carrito/eliminar/<int:producto_id>/', views.eliminar_del_carrito, name='eliminar_del_carrito'),
+    path('mis_pedidos/', views.estado_pedidos_usuario, name='estado_pedidos'),
+    path('mis_pedidos/<int:pedido_id>/', views.detalle_pedido, name='detalle_pedido'),
 
 
 ]

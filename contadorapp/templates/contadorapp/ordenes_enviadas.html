@@ -1,0 +1,52 @@
+{% extends 'base_contador.html' %}
+{% block title %}Órdenes Enviadas{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="my-4">Órdenes Enviadas</h2>
+
+    {% if ordenes %}
+    <div class="table-responsive">
+        <table class="table table-striped align-middle">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Fecha de Creación</th>
+                    <th>Observaciones</th>
+                    <th>Estado</th>
+                    <th>Pedido</th>
+                    <th>Productos</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for orden in ordenes %}
+                <tr>
+                    <td>{{ orden.id }}</td>
+                    <td>{{ orden.fecha_creacion|date:"d-m-Y H:i" }}</td>
+                    <td>{{ orden.observaciones|default:"-" }}</td>
+                    <td><span class="badge bg-primary">Enviado</span></td>
+                    <td>#{{ orden.pedido.id }}</td>
+                    <td>
+                        <ul class="list-unstyled mb-0">
+                            {% for item in orden.pedido.items.all %}
+                            <li>{{ item.producto.nombre }} - {{ item.cantidad }} un.</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                    <td>
+                        <form method="post" action="{% url 'marcar_entregado' orden.id %}">
+                            {% csrf_token %}
+                            <button class="btn btn-sm btn-success">Marcar como Entregado</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="alert alert-info">No hay órdenes enviadas pendientes de entrega.</div>
+    {% endif %}
+</div>
+{% endblock %}
