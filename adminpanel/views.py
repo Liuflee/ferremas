@@ -10,7 +10,7 @@ from django.contrib.auth.models import User
 @login_required
 @user_passes_test(lambda u: u.is_staff)
 def panel_productos(request):
-    productos = Producto.objects.all().order_by('nombre')
+    productos = Producto.objects.all().filter(activo=True).order_by('nombre')
 
     if request.method == 'POST':
         form = ProductoForm(request.POST, request.FILES)
@@ -65,7 +65,8 @@ def editar_producto(request, producto_id):
 @user_passes_test(lambda u: u.is_staff)
 def eliminar_producto(request, producto_id):
     producto = get_object_or_404(Producto, id=producto_id)
-    producto.delete()
+    producto.activo = False 
+    producto.save()
     messages.success(request, "Producto eliminado correctamente.")
     return redirect('panel_productos')
 

@@ -452,3 +452,8 @@ def detalle_pedido(request, pedido_id):
         item.total = item.cantidad * item.precio_unitario
 
     return render(request, 'tienda/detalle_pedido.html', {'pedido': pedido, 'items': items})
+
+
+def debug_descuento(request):
+    p = Producto.objects.first()
+    return HttpResponse(f"{p.nombre} - Precio original: {p.precio_original}, Precio actual: {p.precio_actual}, Descuento: {p.porcentaje_descuento}%")

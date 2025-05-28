@@ -43,7 +43,6 @@ class Producto(models.Model):
         precio = self.precios.first()
         return round((precio.valor),0) if precio else None
     
-
     @property
     def porcentaje_descuento(self):
         if self.precio_original and self.precio_original > self.precio_actual:
