@@ -201,9 +201,6 @@ section, .row {
     transition: transform 0.3s ease;
 }
 
-.card:hover .product-img {
-    transform: scale(1.05);
-}
 
 
 /* Estilos de la sección de detalle */
