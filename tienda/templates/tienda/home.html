@@ -74,7 +74,7 @@
                     </button>   
                 </form>
                 <a href="{% url 'producto_detalle' producto.pk %}" class="btn btn-outline-secondary btn-sm rounded-pill shadow-sm d-flex align-items-center gap-1">
-                    <i class="bi bi-info-circle"></i> Ver detalle
+                    <i class="bi bi-info-circle"></i> Ver más
                 </a>
             </div>
 
@@ -111,12 +111,17 @@
 
 
     <h2 class="seccion-titulo mt-5">Productos en Oferta</h2>
-        <div class="row">
+    <div class="row">
         {% for producto in productos_en_oferta %}
         <div class="col-md-4 mb-4">
-            <div class="card h-100 border-danger shadow-sm">
-                <a href="{% url 'producto_detalle' producto.pk %}" class="card-link" style="text-decoration: none; color: inherit;">
-                    
+            <div class="card h-100 border-danger shadow-sm position-relative">
+                <!-- Etiqueta Oferta -->
+                <span class="badge bg-danger position-absolute top-0 end-0 m-2 px-3 py-2 fs-6 shadow-sm">
+                    -{{ producto.porcentaje_descuento }}%
+                </span>
+
+                <a href="{% url 'producto_detalle' producto.pk %}" class="card-link text-decoration-none text-dark">
+                    <!-- Imagen -->
                     <div class="product-image-wrapper">
                         {% if producto.imagen %}
                         <img src="{{ producto.imagen.url }}" class="product-img" alt="{{ producto.nombre }}">
@@ -125,14 +130,18 @@
                         {% endif %}
                     </div>
 
-
+                    <!-- Contenido -->
                     <div class="card-body">
-                        <h5 class="card-title text-danger">{{ producto.nombre }}</h5>
-                        <p class="card-text text-success">${{ producto.precio_actual }}</p>
-                        <p class="card-text text-muted small">{{ producto.descripcion|truncatewords:10 }}</p>
-                        <span class="badge bg-danger">Oferta</span>
+                        <h5 class="card-title text-danger fw-bold">{{ producto.nombre }}</h5>
+                        <p class="card-text mb-1">
+                            <span class="text-muted text-decoration-line-through">${{ producto.precio_original }}</span><br>
+                            <span class="text-success fs-5 fw-semibold">${{ producto.precio_actual }}</span>
+                        </p>
+                        <p class="card-text text-muted small">{{ producto.descripcion|truncatewords:12 }}</p>
                     </div>
                 </a>
+
+                <!-- Botones -->
                 <div class="card-footer bg-white border-0 d-flex justify-content-between">
                     <form method="post" action="{% url 'agregar_al_carrito' producto.pk %}">
                         {% csrf_token %}
@@ -146,16 +155,12 @@
                 </div>
             </div>
         </div>
-
-        <!-- ver todos los productos en oferta-->
-        
-
-        
         {% empty %}
-        <p>No hay productos en oferta actualmente.</p>
+        <p class="text-muted">No hay productos en oferta actualmente.</p>
         {% endfor %}
-        
-        </div>
+    </div>
+
+
         <a href="{% url 'catalogo' %}?oferta_activa=true" class="btn btn-outline-dark mb-4">Ver todos los productos en oferta</a>
 
         <h2 class="seccion-titulo mt-5">Liquidación de Temporada</h2>

@@ -42,6 +42,14 @@ class Producto(models.Model):
     def precio_original(self):
         precio = self.precios.first()
         return round((precio.valor),0) if precio else None
+    
+
+    @property
+    def porcentaje_descuento(self):
+        if self.precio_original and self.precio_original > self.precio_actual:
+            return int((self.precio_original - self.precio_actual) / self.precio_original * 100)
+        return 0
+
 
 class Oferta(models.Model):
     producto = models.ForeignKey(Producto, on_delete=models.CASCADE, related_name='ofertas')
