@@ -117,7 +117,7 @@
             <div class="card h-100 border-danger shadow-sm position-relative">
                 <!-- Etiqueta Oferta -->
                 <span class="badge bg-danger position-absolute top-0 end-0 m-2 px-3 py-2 fs-6 shadow-sm">
-                    <i class="bi bi-tag-fill me-1"></i> Oferta
+                    -{{ producto.porcentaje_descuento }}%
                 </span>
 
                 <a href="{% url 'producto_detalle' producto.pk %}" class="card-link text-decoration-none text-dark">

@@ -293,3 +293,35 @@ form .form-control-sm {
 .card h5 i {
     vertical-align: -1px;
 }
+
+
+.product-image-wrapper {
+    height: 280px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    background-color: #f8f9fa;
+}
+
+.product-img {
+    height: 80%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+    z-index: 1;
+}
+
+.card:hover .product-img {
+    transform: scale(1.05);
+}
+
+.badge-oferta {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    z-index: 2;
+    font-size: 0.85rem;
+    padding: 6px 10px;
+    border-radius: 12px;
+}
