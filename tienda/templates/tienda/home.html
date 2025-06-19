@@ -126,10 +126,10 @@
         <div class="col-md-4 mb-4">
             <div class="card h-100 border-danger shadow-sm position-relative">
                 <!-- Etiqueta Oferta -->
-                <span class="badge bg-danger position-absolute top-0 end-0 m-2 px-3 py-2 fs-6 shadow-sm">
+                <span class="badge bg-danger badge-oferta">
                     -{{ producto.porcentaje_descuento }}%
                 </span>
-
+                
                 <a href="{% url 'producto_detalle' producto.pk %}" class="card-link text-decoration-none text-dark">
                     <!-- Imagen -->
                     <div class="product-image-wrapper">
