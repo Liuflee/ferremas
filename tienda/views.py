@@ -130,34 +130,35 @@ def registro(request):
 
 
 
+
 class CustomLoginView(LoginView):
     template_name = 'tienda/login.html'
     authentication_form = CustomAuthenticationForm
 
     def form_invalid(self, form):
         messages.error(self.request, 'Credenciales inválidas. Inténtelo de nuevo.')
-        return super().form_invalid(form)
+        return redirect('login')  # redirige a la misma vista, pero limpia errores
 
     def get_success_url(self):
         user = self.request.user
 
         if user.is_superuser:
-            return reverse('panel_productos')  # Redirige a la vista del administrador
+            return reverse('panel_productos')
         elif user.groups.filter(name='Vendedor').exists():
-            return reverse('productos_bodega')  # Vista principal del vendedor
+            return reverse('productos_bodega')
         elif user.groups.filter(name='Bodeguero').exists():
-            return reverse('pedidos_para_despacho')  # Vista del bodeguero
+            return reverse('pedidos_para_despacho')
         elif user.groups.filter(name='Contador').exists():
-            return reverse('vista_contador')  # Vista del contador
+            return reverse('vista_contador')
         else:
-            return reverse('home')  # Usuario normal
+            return reverse('home')
     
 def logout_view(request):
     logout(request)
     return redirect('home')
 
 def catalogo(request):
-    productos = Producto.objects.filter(activo=True)
+    productos = Producto.objects.filter(activo=True).filter(stock__gt=0)
 
     categoria_filter = request.GET.getlist('categoria')
     if categoria_filter:

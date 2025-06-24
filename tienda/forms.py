@@ -4,6 +4,12 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User, Group
 
 class OfertaForm(forms.ModelForm):
+    def clean_precio_oferta(self):
+        precio = self.cleaned_data['precio_oferta']
+        if precio <= 0:
+            raise forms.ValidationError("El precio de la oferta debe ser mayor a cero.")
+        return precio
+    
     class Meta:
         model = Oferta
         fields = ['producto', 'precio_oferta', 'fecha_inicio', 'fecha_fin']
@@ -20,6 +26,18 @@ class ProductoForm(forms.ModelForm):
         widget=forms.NumberInput(attrs={'class': 'form-control form-control-sm', 'style': 'max-width: 300px;'})
     )
 
+    def clean_stock(self):
+        stock = self.cleaned_data['stock']
+        if stock < 0:
+            raise forms.ValidationError("El stock no puede ser negativo.")
+        return stock
+    
+    def clean_precio(self):
+        precio = self.cleaned_data['precio']
+        if precio <= 0:
+            raise forms.ValidationError("El precio debe ser mayor a cero.")
+        return precio
+    
     class Meta:
         model = Producto
         fields = ['nombre', 'descripcion', 'categoria', 'stock', 'imagen']  # NO incluir 'precio' aquí
