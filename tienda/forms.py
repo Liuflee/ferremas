@@ -99,7 +99,10 @@ class RegistroForm(UserCreationForm):
     def clean_email(self):
         email = self.cleaned_data.get('email')
         if email:
-            email = email.lower() 
+            email = email.lower()
+            # Validar que no exista otro usuario con el mismo email
+            if User.objects.filter(email=email).exists():
+                raise forms.ValidationError("Este email ya está registrado.")
         return email
 
     def clean(self):
@@ -126,9 +129,23 @@ class RegistroForm(UserCreationForm):
         if commit:
             user.save()
         return user
-    
+
 
 class DatosCompraForm(forms.ModelForm):
+    OPCIONES_ENVIO = (
+        (True, 'Envío'),
+        (False, 'Retiro en tienda'),
+    )
+
+    envio = forms.TypedChoiceField(
+        choices=OPCIONES_ENVIO,
+        widget=forms.RadioSelect(attrs={'class': 'form-check-input'}),
+        coerce=lambda x: x == 'True',
+        label='Método de entrega',
+        required=True,
+        initial=True,
+    )
+
     class Meta:
         model = DatosCompra
         fields = ['nombre', 'rut', 'direccion', 'telefono', 'codigo_postal', 'envio']
@@ -138,7 +155,6 @@ class DatosCompraForm(forms.ModelForm):
             'direccion': forms.TextInput(attrs={'class': 'form-control'}),
             'telefono': forms.TextInput(attrs={'class': 'form-control'}),
             'codigo_postal': forms.TextInput(attrs={'class': 'form-control'}),
-            'envio': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
         }
 
 
