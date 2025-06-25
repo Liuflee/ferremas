@@ -2,8 +2,15 @@ from django import forms
 from .models import DatosCompra, Oferta, Producto
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User, Group
+import re
 
 class OfertaForm(forms.ModelForm):
+    def clean_precio_oferta(self):
+        precio = self.cleaned_data['precio_oferta']
+        if precio <= 0:
+            raise forms.ValidationError("El precio de la oferta debe ser mayor a cero.")
+        return precio
+    
     class Meta:
         model = Oferta
         fields = ['producto', 'precio_oferta', 'fecha_inicio', 'fecha_fin']
@@ -20,6 +27,18 @@ class ProductoForm(forms.ModelForm):
         widget=forms.NumberInput(attrs={'class': 'form-control form-control-sm', 'style': 'max-width: 300px;'})
     )
 
+    def clean_stock(self):
+        stock = self.cleaned_data['stock']
+        if stock < 0:
+            raise forms.ValidationError("El stock no puede ser negativo.")
+        return stock
+    
+    def clean_precio(self):
+        precio = self.cleaned_data['precio']
+        if precio <= 0:
+            raise forms.ValidationError("El precio debe ser mayor a cero.")
+        return precio
+    
     class Meta:
         model = Producto
         fields = ['nombre', 'descripcion', 'categoria', 'stock', 'imagen']  # NO incluir 'precio' aquí
@@ -80,7 +99,10 @@ class RegistroForm(UserCreationForm):
     def clean_email(self):
         email = self.cleaned_data.get('email')
         if email:
-            email = email.lower() 
+            email = email.lower()
+            # Validar que no exista otro usuario con el mismo email
+            if User.objects.filter(email=email).exists():
+                raise forms.ValidationError("Este email ya está registrado.")
         return email
 
     def clean(self):
@@ -107,9 +129,23 @@ class RegistroForm(UserCreationForm):
         if commit:
             user.save()
         return user
-    
+
 
 class DatosCompraForm(forms.ModelForm):
+    OPCIONES_ENVIO = (
+        (True, 'Envío'),
+        (False, 'Retiro en tienda'),
+    )
+
+    envio = forms.TypedChoiceField(
+        choices=OPCIONES_ENVIO,
+        widget=forms.RadioSelect(attrs={'class': 'form-check-input'}),
+        coerce=lambda x: x == 'True',
+        label='Método de entrega',
+        required=True,
+        initial=True,
+    )
+
     class Meta:
         model = DatosCompra
         fields = ['nombre', 'rut', 'direccion', 'telefono', 'codigo_postal', 'envio']
@@ -119,8 +155,53 @@ class DatosCompraForm(forms.ModelForm):
             'direccion': forms.TextInput(attrs={'class': 'form-control'}),
             'telefono': forms.TextInput(attrs={'class': 'form-control'}),
             'codigo_postal': forms.TextInput(attrs={'class': 'form-control'}),
-            'envio': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
         }
+
+
+    def clean_rut(self):
+        rut = self.cleaned_data.get('rut')
+        rut = rut.upper().replace('.', '').replace('-', '')
+        if not re.match(r'^\d{7,8}[0-9K]$', rut):
+            raise forms.ValidationError('RUT inválido. Debe tener el formato correcto (Ej: 12345678K).')
+        if not self.validar_rut(rut):
+            raise forms.ValidationError('RUT inválido.')
+        return rut
+
+    def validar_rut(self, rut):
+        cuerpo = rut[:-1]
+        dv = rut[-1].upper()
+
+        suma = 0
+        multiplo = 2
+
+        for c in reversed(cuerpo):
+            suma += int(c) * multiplo
+            multiplo += 1
+            if multiplo > 7:
+                multiplo = 2
+
+        resto = suma % 11
+        dv_esperado = 'K' if resto == 1 else '0' if resto == 0 else str(11 - resto)
+
+        return dv == dv_esperado
+
+    def clean_direccion(self):
+        direccion = self.cleaned_data.get('direccion')
+        if len(direccion.strip()) < 5:
+            raise forms.ValidationError('La dirección debe tener al menos 5 caracteres.')
+        return direccion
+
+    def clean_telefono(self):
+        telefono = self.cleaned_data.get('telefono')
+        if not re.match(r'^\+?56\d{9}$', telefono):
+            raise forms.ValidationError('Teléfono inválido. Debe tener formato chileno, ejemplo: +56912345678.')
+        return telefono
+
+    def clean_codigo_postal(self):
+        codigo_postal = self.cleaned_data.get('codigo_postal')
+        if not re.match(r'^\d{7}$', codigo_postal):
+            raise forms.ValidationError('El código postal debe tener 7 dígitos.')
+        return codigo_postal
 
 class MotivoRechazoForm(forms.Form):
     motivo = forms.CharField(

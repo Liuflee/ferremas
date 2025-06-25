@@ -20,13 +20,24 @@
                             <span class="badge bg-info">{{ pedido.get_estado_display }}</span>
                         </p>
                         <p class="card-text mb-3">
-                            <strong>Estado de despacho:</strong>
-                            {% if pedido.orden_despacho %}
-                                <span class="badge bg-secondary">{{ pedido.orden_despacho.get_estado_display }}</span>
+                            <strong>Estado de entrega:</strong>
+                            {% if pedido.datos_compra and not pedido.datos_compra.envio %}
+                                {% if pedido.estado == "en_tienda" %}
+                                <span class="badge bg-warning text-dark">Listo para retirar</span>
+                            {% elif pedido.estado == "entregado" %}
+                                <span class="badge bg-secondary text-dark">Entregado</span>
                             {% else %}
-                                <span class="text-muted fst-italic">Aún no se ha generado la orden de despacho.</span>
+                                <span class="text-muted">Preparando</span>
+                            {% endif %}
+                            {% else %}
+                                {% if pedido.orden_despacho %}
+                                    <span class="badge bg-secondary">{{ pedido.orden_despacho.get_estado_display }}</span>
+                                {% else %}
+                                    <span class="text-muted fst-italic">Aún no se ha generado la orden de despacho.</span>
+                                {% endif %}
                             {% endif %}
                         </p>
+
                         <a href="{% url 'detalle_pedido' pedido.id %}" class="btn btn-outline-primary btn-sm">
                             <i class="bi bi-eye-fill me-1"></i>Ver detalles
                         </a>

@@ -82,6 +82,7 @@ class Pedido(models.Model):
         ('rechazado', 'Rechazado'),
         ('en_preparacion', 'En preparación'),
         ('enviado', 'Enviado'),
+        ('en_tienda', 'En tienda'),
         ('entregado', 'Entregado'),
         ('finalizado', 'Finalizado'),
     ]
@@ -130,6 +131,7 @@ class OrdenDespacho(models.Model):
         ('listo', 'Listo para entregar'),
         ('enviado', 'Enviado'),
         ('entregado', 'Entregado'),
+        
     ], default='pendiente')
 
     def __str__(self):
