@@ -11,6 +11,18 @@
                 <span class="badge bg-info">{{ pedido.get_estado_display }}</span>
             </p>
 
+            {% if pedido.datos_compra and not pedido.datos_compra.envio %}
+            <p><strong>Estado de entrega:</strong> 
+                
+                {% if pedido.estado == "en_tienda" %}
+                    <span class="badge bg-warning text-dark">Listo para retirar</span>
+                {% elif pedido.estado == "entregado" %}
+                    <span class="badge bg-secondary text-dark">Entregado</span>
+                {% else %}
+                    <span class="text-muted">Preparando</span>
+                {% endif %}
+            </p>
+        {% else %}
             {% if pedido.orden_despacho %}
                 <p><strong>Estado de despacho:</strong> 
                     <span class="badge bg-secondary">{{ pedido.orden_despacho.get_estado_display }}</span>
@@ -26,6 +38,8 @@
                     <span class="text-muted fst-italic">No asignado</span>
                 </p>
             {% endif %}
+        {% endif %}
+
         </div>
     </div>
 

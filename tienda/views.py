@@ -266,9 +266,10 @@ def carrito(request):
     })
 
 def iniciar_pago(request):
+    carrito = request.session.get('carrito', {})
+
     if request.method == 'POST':
         form = DatosCompraForm(request.POST)
-        carrito = request.session.get('carrito', {})
 
         if not carrito:
             messages.error(request, "Tu carrito está vacío.")
@@ -286,28 +287,56 @@ def iniciar_pago(request):
                 precio_actual = obtener_precio_actual(producto)
                 carrito_total += precio_actual * cantidad
 
-            # crear transacción con Transbank
-            buy_order = str(uuid.uuid4())[:26]  
+            buy_order = str(uuid.uuid4())[:26]
             session_id = str(uuid.uuid4())
             amount = carrito_total
             return_url = request.build_absolute_uri(reverse('webpay_respuesta'))
 
             tx = Transaction(WebpayOptions(
-                commerce_code='597055555532',  # código de comercio de integración
-                api_key='579B532A7440BB0C9079DED94D31EA1615BACEB56610332264630D42D0A36B1C',  # valor por defecto de integración 
+                commerce_code='597055555532',
+                api_key='579B532A7440BB0C9079DED94D31EA1615BACEB56610332264630D42D0A36B1C',
                 integration_type=IntegrationType.TEST
             ))
 
-            response = tx.create(buy_order=buy_order, session_id=session_id, amount=amount, return_url=return_url)
+            response = tx.create(
+                buy_order=buy_order,
+                session_id=session_id,
+                amount=amount,
+                return_url=return_url
+            )
 
             request.session['webpay_token'] = response['token']
             request.session['webpay_order'] = buy_order
 
             return redirect(response['url'] + '?token_ws=' + response['token'])
-        else:
-            messages.error(request, "Revisa los datos ingresados.")
-    return redirect('carrito')
 
+        else:
+            carrito_items = []
+            carrito_total = 0
+            for producto_id, cantidad in carrito.items():
+                producto = get_object_or_404(Producto, pk=producto_id)
+                precio_actual = obtener_precio_actual(producto)
+                subtotal = precio_actual * cantidad
+                carrito_items.append({
+                    'producto': producto,
+                    'cantidad': cantidad,
+                    'subtotal': subtotal,
+                    'precio_actual': precio_actual,
+                })
+                carrito_total += subtotal
+
+            carrito_total_items = sum(item['cantidad'] for item in carrito_items)
+
+            messages.error(request, "Revisa los datos ingresados.")
+            return render(request, 'tienda/carrito.html', {
+                'form': form,
+                'carrito_items': carrito_items,
+                'carrito_total': carrito_total,
+                'carrito_total_items': carrito_total_items,
+                'datos_compra': None,
+            })
+
+    return redirect('carrito')
 @login_required
 def webpay_respuesta(request):
     token = request.GET.get("token_ws")

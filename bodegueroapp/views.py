@@ -55,12 +55,17 @@ def preparar_pedido(request, pedido_id):
         producto.stock -= item.cantidad
         producto.save()
 
-    # Cambiar estado del pedido
-    pedido.estado = 'en_preparacion'
+    # Cambiar estado según tipo de entrega
+    if pedido.datos_compra and not pedido.datos_compra.envio:
+        pedido.estado = 'en_tienda'  # Retiro en tienda
+    else:
+        pedido.estado = 'en_preparacion'  # Despacho a domicilio
+
     pedido.save()
 
     messages.success(request, f'Pedido #{pedido.id} preparado correctamente.')
     return redirect('pedidos_para_despacho')
+
 
 '''Generar orden de despacho, crea una orden de depacho para un pedido con estado "en_preparacion".
 La orden de despacho se asocia al pedido y cambia su estado a "enviado".'''
