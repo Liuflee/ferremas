@@ -1,0 +1,134 @@
+<testsuite name="login_y_catalogo.Gestión de acceso y productos en Ferremás" tests="10" errors="0" failures="0" skipped="0" time="0.0" timestamp="2025-10-17T01:19:58.892351" hostname="Anette"><testcase classname="login_y_catalogo.Gestión de acceso y productos en Ferremás" name="Inicio de sesión exitoso" status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+  Escenario: Inicio de sesión exitoso
+    Dado que soy un usuario administrador ... untested in 0.000s
+    Cuando ingreso mi correo "admin@ferremas.cl" y contraseña "admin" ... untested in 0.000s
+    Entonces debería ver el panel de administración ... untested in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="login_y_catalogo.Gestión de acceso y productos en Ferremás" name="Inicio de sesión con credenciales inválidas" status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+  Escenario: Inicio de sesión con credenciales inválidas
+    Dado que soy un usuario no registrado ... untested in 0.000s
+    Cuando ingreso credenciales incorrectas ... untested in 0.000s
+    Entonces debería ver un mensaje de error de autenticación ... untested in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="login_y_catalogo.Gestión de acceso y productos en Ferremás" name="Agregar nuevo producto al catálogo" status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @admin
+  Escenario: Agregar nuevo producto al catálogo
+    Dado que soy un administrador autenticado ... untested in 0.000s
+    Cuando creo un nuevo producto con los siguientes datos: ... untested in 0.000s
+      | nombre   | descripcion       | categoria    | stock | precio |
+      | Martillo | Martillo de acero | herramientas | 10    | 15000  |
+    Entonces el producto debería aparecer en el catálogo ... untested in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="login_y_catalogo.Gestión de acceso y productos en Ferremás" name="Modificar producto existente" status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @admin
+  Escenario: Modificar producto existente
+    Dado que soy un administrador autenticado ... untested in 0.000s
+    Y existe un producto en el catálogo ... untested in 0.000s
+    Cuando modifico los datos del producto: ... untested in 0.000s
+      | nombre   | descripcion      | categoria    | stock | precio |
+      | Martillo | Martillo premium | herramientas | 15    | 18000  |
+    Entonces los cambios deberían guardarse correctamente ... untested in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="login_y_catalogo.Gestión de acceso y productos en Ferremás" name="Eliminar producto del sistema" status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @admin
+  Escenario: Eliminar producto del sistema
+    Dado que soy un administrador autenticado ... untested in 0.000s
+    Y existe un producto en el catálogo ... untested in 0.000s
+    Cuando elimino el producto ... untested in 0.000s
+    Entonces no debería aparecer en el listado ... untested in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="login_y_catalogo.Gestión de acceso y productos en Ferremás" name="Buscar producto por nombre" status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+  Escenario: Buscar producto por nombre
+    Dado que soy un usuario cualquiera ... untested in 0.000s
+    Y existen productos en el catálogo ... untested in 0.000s
+    Cuando busco productos con el término "Martillo" ... untested in 0.000s
+    Entonces debería ver los productos que coinciden con la búsqueda ... untested in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="login_y_catalogo.Gestión de acceso y productos en Ferremás" name="Agregar productos al carrito" status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+  Escenario: Agregar productos al carrito
+    Dado que soy un cliente autenticado ... untested in 0.000s
+    Y existen productos en el catálogo ... untested in 0.000s
+    Cuando agrego "2" unidades del producto al carrito ... untested in 0.000s
+    Entonces el carrito debería mostrar los productos agregados ... untested in 0.000s
+    Y el total debería ser correcto ... untested in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="login_y_catalogo.Gestión de acceso y productos en Ferremás" name="Realizar compra completa" status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @compra
+  Escenario: Realizar compra completa
+    Dado que soy un cliente autenticado ... untested in 0.000s
+    Y tengo productos en el carrito ... untested in 0.000s
+    Cuando completo los datos de envío: ... untested in 0.000s
+      | nombre | rut       | direccion       | telefono     | codigo_postal |
+      | Juan   | 12345678k | Calle Falsa 123 | +56912345678 | 1234567       |
+    Y confirmo el pago ... untested in 0.000s
+    Entonces la compra debería registrarse exitosamente ... untested in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="login_y_catalogo.Gestión de acceso y productos en Ferremás" name="Visualizar historial de compras" status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+
+  @contador
+  Escenario: Visualizar historial de compras
+    Dado que soy un contador autenticado ... untested in 0.000s
+    Cuando accedo al historial de compras ... untested in 0.000s
+    Entonces debería ver todas las transacciones realizadas ... untested in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="login_y_catalogo.Gestión de acceso y productos en Ferremás" name="Validación de campos obligatorios en registro de productos" status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+  Escenario: Validación de campos obligatorios en registro de productos
+    Dado que soy un administrador autenticado ... untested in 0.000s
+    Cuando intento crear un producto sin campos obligatorios ... untested in 0.000s
+    Entonces debería ver mensajes de error indicando los campos requeridos ... untested in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase></testsuite>

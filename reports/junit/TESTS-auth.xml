@@ -1,0 +1,35 @@
+<testsuite name="auth.Autenticación" tests="2" errors="0" failures="0" skipped="0" time="5.26442" timestamp="2025-10-17T00:43:52.997370" hostname="Anette"><testcase classname="auth.Autenticación" name="Inicio de sesión exitoso" status="passed" time="3.28592"><system-out>
+<![CDATA[
+@scenario.begin
+  Scenario: Inicio de sesión exitoso
+    Given existe un servidor de pruebas ... passed in 0.000s
+    Given un usuario con rol "cliente" y credenciales válidas ... passed in 0.000s
+    When intento iniciar sesión con usuario y contraseña correctos ... passed in 3.279s
+    Then debería ver la página de inicio del usuario ... passed in 0.007s
+
+@scenario.end
+--------------------------------------------------------------------------------
+
+Captured stdout:
+Login intentado con: cliente@example.com
+URL después del login: http://localhost:8000/
+✓ Login exitoso, redirigido a: http://localhost:8000/
+
+]]>
+</system-out></testcase><testcase classname="auth.Autenticación" name="Inicio de sesión fallido" status="passed" time="1.9785"><system-out>
+<![CDATA[
+@scenario.begin
+  Scenario: Inicio de sesión fallido
+    Given existe un servidor de pruebas ... passed in 0.000s
+    Given no existe un usuario con esas credenciales ... passed in 0.001s
+    When intento iniciar sesión con credenciales incorrectas ... passed in 1.974s
+    Then debería ver un mensaje de error de autenticación ... passed in 0.003s
+
+@scenario.end
+--------------------------------------------------------------------------------
+
+Captured stdout:
+✓ Mensaje de error mostrado correctamente
+
+]]>
+</system-out></testcase></testsuite>

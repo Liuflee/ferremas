@@ -1,0 +1,11 @@
+{
+  "users": [
+    {"username": "admin", "password": "admin123", "role": "admin"},
+    {"username": "cliente", "password": "cliente123", "role": "cliente"},
+    {"username": "contador", "password": "contador123", "role": "contador"}
+  ],
+  "productos": [
+    {"nombre": "Taladro", "descripcion": "Taladro percutor", "precio": "15990", "categoria": "Herramientas", "stock": 5},
+    {"nombre": "Sierra", "descripcion": "Sierra circular", "precio": "8990", "categoria": "Herramientas", "stock": 3}
+  ]
+}

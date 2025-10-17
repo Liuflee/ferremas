@@ -1,4 +1,26 @@
-<testsuite name="usuarios.Gestión de Usuarios en Ferremás" tests="8" errors="0" failures="0" skipped="0" time="0.0" timestamp="2025-10-16T22:39:33.703672" hostname="Anette"><testcase classname="usuarios.Gestión de Usuarios en Ferremás" name="Acceder al panel de gestión de usuarios" status="untested" time="0"><system-out>
+<testsuite name="usuarios.Gestión de Usuarios en Ferremás" tests="8" errors="8" failures="0" skipped="0" time="0.0" timestamp="2025-10-17T01:46:07.846524" hostname="Anette"><testcase classname="usuarios.Gestión de Usuarios en Ferremás" name="Acceder al panel de gestión de usuarios" status="hook_error" time="0"><error type="OSError" message="HOOK-ERROR in before_scenario: OSError: [WinError 193] %1 no es una aplicación Win32 válida">
+<![CDATA[Traceback:
+  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\behave\runner.py", line 669, in run_hook
+    self.hooks[name](context, *args)
+  File "features\environment.py", line 35, in before_scenario
+    context.browser = webdriver.Chrome(service=service, options=chrome_options)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\chrome\webdriver.py", line 46, in __init__
+    super().__init__(
+  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\chromium\webdriver.py", line 60, in __init__
+    self.service.start()
+  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\common\service.py", line 105, in start
+    self._start_process(self._path)
+  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\common\service.py", line 216, in _start_process
+    self.process = subprocess.Popen(
+                   ^^^^^^^^^^^^^^^^^
+  File "C:\Python311\Lib\subprocess.py", line 1026, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "C:\Python311\Lib\subprocess.py", line 1538, in _execute_child
+    hp, ht, pid, tid = _winapi.CreateProcess(executable, args,
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+]]>
+</error><system-out>
 <![CDATA[
 @scenario.begin
   Escenario: Acceder al panel de gestión de usuarios
@@ -14,7 +36,29 @@
 @scenario.end
 --------------------------------------------------------------------------------
 ]]>
-</system-out></testcase><testcase classname="usuarios.Gestión de Usuarios en Ferremás" name="Crear un nuevo usuario con rol Bodeguero exitosamente" status="untested" time="0"><system-out>
+</system-out></testcase><testcase classname="usuarios.Gestión de Usuarios en Ferremás" name="Crear un nuevo usuario con rol Bodeguero exitosamente" status="hook_error" time="0"><error type="OSError" message="HOOK-ERROR in before_scenario: OSError: [WinError 193] %1 no es una aplicación Win32 válida">
+<![CDATA[Traceback:
+  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\behave\runner.py", line 669, in run_hook
+    self.hooks[name](context, *args)
+  File "features\environment.py", line 35, in before_scenario
+    context.browser = webdriver.Chrome(service=service, options=chrome_options)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\chrome\webdriver.py", line 46, in __init__
+    super().__init__(
+  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\chromium\webdriver.py", line 60, in __init__
+    self.service.start()
+  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\common\service.py", line 105, in start
+    self._start_process(self._path)
+  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\common\service.py", line 216, in _start_process
+    self.process = subprocess.Popen(
+                   ^^^^^^^^^^^^^^^^^
+  File "C:\Python311\Lib\subprocess.py", line 1026, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "C:\Python311\Lib\subprocess.py", line 1538, in _execute_child
+    hp, ht, pid, tid = _winapi.CreateProcess(executable, args,
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+]]>
+</error><system-out>
 <![CDATA[
 @scenario.begin
   Escenario: Crear un nuevo usuario con rol Bodeguero exitosamente
@@ -39,7 +83,29 @@
 @scenario.end
 --------------------------------------------------------------------------------
 ]]>
-</system-out></testcase><testcase classname="usuarios.Gestión de Usuarios en Ferremás" name="Intentar crear usuario con nombre de usuario duplicado" status="untested" time="0"><system-out>
+</system-out></testcase><testcase classname="usuarios.Gestión de Usuarios en Ferremás" name="Intentar crear usuario con nombre de usuario duplicado" status="hook_error" time="0"><error type="OSError" message="HOOK-ERROR in before_scenario: OSError: [WinError 193] %1 no es una aplicación Win32 válida">
+<![CDATA[Traceback:
+  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\behave\runner.py", line 669, in run_hook
+    self.hooks[name](context, *args)
+  File "features\environment.py", line 35, in before_scenario
+    context.browser = webdriver.Chrome(service=service, options=chrome_options)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\chrome\webdriver.py", line 46, in __init__
+    super().__init__(
+  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\chromium\webdriver.py", line 60, in __init__
+    self.service.start()
+  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\common\service.py", line 105, in start
+    self._start_process(self._path)
+  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\common\service.py", line 216, in _start_process
+    self.process = subprocess.Popen(
+                   ^^^^^^^^^^^^^^^^^
+  File "C:\Python311\Lib\subprocess.py", line 1026, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "C:\Python311\Lib\subprocess.py", line 1538, in _execute_child
+    hp, ht, pid, tid = _winapi.CreateProcess(executable, args,
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+]]>
+</error><system-out>
 <![CDATA[
 @scenario.begin
   Escenario: Intentar crear usuario con nombre de usuario duplicado
@@ -58,7 +124,29 @@
 @scenario.end
 --------------------------------------------------------------------------------
 ]]>
-</system-out></testcase><testcase classname="usuarios.Gestión de Usuarios en Ferremás" name="Eliminar un usuario del sistema con confirmación" status="untested" time="0"><system-out>
+</system-out></testcase><testcase classname="usuarios.Gestión de Usuarios en Ferremás" name="Eliminar un usuario del sistema con confirmación" status="hook_error" time="0"><error type="OSError" message="HOOK-ERROR in before_scenario: OSError: [WinError 193] %1 no es una aplicación Win32 válida">
+<![CDATA[Traceback:
+  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\behave\runner.py", line 669, in run_hook
+    self.hooks[name](context, *args)
+  File "features\environment.py", line 35, in before_scenario
+    context.browser = webdriver.Chrome(service=service, options=chrome_options)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\chrome\webdriver.py", line 46, in __init__
+    super().__init__(
+  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\chromium\webdriver.py", line 60, in __init__
+    self.service.start()
+  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\common\service.py", line 105, in start
+    self._start_process(self._path)
+  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\common\service.py", line 216, in _start_process
+    self.process = subprocess.Popen(
+                   ^^^^^^^^^^^^^^^^^
+  File "C:\Python311\Lib\subprocess.py", line 1026, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "C:\Python311\Lib\subprocess.py", line 1538, in _execute_child
+    hp, ht, pid, tid = _winapi.CreateProcess(executable, args,
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+]]>
+</error><system-out>
 <![CDATA[
 @scenario.begin
   Escenario: Eliminar un usuario del sistema con confirmación
@@ -77,7 +165,29 @@
 @scenario.end
 --------------------------------------------------------------------------------
 ]]>
-</system-out></testcase><testcase classname="usuarios.Gestión de Usuarios en Ferremás" name="Modificar información de usuario existente" status="untested" time="0"><system-out>
+</system-out></testcase><testcase classname="usuarios.Gestión de Usuarios en Ferremás" name="Modificar información de usuario existente" status="hook_error" time="0"><error type="OSError" message="HOOK-ERROR in before_scenario: OSError: [WinError 193] %1 no es una aplicación Win32 válida">
+<![CDATA[Traceback:
+  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\behave\runner.py", line 669, in run_hook
+    self.hooks[name](context, *args)
+  File "features\environment.py", line 35, in before_scenario
+    context.browser = webdriver.Chrome(service=service, options=chrome_options)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\chrome\webdriver.py", line 46, in __init__
+    super().__init__(
+  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\chromium\webdriver.py", line 60, in __init__
+    self.service.start()
+  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\common\service.py", line 105, in start
+    self._start_process(self._path)
+  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\common\service.py", line 216, in _start_process
+    self.process = subprocess.Popen(
+                   ^^^^^^^^^^^^^^^^^
+  File "C:\Python311\Lib\subprocess.py", line 1026, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "C:\Python311\Lib\subprocess.py", line 1538, in _execute_child
+    hp, ht, pid, tid = _winapi.CreateProcess(executable, args,
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+]]>
+</error><system-out>
 <![CDATA[
 @scenario.begin
   Escenario: Modificar información de usuario existente
@@ -98,7 +208,29 @@
 @scenario.end
 --------------------------------------------------------------------------------
 ]]>
-</system-out></testcase><testcase classname="usuarios.Gestión de Usuarios en Ferremás" name="Validar que las contraseñas coinciden al crear usuario" status="untested" time="0"><system-out>
+</system-out></testcase><testcase classname="usuarios.Gestión de Usuarios en Ferremás" name="Validar que las contraseñas coinciden al crear usuario" status="hook_error" time="0"><error type="OSError" message="HOOK-ERROR in before_scenario: OSError: [WinError 193] %1 no es una aplicación Win32 válida">
+<![CDATA[Traceback:
+  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\behave\runner.py", line 669, in run_hook
+    self.hooks[name](context, *args)
+  File "features\environment.py", line 35, in before_scenario
+    context.browser = webdriver.Chrome(service=service, options=chrome_options)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\chrome\webdriver.py", line 46, in __init__
+    super().__init__(
+  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\chromium\webdriver.py", line 60, in __init__
+    self.service.start()
+  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\common\service.py", line 105, in start
+    self._start_process(self._path)
+  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\common\service.py", line 216, in _start_process
+    self.process = subprocess.Popen(
+                   ^^^^^^^^^^^^^^^^^
+  File "C:\Python311\Lib\subprocess.py", line 1026, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "C:\Python311\Lib\subprocess.py", line 1538, in _execute_child
+    hp, ht, pid, tid = _winapi.CreateProcess(executable, args,
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+]]>
+</error><system-out>
 <![CDATA[
 @scenario.begin
   Escenario: Validar que las contraseñas coinciden al crear usuario
@@ -123,7 +255,29 @@
 @scenario.end
 --------------------------------------------------------------------------------
 ]]>
-</system-out></testcase><testcase classname="usuarios.Gestión de Usuarios en Ferremás" name="Verificar que los roles del sistema están disponibles" status="untested" time="0"><system-out>
+</system-out></testcase><testcase classname="usuarios.Gestión de Usuarios en Ferremás" name="Verificar que los roles del sistema están disponibles" status="hook_error" time="0"><error type="OSError" message="HOOK-ERROR in before_scenario: OSError: [WinError 193] %1 no es una aplicación Win32 válida">
+<![CDATA[Traceback:
+  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\behave\runner.py", line 669, in run_hook
+    self.hooks[name](context, *args)
+  File "features\environment.py", line 35, in before_scenario
+    context.browser = webdriver.Chrome(service=service, options=chrome_options)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\chrome\webdriver.py", line 46, in __init__
+    super().__init__(
+  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\chromium\webdriver.py", line 60, in __init__
+    self.service.start()
+  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\common\service.py", line 105, in start
+    self._start_process(self._path)
+  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\common\service.py", line 216, in _start_process
+    self.process = subprocess.Popen(
+                   ^^^^^^^^^^^^^^^^^
+  File "C:\Python311\Lib\subprocess.py", line 1026, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "C:\Python311\Lib\subprocess.py", line 1538, in _execute_child
+    hp, ht, pid, tid = _winapi.CreateProcess(executable, args,
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+]]>
+</error><system-out>
 <![CDATA[
 @scenario.begin
   Escenario: Verificar que los roles del sistema están disponibles
@@ -141,7 +295,29 @@
 @scenario.end
 --------------------------------------------------------------------------------
 ]]>
-</system-out></testcase><testcase classname="usuarios.Gestión de Usuarios en Ferremás" name="Actualizar datos de usuario sin modificar contraseña" status="untested" time="0"><system-out>
+</system-out></testcase><testcase classname="usuarios.Gestión de Usuarios en Ferremás" name="Actualizar datos de usuario sin modificar contraseña" status="hook_error" time="0"><error type="OSError" message="HOOK-ERROR in before_scenario: OSError: [WinError 193] %1 no es una aplicación Win32 válida">
+<![CDATA[Traceback:
+  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\behave\runner.py", line 669, in run_hook
+    self.hooks[name](context, *args)
+  File "features\environment.py", line 35, in before_scenario
+    context.browser = webdriver.Chrome(service=service, options=chrome_options)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\chrome\webdriver.py", line 46, in __init__
+    super().__init__(
+  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\chromium\webdriver.py", line 60, in __init__
+    self.service.start()
+  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\common\service.py", line 105, in start
+    self._start_process(self._path)
+  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\common\service.py", line 216, in _start_process
+    self.process = subprocess.Popen(
+                   ^^^^^^^^^^^^^^^^^
+  File "C:\Python311\Lib\subprocess.py", line 1026, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "C:\Python311\Lib\subprocess.py", line 1538, in _execute_child
+    hp, ht, pid, tid = _winapi.CreateProcess(executable, args,
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+]]>
+</error><system-out>
 <![CDATA[
 @scenario.begin
   Escenario: Actualizar datos de usuario sin modificar contraseña

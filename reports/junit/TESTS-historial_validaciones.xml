@@ -1,0 +1,104 @@
+<testsuite name="historial_validaciones.Historial de compras y validaciones" tests="2" errors="1" failures="1" skipped="0" time="21.708164" timestamp="2025-10-17T00:44:29.117988" hostname="Anette"><testcase classname="historial_validaciones.Historial de compras y validaciones" name="Visualizar historial de compras" status="error" time="10.869834"><error type="TimeoutException" message="Message:">
+<![CDATA[
+Failing step: Given un usuario con rol "contador" autenticado ... error in 10.869s
+Location: features/historial_validaciones.feature:6
+Traceback (most recent call last):
+  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\behave\model.py", line 1909, in run
+    match.run(runner.context)
+  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\behave\matchers.py", line 104, in run
+    self.func(context, *args, **kwargs)
+  File "features\steps\steps_auth.py", line 178, in step_impl
+    btn = context.wait.until(
+          ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\support\wait.py", line 138, in until
+    raise TimeoutException(message, screen, stacktrace)
+selenium.common.exceptions.TimeoutException: Message: 
+
+
+Captured stdout:
+ Error autenticando usuario 'contador': Message:]]>
+</error><system-out>
+<![CDATA[
+@scenario.begin
+  Scenario: Visualizar historial de compras
+    Given existe un servidor de pruebas ... passed in 0.001s
+    Given un usuario con rol "contador" autenticado ... error in 10.869s
+    When navego a la sección de historial de compras ... skipped in 0.000s
+    Then debo ver las compras realizadas con detalles visibles ... skipped in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+
+Captured stdout:
+ Error autenticando usuario 'contador': Message: 
+
+
+]]>
+</system-out></testcase><testcase classname="historial_validaciones.Historial de compras y validaciones" name="Validación de campos obligatorios" status="failed" time="10.83833"><failure type="AssertionError" message="ERROR SUB-STEP: Given un administrador autenticado&#10;Substep info: Traceback (most recent call last):&#10;  File &quot;C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\behave\model.py&quot;, line 1909, in run&#10;    match.run(runner.context)&#10;  File &quot;C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\behave\matchers.py&quot;, line 104, in run&#10;    self.func(context, *args, **kwargs)&#10;  File &quot;features\steps\steps_productos.py&quot;, line 27, in step_impl&#10;    btn = context.wait.until(&#10;          ^^^^^^^^^^^^^^^^^^^&#10;  File &quot;C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\support\wait.py&quot;, line 138, in until&#10;    raise TimeoutException(message, screen, stacktrace)&#10;selenium.common.exceptions.TimeoutException: Message: &#10;&#10;&#10;Traceback (of failed substep):&#10;  File &quot;C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\behave\model.py&quot;, line 1909, in run&#10;    match.run(runner.context)&#10;  File &quot;C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\behave\matchers.py&quot;, line 104, in run&#10;    self.func(context, *args, **kwargs)&#10;  File &quot;features\steps\steps_productos.py&quot;, line 27, in step_impl&#10;    btn = context.wait.until(&#10;          ^^^^^^^^^^^^^^^^^^^&#10;  File &quot;C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\support\wait.py&quot;, line 138, in until&#10;    raise TimeoutException(message, screen, stacktrace)">
+<![CDATA[
+Failing step: Given estoy en el formulario de creación de producto ... failed in 10.838s
+Location: features/historial_validaciones.feature:11
+Assertion Failed: ERROR SUB-STEP: Given un administrador autenticado
+Substep info: Traceback (most recent call last):
+  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\behave\model.py", line 1909, in run
+    match.run(runner.context)
+  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\behave\matchers.py", line 104, in run
+    self.func(context, *args, **kwargs)
+  File "features\steps\steps_productos.py", line 27, in step_impl
+    btn = context.wait.until(
+          ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\support\wait.py", line 138, in until
+    raise TimeoutException(message, screen, stacktrace)
+selenium.common.exceptions.TimeoutException: Message: 
+
+
+Traceback (of failed substep):
+  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\behave\model.py", line 1909, in run
+    match.run(runner.context)
+  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\behave\matchers.py", line 104, in run
+    self.func(context, *args, **kwargs)
+  File "features\steps\steps_productos.py", line 27, in step_impl
+    btn = context.wait.until(
+          ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\support\wait.py", line 138, in until
+    raise TimeoutException(message, screen, stacktrace)
+
+Captured stdout:
+ Error en login de admin: Message: 
+
+  URL actual: http://localhost:8000/login/
+  Página contiene:
+  <html lang="es"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio de sesión</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&amp;display=swap" rel="stylesheet">
+    <!-- Bootstrap -]]>
+</failure><system-out>
+<![CDATA[
+@scenario.begin
+  Scenario: Validación de campos obligatorios
+    Given existe un servidor de pruebas ... passed in 0.000s
+    Given estoy en el formulario de creación de producto ... failed in 10.838s
+    When intento crear un producto omitiendo campos obligatorios ... skipped in 0.000s
+    Then el sistema debe mostrar errores de validación y no crear el producto ... skipped in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+
+Captured stdout:
+ Error en login de admin: Message: 
+
+  URL actual: http://localhost:8000/login/
+  Página contiene:
+  <html lang="es"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio de sesión</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&amp;display=swap" rel="stylesheet">
+    <!-- Bootstrap -
+
+]]>
+</system-out></testcase></testsuite>
