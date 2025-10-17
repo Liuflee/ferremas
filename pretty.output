@@ -5,22 +5,22 @@ Característica: Gestión de Usuarios en Ferremás # features/usuarios.feature:2
   Antecedentes:   # features/usuarios.feature:7
 
   Escenario: Acceder al panel de gestión de usuarios                                   # features/usuarios.feature:13
-    Dado que el sistema Ferremás está iniciado                                         # None
-    Y estoy en la página de login                                                      # None
-    Y me autentico como administrador con usuario "admin_test" y contraseña "admin123" # None
-    Cuando navego hacia el panel de administración principal                           # None
-    Y selecciono la opción de menú lateral "Usuarios"                                  # None
-    Entonces debo ver la página "Gestión de Usuarios"                                  # None
-    Y debo ver el botón "Crear usuario"                                                # None
-    Y debo ver la tabla de usuarios existentes                                         # None
+    Dado que el sistema Ferremás está iniciado                                         # features/steps/usuario_steps.py:78
+    Y estoy en la página de login                                                      # features/steps/usuario_steps.py:84
+    Y me autentico como administrador con usuario "admin_test" y contraseña "empanada" # features/steps/usuario_steps.py:93
+    Cuando navego hacia el panel de administración principal                           # features/steps/usuario_steps.py:188
+    Y selecciono la opción de menú lateral "Usuarios"                                  # features/steps/usuario_steps.py:194
+    Entonces debo ver la página "Gestión de Usuarios"                                  # features/steps/usuario_steps.py:569
+    Y debo ver el botón "Crear usuario"                                                # features/steps/usuario_steps.py:608
+    Y debo ver la tabla de usuarios existentes                                         # features/steps/usuario_steps.py:410
 
   Escenario: Crear un nuevo usuario con rol Bodeguero exitosamente                     # features/usuarios.feature:21
-    Dado que el sistema Ferremás está iniciado                                         # None
-    Y estoy en la página de login                                                      # None
-    Y me autentico como administrador con usuario "admin_test" y contraseña "admin123" # None
-    Dado que estoy en el panel de gestión de usuarios                                  # None
-    Cuando activo el área de formulario para crear usuario                             # None
-    Y relleno los siguientes datos para el nuevo usuario:                              # None
+    Dado que el sistema Ferremás está iniciado                                         # features/steps/usuario_steps.py:78
+    Y estoy en la página de login                                                      # features/steps/usuario_steps.py:84
+    Y me autentico como administrador con usuario "admin_test" y contraseña "empanada" # features/steps/usuario_steps.py:93
+    Dado que estoy en el panel de gestión de usuarios                                  # features/steps/usuario_steps.py:576
+    Cuando activo el área de formulario para crear usuario                             # features/steps/usuario_steps.py:211
+    Y relleno los siguientes datos para el nuevo usuario:                              # features/steps/usuario_steps.py:580
       | campo      | valor              |
       | username   | jperez             |
       | first_name | Juan               |
@@ -29,57 +29,108 @@ Característica: Gestión de Usuarios en Ferremás # features/usuarios.feature:2
       | password1  | Bodega2024!        |
       | password2  | Bodega2024!        |
       | group      | Bodeguero          |
-    Y presiono el botón general con texto "Crear usuario"                              # None
+    Y presiono el botón general con texto "Crear usuario"                              # features/steps/usuario_steps.py:234
     Y el usuario "jperez" debe aparecer en la lista de usuarios                        # None
     Y el usuario "jperez" debe tener el rol "Bodeguero"                                # None
 
   Escenario: Intentar crear usuario con nombre de usuario duplicado                    # features/usuarios.feature:38
-    Dado que el sistema Ferremás está iniciado                                         # None
-    Y estoy en la página de login                                                      # None
-    Y me autentico como administrador con usuario "admin_test" y contraseña "admin123" # None
-    Dado que existe un usuario con username "mtorres"                                  # None
-    Y estoy en el panel de gestión de usuarios                                         # None
-    Cuando activo el área de formulario para crear usuario                             # None
-    Y ingreso manualmente el username "mtorres" en el campo correspondiente            # None
-    Y completo todos los campos obligatorios con valores genéricos                     # None
-    Y presiono el botón general con texto "Crear usuario"                              # None
-    Entonces debo ver el mensaje de error "Ya existe un usuario con ese nombre"        # None
-    Y el formulario debe resaltar el campo "username" en rojo                          # None
+    Dado que el sistema Ferremás está iniciado                                         # features/steps/usuario_steps.py:78
+    Y estoy en la página de login                                                      # features/steps/usuario_steps.py:84
+    Y me autentico como administrador con usuario "admin_test" y contraseña "empanada" # features/steps/usuario_steps.py:93
+    Dado que existe un usuario con username "mtorres"                                  # features/steps/usuario_steps.py:584
+    Y estoy en el panel de gestión de usuarios                                         # features/steps/usuario_steps.py:115
+    Cuando activo el área de formulario para crear usuario                             # features/steps/usuario_steps.py:211
+    Y ingreso manualmente el username "mtorres" en el campo correspondiente            # features/steps/usuario_steps.py:256
+    Y completo todos los campos obligatorios con valores genéricos                     # features/steps/usuario_steps.py:264
+    Y presiono el botón general con texto "Crear usuario"                              # features/steps/usuario_steps.py:234
+    Entonces debo ver el mensaje de error "Ya existe un usuario con ese nombre"        # features/steps/usuario_steps.py:449
+    Y el formulario debe resaltar el campo "username" en rojo                          # features/steps/usuario_steps.py:465
+      Traceback (most recent call last):
+        File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\behave\model.py", line 1909, in run
+          match.run(runner.context)
+        File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\behave\matchers.py", line 104, in run
+          self.func(context, *args, **kwargs)
+        File "features\steps\usuario_steps.py", line 470, in step_campo_resaltado_error
+          assert "is-invalid" in clases or "error" in clases
+                                           ^^^^^^^^^^^^^^^^^
+      AssertionError
+
 
   Escenario: Eliminar un usuario del sistema con confirmación                                              # features/usuarios.feature:49
-    Dado que el sistema Ferremás está iniciado                                                             # None
-    Y estoy en la página de login                                                                          # None
-    Y me autentico como administrador con usuario "admin_test" y contraseña "admin123"                     # None
-    Dado que existe un usuario con nombre "María González" en el sistema                                   # None
-    Y estoy en el panel de gestión de usuarios                                                             # None
-    Cuando busco visualmente al usuario registrado "mgonzalez" en la tabla                                 # None
-    Y presiono el botón de eliminación del usuario actualmente registrado                                  # None
-    Entonces debo ver un diálogo de confirmación con el texto "¿Seguro que quieres eliminar este usuario?" # None
+    Dado que el sistema Ferremás está iniciado                                                             # features/steps/usuario_steps.py:78
+    Y estoy en la página de login                                                                          # features/steps/usuario_steps.py:84
+    Y me autentico como administrador con usuario "admin_test" y contraseña "empanada"                     # features/steps/usuario_steps.py:93
+    Dado que existe un usuario con nombre "María González" en el sistema                                   # features/steps/usuario_steps.py:588
+    Y estoy en el panel de gestión de usuarios                                                             # features/steps/usuario_steps.py:115
+    Cuando busco visualmente al usuario registrado "mgonzalez" en la tabla                                 # features/steps/usuario_steps.py:289
+    Y presiono el botón de eliminación del usuario actualmente registrado                                  # features/steps/usuario_steps.py:296
+    Entonces debo ver un diálogo de confirmación con el texto "¿Seguro que quieres eliminar este usuario?" # features/steps/usuario_steps.py:472
+      Traceback (most recent call last):
+        File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\behave\model.py", line 1909, in run
+          match.run(runner.context)
+        File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\behave\matchers.py", line 104, in run
+          self.func(context, *args, **kwargs)
+        File "features\steps\usuario_steps.py", line 477, in step_ver_dialogo_confirmacion
+          boton = context.browser.find_element(By.CSS_SELECTOR, "button[type='submit'][onclick]")
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\remote\webdriver.py", line 926, in find_element
+          return self.execute(Command.FIND_ELEMENT, {"using": by, "value": value})["value"]
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\remote\webdriver.py", line 458, in execute
+          self.error_handler.check_response(response)
+        File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 231, in check_response
+          raise exception_class(message, screen, stacktrace, alert_text)  # type: ignore[call-arg]  # mypy is not smart enough here
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+      selenium.common.exceptions.UnexpectedAlertPresentException: Alert Text: ¿Seguro que quieres eliminar este usuario?
+      Message: unexpected alert open: {Alert text : ¿Seguro que quieres eliminar este usuario?}
+        (Session info: chrome=141.0.7390.108)
+      Stacktrace:
+      	GetHandleVerifier [0x0x47fe83+66515]
+      	GetHandleVerifier [0x0x47fec4+66580]
+      	(No symbol) [0x0x26dc48]
+      	(No symbol) [0x0x2fd49e]
+      	(No symbol) [0x0x2dafc6]
+      	(No symbol) [0x0x2ac2ca]
+      	(No symbol) [0x0x2ad154]
+      	GetHandleVerifier [0x0x6d73b3+2521347]
+      	GetHandleVerifier [0x0x6d2333+2500739]
+      	GetHandleVerifier [0x0x4a7cd4+229924]
+      	GetHandleVerifier [0x0x498238+165768]
+      	GetHandleVerifier [0x0x49eced+193085]
+      	GetHandleVerifier [0x0x488198+100072]
+      	GetHandleVerifier [0x0x488330+100480]
+      	GetHandleVerifier [0x0x4725ea+11066]
+      	BaseThreadInitThunk [0x0x755a7ba9+25]
+      	RtlInitializeExceptionChain [0x0x7748c0cb+107]
+      	RtlClearBits [0x0x7748c04f+191]
+
     Cuando confirmo la acción de eliminación mediante el diálogo emergente                                 # None
     Entonces debo ver el mensaje "Usuario eliminado correctamente"                                         # None
     Y el usuario "mgonzalez" no debe aparecer en la lista                                                  # None
 
   Escenario: Modificar información de usuario existente                                # features/usuarios.feature:60
-    Dado que el sistema Ferremás está iniciado                                         # None
-    Y estoy en la página de login                                                      # None
-    Y me autentico como administrador con usuario "admin_test" y contraseña "admin123" # None
-    Dado que existe un usuario "atflores" con rol "Vendedor"                           # None
-    Y estoy en el panel de gestión de usuarios                                         # None
-    Cuando accedo al modo de edición del usuario con username "atflores"               # None
-    Entonces debo ver el formulario de edición con datos precargados                   # None
-    Cuando modifico el campo de email a la dirección "ana.flores@ferremas.cl"          # None
-    Y actualizo el rol del usuario al valor "Contador"                                 # None
-    Y presiono el botón general con texto "Guardar cambios"                            # None
-    Entonces debo ver el mensaje "Usuario editado exitosamente con rol: Contador"      # None
+    Dado que el sistema Ferremás está iniciado                                         # features/steps/usuario_steps.py:78
+    Y estoy en la página de login                                                      # features/steps/usuario_steps.py:84
+    Y me autentico como administrador con usuario "admin_test" y contraseña "empanada" # features/steps/usuario_steps.py:93
+    Dado que existe un usuario "atflores" con rol "Vendedor"                           # features/steps/usuario_steps.py:596
+    Y estoy en el panel de gestión de usuarios                                         # features/steps/usuario_steps.py:115
+    Cuando accedo al modo de edición del usuario con username "atflores"               # features/steps/usuario_steps.py:335
+    Entonces debo ver el formulario de edición con datos precargados                   # features/steps/usuario_steps.py:499
+    Cuando modifico el campo de email a la dirección "ana.flores@ferremas.cl"          # features/steps/usuario_steps.py:351
+    Y actualizo el rol del usuario al valor "Contador"                                 # features/steps/usuario_steps.py:359
+    Y presiono el botón general con texto "Guardar cambios"                            # features/steps/usuario_steps.py:234
+    Entonces debo ver el mensaje "Usuario editado exitosamente con rol: Contador"      # features/steps/usuario_steps.py:419
+      Assertion Failed: No se encontró el mensaje: Usuario editado exitosamente con rol: Contador
+
     Y debo ser redirigido al panel de usuarios                                         # None
     Y el usuario "atflores" debe tener el email "ana.flores@ferremas.cl"               # None
 
   Escenario: Validar que las contraseñas coinciden al crear usuario                    # features/usuarios.feature:73
-    Dado que el sistema Ferremás está iniciado                                         # None
-    Y estoy en la página de login                                                      # None
-    Y me autentico como administrador con usuario "admin_test" y contraseña "admin123" # None
-    Dado que estoy en el panel de gestión de usuarios                                  # None
-    Cuando intento crear un usuario usando contraseñas distintas                       # None
+    Dado que el sistema Ferremás está iniciado                                         # features/steps/usuario_steps.py:78
+    Y estoy en la página de login                                                      # features/steps/usuario_steps.py:84
+    Y me autentico como administrador con usuario "admin_test" y contraseña "empanada" # features/steps/usuario_steps.py:93
+    Dado que estoy en el panel de gestión de usuarios                                  # features/steps/usuario_steps.py:576
+    Cuando intento crear un usuario usando contraseñas distintas                       # features/steps/usuario_steps.py:366
       | campo      | valor              |
       | username   | plopez             |
       | first_name | Pedro              |
@@ -88,33 +139,43 @@ Característica: Gestión de Usuarios en Ferremás # features/usuarios.feature:2
       | password1  | Test2024!          |
       | password2  | Test2025!          |
       | group      | Vendedor           |
-    Y presiono el botón general con texto "Crear usuario"                              # None
-    Entonces debo ver el mensaje de error "Las contraseñas no coinciden"               # None
-    Y el campo "password2" debe resaltarse en rojo                                     # None
+    Y presiono el botón general con texto "Crear usuario"                              # features/steps/usuario_steps.py:234
+    Entonces debo ver el mensaje de error "Las contraseñas no coinciden"               # features/steps/usuario_steps.py:449
+    Y el campo "password2" debe resaltarse en rojo                                     # features/steps/usuario_steps.py:524
+      Traceback (most recent call last):
+        File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\behave\model.py", line 1909, in run
+          match.run(runner.context)
+        File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\behave\matchers.py", line 104, in run
+          self.func(context, *args, **kwargs)
+        File "features\steps\usuario_steps.py", line 529, in step_campo_resaltado
+          assert "is-invalid" in clases or "error" in clases
+                                           ^^^^^^^^^^^^^^^^^
+      AssertionError
+
     Y el usuario no debe crearse en la base de datos                                   # None
 
   Escenario: Verificar que los roles del sistema están disponibles                     # features/usuarios.feature:90
-    Dado que el sistema Ferremás está iniciado                                         # None
-    Y estoy en la página de login                                                      # None
-    Y me autentico como administrador con usuario "admin_test" y contraseña "admin123" # None
-    Dado que estoy en el panel de gestión de usuarios                                  # None
-    Cuando inspecciono el campo desplegable de selección de "Rol"                      # None
-    Entonces debo ver las siguientes opciones de rol:                                  # None
+    Dado que el sistema Ferremás está iniciado                                         # features/steps/usuario_steps.py:78
+    Y estoy en la página de login                                                      # features/steps/usuario_steps.py:84
+    Y me autentico como administrador con usuario "admin_test" y contraseña "empanada" # features/steps/usuario_steps.py:93
+    Dado que estoy en el panel de gestión de usuarios                                  # features/steps/usuario_steps.py:576
+    Cuando inspecciono el campo desplegable de selección de "Rol"                      # features/steps/usuario_steps.py:381
+    Entonces debo ver las siguientes opciones de rol:                                  # features/steps/usuario_steps.py:600
       | rol       |
       | Bodeguero |
       | Vendedor  |
       | Contador  |
 
   Escenario: Actualizar datos de usuario sin modificar contraseña                      # features/usuarios.feature:100
-    Dado que el sistema Ferremás está iniciado                                         # None
-    Y estoy en la página de login                                                      # None
-    Y me autentico como administrador con usuario "admin_test" y contraseña "admin123" # None
-    Dado que existe un usuario "rcastro" en el sistema                                 # None
-    Y estoy en el panel de gestión de usuarios                                         # None
-    Cuando accedo al modo de edición del usuario con username "rcastro"                # None
-    Y cambio únicamente el campo "first_name" asignándole el valor "Roberto"           # None
-    Y dejo intencionadamente los campos de contraseña vacíos                           # None
-    Y presiono el botón general con texto "Guardar cambios"                            # None
-    Entonces debo ver el mensaje de éxito                                              # None
-    Y el usuario debe poder iniciar sesión con su contraseña anterior                  # None
+    Dado que el sistema Ferremás está iniciado                                         # features/steps/usuario_steps.py:78
+    Y estoy en la página de login                                                      # features/steps/usuario_steps.py:84
+    Y me autentico como administrador con usuario "admin_test" y contraseña "empanada" # features/steps/usuario_steps.py:93
+    Dado que existe un usuario "rcastro" en el sistema                                 # features/steps/usuario_steps.py:604
+    Y estoy en el panel de gestión de usuarios                                         # features/steps/usuario_steps.py:115
+    Cuando accedo al modo de edición del usuario con username "rcastro"                # features/steps/usuario_steps.py:335
+    Y cambio únicamente el campo "first_name" asignándole el valor "Roberto"           # features/steps/usuario_steps.py:389
+    Y dejo intencionadamente los campos de contraseña vacíos                           # features/steps/usuario_steps.py:397
+    Y presiono el botón general con texto "Guardar cambios"                            # features/steps/usuario_steps.py:234
+    Entonces debo ver el mensaje de éxito                                              # features/steps/usuario_steps.py:549
+    Y el usuario debe poder iniciar sesión con su contraseña anterior                  # features/steps/usuario_steps.py:561
 

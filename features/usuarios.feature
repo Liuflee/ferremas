@@ -7,7 +7,7 @@ Característica: Gestión de Usuarios en Ferremás
   Antecedentes:
     Dado que el sistema Ferremás está iniciado
     Y estoy en la página de login
-    Y me autentico como administrador con usuario "admin_test" y contraseña "admin123"
+    Y me autentico como administrador con usuario "admin_test" y contraseña "empanada"
 
   # CP1: Ingreso al mantenedor de usuarios
   Escenario: Acceder al panel de gestión de usuarios

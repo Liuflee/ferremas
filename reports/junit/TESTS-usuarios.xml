@@ -1,73 +1,34 @@
-<testsuite name="usuarios.Gestión de Usuarios en Ferremás" tests="8" errors="8" failures="0" skipped="0" time="0.0" timestamp="2025-10-17T01:46:07.846524" hostname="Anette"><testcase classname="usuarios.Gestión de Usuarios en Ferremás" name="Acceder al panel de gestión de usuarios" status="hook_error" time="0"><error type="OSError" message="HOOK-ERROR in before_scenario: OSError: [WinError 193] %1 no es una aplicación Win32 válida">
-<![CDATA[Traceback:
-  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\behave\runner.py", line 669, in run_hook
-    self.hooks[name](context, *args)
-  File "features\environment.py", line 35, in before_scenario
-    context.browser = webdriver.Chrome(service=service, options=chrome_options)
-                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\chrome\webdriver.py", line 46, in __init__
-    super().__init__(
-  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\chromium\webdriver.py", line 60, in __init__
-    self.service.start()
-  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\common\service.py", line 105, in start
-    self._start_process(self._path)
-  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\common\service.py", line 216, in _start_process
-    self.process = subprocess.Popen(
-                   ^^^^^^^^^^^^^^^^^
-  File "C:\Python311\Lib\subprocess.py", line 1026, in __init__
-    self._execute_child(args, executable, preexec_fn, close_fds,
-  File "C:\Python311\Lib\subprocess.py", line 1538, in _execute_child
-    hp, ht, pid, tid = _winapi.CreateProcess(executable, args,
-                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-]]>
-</error><system-out>
+<testsuite name="usuarios.Gestión de Usuarios en Ferremás" tests="8" errors="2" failures="3" skipped="0" time="48.603343" timestamp="2025-10-17T01:54:47.324830" hostname="Anette"><testcase classname="usuarios.Gestión de Usuarios en Ferremás" name="Acceder al panel de gestión de usuarios" status="passed" time="2.685983"><system-out>
 <![CDATA[
 @scenario.begin
   Escenario: Acceder al panel de gestión de usuarios
-    Dado que el sistema Ferremás está iniciado ... untested in 0.000s
-    Y estoy en la página de login ... untested in 0.000s
-    Y me autentico como administrador con usuario "admin_test" y contraseña "admin123" ... untested in 0.000s
-    Cuando navego hacia el panel de administración principal ... untested in 0.000s
-    Y selecciono la opción de menú lateral "Usuarios" ... untested in 0.000s
-    Entonces debo ver la página "Gestión de Usuarios" ... untested in 0.000s
-    Y debo ver el botón "Crear usuario" ... untested in 0.000s
-    Y debo ver la tabla de usuarios existentes ... untested in 0.000s
+    Dado que el sistema Ferremás está iniciado ... passed in 0.656s
+    Y estoy en la página de login ... passed in 0.045s
+    Y me autentico como administrador con usuario "admin_test" y contraseña "empanada" ... passed in 0.742s
+    Cuando navego hacia el panel de administración principal ... passed in 0.013s
+    Y selecciono la opción de menú lateral "Usuarios" ... passed in 1.188s
+    Entonces debo ver la página "Gestión de Usuarios" ... passed in 0.016s
+    Y debo ver el botón "Crear usuario" ... passed in 0.008s
+    Y debo ver la tabla de usuarios existentes ... passed in 0.019s
 
 @scenario.end
 --------------------------------------------------------------------------------
 ]]>
-</system-out></testcase><testcase classname="usuarios.Gestión de Usuarios en Ferremás" name="Crear un nuevo usuario con rol Bodeguero exitosamente" status="hook_error" time="0"><error type="OSError" message="HOOK-ERROR in before_scenario: OSError: [WinError 193] %1 no es una aplicación Win32 válida">
-<![CDATA[Traceback:
-  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\behave\runner.py", line 669, in run_hook
-    self.hooks[name](context, *args)
-  File "features\environment.py", line 35, in before_scenario
-    context.browser = webdriver.Chrome(service=service, options=chrome_options)
-                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\chrome\webdriver.py", line 46, in __init__
-    super().__init__(
-  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\chromium\webdriver.py", line 60, in __init__
-    self.service.start()
-  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\common\service.py", line 105, in start
-    self._start_process(self._path)
-  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\common\service.py", line 216, in _start_process
-    self.process = subprocess.Popen(
-                   ^^^^^^^^^^^^^^^^^
-  File "C:\Python311\Lib\subprocess.py", line 1026, in __init__
-    self._execute_child(args, executable, preexec_fn, close_fds,
-  File "C:\Python311\Lib\subprocess.py", line 1538, in _execute_child
-    hp, ht, pid, tid = _winapi.CreateProcess(executable, args,
-                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-]]>
+</system-out></testcase><testcase classname="usuarios.Gestión de Usuarios en Ferremás" name="Crear un nuevo usuario con rol Bodeguero exitosamente" status="error" time="5.343974"><error type="NoneType" message="None">
+<![CDATA[
+Failing step: Y el usuario "jperez" debe aparecer en la lista de usuarios ... undefined in 0.000s
+Location: features/usuarios.feature:34
+None]]>
 </error><system-out>
 <![CDATA[
 @scenario.begin
   Escenario: Crear un nuevo usuario con rol Bodeguero exitosamente
-    Dado que el sistema Ferremás está iniciado ... untested in 0.000s
-    Y estoy en la página de login ... untested in 0.000s
-    Y me autentico como administrador con usuario "admin_test" y contraseña "admin123" ... untested in 0.000s
-    Dado que estoy en el panel de gestión de usuarios ... untested in 0.000s
-    Cuando activo el área de formulario para crear usuario ... untested in 0.000s
-    Y relleno los siguientes datos para el nuevo usuario: ... untested in 0.000s
+    Dado que el sistema Ferremás está iniciado ... passed in 0.732s
+    Y estoy en la página de login ... passed in 0.044s
+    Y me autentico como administrador con usuario "admin_test" y contraseña "empanada" ... passed in 0.672s
+    Dado que estoy en el panel de gestión de usuarios ... passed in 0.068s
+    Cuando activo el área de formulario para crear usuario ... passed in 0.019s
+    Y relleno los siguientes datos para el nuevo usuario: ... passed in 2.525s
       | campo      | valor              |
       | username   | jperez             |
       | first_name | Juan               |
@@ -76,169 +37,158 @@
       | password1  | Bodega2024!        |
       | password2  | Bodega2024!        |
       | group      | Bodeguero          |
-    Y presiono el botón general con texto "Crear usuario" ... untested in 0.000s
-    Y el usuario "jperez" debe aparecer en la lista de usuarios ... untested in 0.000s
-    Y el usuario "jperez" debe tener el rol "Bodeguero" ... untested in 0.000s
+    Y presiono el botón general con texto "Crear usuario" ... passed in 1.285s
+    Y el usuario "jperez" debe aparecer en la lista de usuarios ... undefined in 0.000s
+    Y el usuario "jperez" debe tener el rol "Bodeguero" ... undefined in 0.000s
 
 @scenario.end
 --------------------------------------------------------------------------------
 ]]>
-</system-out></testcase><testcase classname="usuarios.Gestión de Usuarios en Ferremás" name="Intentar crear usuario con nombre de usuario duplicado" status="hook_error" time="0"><error type="OSError" message="HOOK-ERROR in before_scenario: OSError: [WinError 193] %1 no es una aplicación Win32 válida">
-<![CDATA[Traceback:
-  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\behave\runner.py", line 669, in run_hook
-    self.hooks[name](context, *args)
-  File "features\environment.py", line 35, in before_scenario
-    context.browser = webdriver.Chrome(service=service, options=chrome_options)
-                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\chrome\webdriver.py", line 46, in __init__
-    super().__init__(
-  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\chromium\webdriver.py", line 60, in __init__
-    self.service.start()
-  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\common\service.py", line 105, in start
-    self._start_process(self._path)
-  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\common\service.py", line 216, in _start_process
-    self.process = subprocess.Popen(
-                   ^^^^^^^^^^^^^^^^^
-  File "C:\Python311\Lib\subprocess.py", line 1026, in __init__
-    self._execute_child(args, executable, preexec_fn, close_fds,
-  File "C:\Python311\Lib\subprocess.py", line 1538, in _execute_child
-    hp, ht, pid, tid = _winapi.CreateProcess(executable, args,
-                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+</system-out></testcase><testcase classname="usuarios.Gestión de Usuarios en Ferremás" name="Intentar crear usuario con nombre de usuario duplicado" status="failed" time="3.087429"><failure type="AssertionError" message="">
+<![CDATA[
+Failing step: Y el formulario debe resaltar el campo "username" en rojo ... failed in 0.009s
+Location: features/usuarios.feature:46
+Traceback (most recent call last):
+  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\behave\model.py", line 1909, in run
+    match.run(runner.context)
+  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\behave\matchers.py", line 104, in run
+    self.func(context, *args, **kwargs)
+  File "features\steps\usuario_steps.py", line 470, in step_campo_resaltado_error
+    assert "is-invalid" in clases or "error" in clases
+                                     ^^^^^^^^^^^^^^^^^
+AssertionError
 ]]>
-</error><system-out>
+</failure><system-out>
 <![CDATA[
 @scenario.begin
   Escenario: Intentar crear usuario con nombre de usuario duplicado
-    Dado que el sistema Ferremás está iniciado ... untested in 0.000s
-    Y estoy en la página de login ... untested in 0.000s
-    Y me autentico como administrador con usuario "admin_test" y contraseña "admin123" ... untested in 0.000s
-    Dado que existe un usuario con username "mtorres" ... untested in 0.000s
-    Y estoy en el panel de gestión de usuarios ... untested in 0.000s
-    Cuando activo el área de formulario para crear usuario ... untested in 0.000s
-    Y ingreso manualmente el username "mtorres" en el campo correspondiente ... untested in 0.000s
-    Y completo todos los campos obligatorios con valores genéricos ... untested in 0.000s
-    Y presiono el botón general con texto "Crear usuario" ... untested in 0.000s
-    Entonces debo ver el mensaje de error "Ya existe un usuario con ese nombre" ... untested in 0.000s
-    Y el formulario debe resaltar el campo "username" en rojo ... untested in 0.000s
+    Dado que el sistema Ferremás está iniciado ... passed in 0.682s
+    Y estoy en la página de login ... passed in 0.041s
+    Y me autentico como administrador con usuario "admin_test" y contraseña "empanada" ... passed in 0.664s
+    Dado que existe un usuario con username "mtorres" ... passed in 0.006s
+    Y estoy en el panel de gestión de usuarios ... passed in 0.068s
+    Cuando activo el área de formulario para crear usuario ... passed in 0.020s
+    Y ingreso manualmente el username "mtorres" en el campo correspondiente ... passed in 0.055s
+    Y completo todos los campos obligatorios con valores genéricos ... passed in 0.266s
+    Y presiono el botón general con texto "Crear usuario" ... passed in 1.261s
+    Entonces debo ver el mensaje de error "Ya existe un usuario con ese nombre" ... passed in 0.015s
+    Y el formulario debe resaltar el campo "username" en rojo ... failed in 0.009s
 
 @scenario.end
 --------------------------------------------------------------------------------
 ]]>
-</system-out></testcase><testcase classname="usuarios.Gestión de Usuarios en Ferremás" name="Eliminar un usuario del sistema con confirmación" status="hook_error" time="0"><error type="OSError" message="HOOK-ERROR in before_scenario: OSError: [WinError 193] %1 no es una aplicación Win32 válida">
-<![CDATA[Traceback:
-  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\behave\runner.py", line 669, in run_hook
-    self.hooks[name](context, *args)
-  File "features\environment.py", line 35, in before_scenario
-    context.browser = webdriver.Chrome(service=service, options=chrome_options)
-                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\chrome\webdriver.py", line 46, in __init__
-    super().__init__(
-  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\chromium\webdriver.py", line 60, in __init__
-    self.service.start()
-  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\common\service.py", line 105, in start
-    self._start_process(self._path)
-  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\common\service.py", line 216, in _start_process
-    self.process = subprocess.Popen(
-                   ^^^^^^^^^^^^^^^^^
-  File "C:\Python311\Lib\subprocess.py", line 1026, in __init__
-    self._execute_child(args, executable, preexec_fn, close_fds,
-  File "C:\Python311\Lib\subprocess.py", line 1538, in _execute_child
-    hp, ht, pid, tid = _winapi.CreateProcess(executable, args,
-                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+</system-out></testcase><testcase classname="usuarios.Gestión de Usuarios en Ferremás" name="Eliminar un usuario del sistema con confirmación" status="error" time="2.314535"><error type="UnexpectedAlertPresentException" message="Alert Text: ¿Seguro que quieres eliminar este usuario?&#10;Message: unexpected alert open: {Alert text : ¿Seguro que quieres eliminar este usuario?}&#10;  (Session info: chrome=141.0.7390.108)&#10;Stacktrace:&#10;&#09;GetHandleVerifier [0x0x47fe83+66515]&#10;&#09;GetHandleVerifier [0x0x47fec4+66580]&#10;&#09;(No symbol) [0x0x26dc48]&#10;&#09;(No symbol) [0x0x2fd49e]&#10;&#09;(No symbol) [0x0x2dafc6]&#10;&#09;(No symbol) [0x0x2ac2ca]&#10;&#09;(No symbol) [0x0x2ad154]&#10;&#09;GetHandleVerifier [0x0x6d73b3+2521347]&#10;&#09;GetHandleVerifier [0x0x6d2333+2500739]&#10;&#09;GetHandleVerifier [0x0x4a7cd4+229924]&#10;&#09;GetHandleVerifier [0x0x498238+165768]&#10;&#09;GetHandleVerifier [0x0x49eced+193085]&#10;&#09;GetHandleVerifier [0x0x488198+100072]&#10;&#09;GetHandleVerifier [0x0x488330+100480]&#10;&#09;GetHandleVerifier [0x0x4725ea+11066]&#10;&#09;BaseThreadInitThunk [0x0x755a7ba9+25]&#10;&#09;RtlInitializeExceptionChain [0x0x7748c0cb+107]&#10;&#09;RtlClearBits [0x0x7748c04f+191]">
+<![CDATA[
+Failing step: Entonces debo ver un diálogo de confirmación con el texto "¿Seguro que quieres eliminar este usuario?" ... error in 0.021s
+Location: features/usuarios.feature:54
+Traceback (most recent call last):
+  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\behave\model.py", line 1909, in run
+    match.run(runner.context)
+  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\behave\matchers.py", line 104, in run
+    self.func(context, *args, **kwargs)
+  File "features\steps\usuario_steps.py", line 477, in step_ver_dialogo_confirmacion
+    boton = context.browser.find_element(By.CSS_SELECTOR, "button[type='submit'][onclick]")
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\remote\webdriver.py", line 926, in find_element
+    return self.execute(Command.FIND_ELEMENT, {"using": by, "value": value})["value"]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\remote\webdriver.py", line 458, in execute
+    self.error_handler.check_response(response)
+  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 231, in check_response
+    raise exception_class(message, screen, stacktrace, alert_text)  # type: ignore[call-arg]  # mypy is not smart enough here
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+selenium.common.exceptions.UnexpectedAlertPresentException: Alert Text: ¿Seguro que quieres eliminar este usuario?
+Message: unexpected alert open: {Alert text : ¿Seguro que quieres eliminar este usuario?}
+  (Session info: chrome=141.0.7390.108)
+Stacktrace:
+	GetHandleVerifier [0x0x47fe83+66515]
+	GetHandleVerifier [0x0x47fec4+66580]
+	(No symbol) [0x0x26dc48]
+	(No symbol) [0x0x2fd49e]
+	(No symbol) [0x0x2dafc6]
+	(No symbol) [0x0x2ac2ca]
+	(No symbol) [0x0x2ad154]
+	GetHandleVerifier [0x0x6d73b3+2521347]
+	GetHandleVerifier [0x0x6d2333+2500739]
+	GetHandleVerifier [0x0x4a7cd4+229924]
+	GetHandleVerifier [0x0x498238+165768]
+	GetHandleVerifier [0x0x49eced+193085]
+	GetHandleVerifier [0x0x488198+100072]
+	GetHandleVerifier [0x0x488330+100480]
+	GetHandleVerifier [0x0x4725ea+11066]
+	BaseThreadInitThunk [0x0x755a7ba9+25]
+	RtlInitializeExceptionChain [0x0x7748c0cb+107]
+	RtlClearBits [0x0x7748c04f+191]
+
 ]]>
 </error><system-out>
 <![CDATA[
 @scenario.begin
   Escenario: Eliminar un usuario del sistema con confirmación
-    Dado que el sistema Ferremás está iniciado ... untested in 0.000s
-    Y estoy en la página de login ... untested in 0.000s
-    Y me autentico como administrador con usuario "admin_test" y contraseña "admin123" ... untested in 0.000s
-    Dado que existe un usuario con nombre "María González" en el sistema ... untested in 0.000s
-    Y estoy en el panel de gestión de usuarios ... untested in 0.000s
-    Cuando busco visualmente al usuario registrado "mgonzalez" en la tabla ... untested in 0.000s
-    Y presiono el botón de eliminación del usuario actualmente registrado ... untested in 0.000s
-    Entonces debo ver un diálogo de confirmación con el texto "¿Seguro que quieres eliminar este usuario?" ... untested in 0.000s
-    Cuando confirmo la acción de eliminación mediante el diálogo emergente ... untested in 0.000s
-    Entonces debo ver el mensaje "Usuario eliminado correctamente" ... untested in 0.000s
-    Y el usuario "mgonzalez" no debe aparecer en la lista ... untested in 0.000s
+    Dado que el sistema Ferremás está iniciado ... passed in 0.623s
+    Y estoy en la página de login ... passed in 0.045s
+    Y me autentico como administrador con usuario "admin_test" y contraseña "empanada" ... passed in 0.755s
+    Dado que existe un usuario con nombre "María González" en el sistema ... passed in 0.001s
+    Y estoy en el panel de gestión de usuarios ... passed in 0.071s
+    Cuando busco visualmente al usuario registrado "mgonzalez" en la tabla ... passed in 0.041s
+    Y presiono el botón de eliminación del usuario actualmente registrado ... passed in 0.758s
+    Entonces debo ver un diálogo de confirmación con el texto "¿Seguro que quieres eliminar este usuario?" ... error in 0.021s
+    Cuando confirmo la acción de eliminación mediante el diálogo emergente ... skipped in 0.000s
+    Entonces debo ver el mensaje "Usuario eliminado correctamente" ... skipped in 0.000s
+    Y el usuario "mgonzalez" no debe aparecer en la lista ... skipped in 0.000s
 
 @scenario.end
 --------------------------------------------------------------------------------
 ]]>
-</system-out></testcase><testcase classname="usuarios.Gestión de Usuarios en Ferremás" name="Modificar información de usuario existente" status="hook_error" time="0"><error type="OSError" message="HOOK-ERROR in before_scenario: OSError: [WinError 193] %1 no es una aplicación Win32 válida">
-<![CDATA[Traceback:
-  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\behave\runner.py", line 669, in run_hook
-    self.hooks[name](context, *args)
-  File "features\environment.py", line 35, in before_scenario
-    context.browser = webdriver.Chrome(service=service, options=chrome_options)
-                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\chrome\webdriver.py", line 46, in __init__
-    super().__init__(
-  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\chromium\webdriver.py", line 60, in __init__
-    self.service.start()
-  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\common\service.py", line 105, in start
-    self._start_process(self._path)
-  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\common\service.py", line 216, in _start_process
-    self.process = subprocess.Popen(
-                   ^^^^^^^^^^^^^^^^^
-  File "C:\Python311\Lib\subprocess.py", line 1026, in __init__
-    self._execute_child(args, executable, preexec_fn, close_fds,
-  File "C:\Python311\Lib\subprocess.py", line 1538, in _execute_child
-    hp, ht, pid, tid = _winapi.CreateProcess(executable, args,
-                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-]]>
-</error><system-out>
+</system-out></testcase><testcase classname="usuarios.Gestión de Usuarios en Ferremás" name="Modificar información de usuario existente" status="failed" time="14.250552"><failure type="AssertionError" message="No se encontró el mensaje: Usuario editado exitosamente con rol: Contador">
+<![CDATA[
+Failing step: Entonces debo ver el mensaje "Usuario editado exitosamente con rol: Contador" ... failed in 10.024s
+Location: features/usuarios.feature:68
+Assertion Failed: No se encontró el mensaje: Usuario editado exitosamente con rol: Contador]]>
+</failure><system-out>
 <![CDATA[
 @scenario.begin
   Escenario: Modificar información de usuario existente
-    Dado que el sistema Ferremás está iniciado ... untested in 0.000s
-    Y estoy en la página de login ... untested in 0.000s
-    Y me autentico como administrador con usuario "admin_test" y contraseña "admin123" ... untested in 0.000s
-    Dado que existe un usuario "atflores" con rol "Vendedor" ... untested in 0.000s
-    Y estoy en el panel de gestión de usuarios ... untested in 0.000s
-    Cuando accedo al modo de edición del usuario con username "atflores" ... untested in 0.000s
-    Entonces debo ver el formulario de edición con datos precargados ... untested in 0.000s
-    Cuando modifico el campo de email a la dirección "ana.flores@ferremas.cl" ... untested in 0.000s
-    Y actualizo el rol del usuario al valor "Contador" ... untested in 0.000s
-    Y presiono el botón general con texto "Guardar cambios" ... untested in 0.000s
-    Entonces debo ver el mensaje "Usuario editado exitosamente con rol: Contador" ... untested in 0.000s
-    Y debo ser redirigido al panel de usuarios ... untested in 0.000s
-    Y el usuario "atflores" debe tener el email "ana.flores@ferremas.cl" ... untested in 0.000s
+    Dado que el sistema Ferremás está iniciado ... passed in 0.684s
+    Y estoy en la página de login ... passed in 0.040s
+    Y me autentico como administrador con usuario "admin_test" y contraseña "empanada" ... passed in 0.725s
+    Dado que existe un usuario "atflores" con rol "Vendedor" ... passed in 0.001s
+    Y estoy en el panel de gestión de usuarios ... passed in 0.081s
+    Cuando accedo al modo de edición del usuario con username "atflores" ... passed in 1.309s
+    Entonces debo ver el formulario de edición con datos precargados ... passed in 0.020s
+    Cuando modifico el campo de email a la dirección "ana.flores@ferremas.cl" ... passed in 0.051s
+    Y actualizo el rol del usuario al valor "Contador" ... passed in 0.062s
+    Y presiono el botón general con texto "Guardar cambios" ... passed in 1.253s
+    Entonces debo ver el mensaje "Usuario editado exitosamente con rol: Contador" ... failed in 10.024s
+    Y debo ser redirigido al panel de usuarios ... skipped in 0.000s
+    Y el usuario "atflores" debe tener el email "ana.flores@ferremas.cl" ... skipped in 0.000s
 
 @scenario.end
 --------------------------------------------------------------------------------
 ]]>
-</system-out></testcase><testcase classname="usuarios.Gestión de Usuarios en Ferremás" name="Validar que las contraseñas coinciden al crear usuario" status="hook_error" time="0"><error type="OSError" message="HOOK-ERROR in before_scenario: OSError: [WinError 193] %1 no es una aplicación Win32 válida">
-<![CDATA[Traceback:
-  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\behave\runner.py", line 669, in run_hook
-    self.hooks[name](context, *args)
-  File "features\environment.py", line 35, in before_scenario
-    context.browser = webdriver.Chrome(service=service, options=chrome_options)
-                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\chrome\webdriver.py", line 46, in __init__
-    super().__init__(
-  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\chromium\webdriver.py", line 60, in __init__
-    self.service.start()
-  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\common\service.py", line 105, in start
-    self._start_process(self._path)
-  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\common\service.py", line 216, in _start_process
-    self.process = subprocess.Popen(
-                   ^^^^^^^^^^^^^^^^^
-  File "C:\Python311\Lib\subprocess.py", line 1026, in __init__
-    self._execute_child(args, executable, preexec_fn, close_fds,
-  File "C:\Python311\Lib\subprocess.py", line 1538, in _execute_child
-    hp, ht, pid, tid = _winapi.CreateProcess(executable, args,
-                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+</system-out></testcase><testcase classname="usuarios.Gestión de Usuarios en Ferremás" name="Validar que las contraseñas coinciden al crear usuario" status="failed" time="3.126518"><failure type="AssertionError" message="">
+<![CDATA[
+Failing step: Y el campo "password2" debe resaltarse en rojo ... failed in 0.011s
+Location: features/usuarios.feature:86
+Traceback (most recent call last):
+  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\behave\model.py", line 1909, in run
+    match.run(runner.context)
+  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\behave\matchers.py", line 104, in run
+    self.func(context, *args, **kwargs)
+  File "features\steps\usuario_steps.py", line 529, in step_campo_resaltado
+    assert "is-invalid" in clases or "error" in clases
+                                     ^^^^^^^^^^^^^^^^^
+AssertionError
 ]]>
-</error><system-out>
+</failure><system-out>
 <![CDATA[
 @scenario.begin
   Escenario: Validar que las contraseñas coinciden al crear usuario
-    Dado que el sistema Ferremás está iniciado ... untested in 0.000s
-    Y estoy en la página de login ... untested in 0.000s
-    Y me autentico como administrador con usuario "admin_test" y contraseña "admin123" ... untested in 0.000s
-    Dado que estoy en el panel de gestión de usuarios ... untested in 0.000s
-    Cuando intento crear un usuario usando contraseñas distintas ... untested in 0.000s
+    Dado que el sistema Ferremás está iniciado ... passed in 0.698s
+    Y estoy en la página de login ... passed in 0.040s
+    Y me autentico como administrador con usuario "admin_test" y contraseña "empanada" ... passed in 0.680s
+    Dado que estoy en el panel de gestión de usuarios ... passed in 0.070s
+    Cuando intento crear un usuario usando contraseñas distintas ... passed in 0.353s
       | campo      | valor              |
       | username   | plopez             |
       | first_name | Pedro              |
@@ -247,46 +197,24 @@
       | password1  | Test2024!          |
       | password2  | Test2025!          |
       | group      | Vendedor           |
-    Y presiono el botón general con texto "Crear usuario" ... untested in 0.000s
-    Entonces debo ver el mensaje de error "Las contraseñas no coinciden" ... untested in 0.000s
-    Y el campo "password2" debe resaltarse en rojo ... untested in 0.000s
-    Y el usuario no debe crearse en la base de datos ... untested in 0.000s
+    Y presiono el botón general con texto "Crear usuario" ... passed in 1.256s
+    Entonces debo ver el mensaje de error "Las contraseñas no coinciden" ... passed in 0.020s
+    Y el campo "password2" debe resaltarse en rojo ... failed in 0.011s
+    Y el usuario no debe crearse en la base de datos ... skipped in 0.000s
 
 @scenario.end
 --------------------------------------------------------------------------------
 ]]>
-</system-out></testcase><testcase classname="usuarios.Gestión de Usuarios en Ferremás" name="Verificar que los roles del sistema están disponibles" status="hook_error" time="0"><error type="OSError" message="HOOK-ERROR in before_scenario: OSError: [WinError 193] %1 no es una aplicación Win32 válida">
-<![CDATA[Traceback:
-  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\behave\runner.py", line 669, in run_hook
-    self.hooks[name](context, *args)
-  File "features\environment.py", line 35, in before_scenario
-    context.browser = webdriver.Chrome(service=service, options=chrome_options)
-                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\chrome\webdriver.py", line 46, in __init__
-    super().__init__(
-  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\chromium\webdriver.py", line 60, in __init__
-    self.service.start()
-  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\common\service.py", line 105, in start
-    self._start_process(self._path)
-  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\common\service.py", line 216, in _start_process
-    self.process = subprocess.Popen(
-                   ^^^^^^^^^^^^^^^^^
-  File "C:\Python311\Lib\subprocess.py", line 1026, in __init__
-    self._execute_child(args, executable, preexec_fn, close_fds,
-  File "C:\Python311\Lib\subprocess.py", line 1538, in _execute_child
-    hp, ht, pid, tid = _winapi.CreateProcess(executable, args,
-                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-]]>
-</error><system-out>
+</system-out></testcase><testcase classname="usuarios.Gestión de Usuarios en Ferremás" name="Verificar que los roles del sistema están disponibles" status="passed" time="1.567816"><system-out>
 <![CDATA[
 @scenario.begin
   Escenario: Verificar que los roles del sistema están disponibles
-    Dado que el sistema Ferremás está iniciado ... untested in 0.000s
-    Y estoy en la página de login ... untested in 0.000s
-    Y me autentico como administrador con usuario "admin_test" y contraseña "admin123" ... untested in 0.000s
-    Dado que estoy en el panel de gestión de usuarios ... untested in 0.000s
-    Cuando inspecciono el campo desplegable de selección de "Rol" ... untested in 0.000s
-    Entonces debo ver las siguientes opciones de rol: ... untested in 0.000s
+    Dado que el sistema Ferremás está iniciado ... passed in 0.632s
+    Y estoy en la página de login ... passed in 0.041s
+    Y me autentico como administrador con usuario "admin_test" y contraseña "empanada" ... passed in 0.724s
+    Dado que estoy en el panel de gestión de usuarios ... passed in 0.068s
+    Cuando inspecciono el campo desplegable de selección de "Rol" ... passed in 0.055s
+    Entonces debo ver las siguientes opciones de rol: ... passed in 0.048s
       | rol       |
       | Bodeguero |
       | Vendedor  |
@@ -295,43 +223,21 @@
 @scenario.end
 --------------------------------------------------------------------------------
 ]]>
-</system-out></testcase><testcase classname="usuarios.Gestión de Usuarios en Ferremás" name="Actualizar datos de usuario sin modificar contraseña" status="hook_error" time="0"><error type="OSError" message="HOOK-ERROR in before_scenario: OSError: [WinError 193] %1 no es una aplicación Win32 válida">
-<![CDATA[Traceback:
-  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\behave\runner.py", line 669, in run_hook
-    self.hooks[name](context, *args)
-  File "features\environment.py", line 35, in before_scenario
-    context.browser = webdriver.Chrome(service=service, options=chrome_options)
-                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\chrome\webdriver.py", line 46, in __init__
-    super().__init__(
-  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\chromium\webdriver.py", line 60, in __init__
-    self.service.start()
-  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\common\service.py", line 105, in start
-    self._start_process(self._path)
-  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\common\service.py", line 216, in _start_process
-    self.process = subprocess.Popen(
-                   ^^^^^^^^^^^^^^^^^
-  File "C:\Python311\Lib\subprocess.py", line 1026, in __init__
-    self._execute_child(args, executable, preexec_fn, close_fds,
-  File "C:\Python311\Lib\subprocess.py", line 1538, in _execute_child
-    hp, ht, pid, tid = _winapi.CreateProcess(executable, args,
-                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-]]>
-</error><system-out>
+</system-out></testcase><testcase classname="usuarios.Gestión de Usuarios en Ferremás" name="Actualizar datos de usuario sin modificar contraseña" status="passed" time="16.226535"><system-out>
 <![CDATA[
 @scenario.begin
   Escenario: Actualizar datos de usuario sin modificar contraseña
-    Dado que el sistema Ferremás está iniciado ... untested in 0.000s
-    Y estoy en la página de login ... untested in 0.000s
-    Y me autentico como administrador con usuario "admin_test" y contraseña "admin123" ... untested in 0.000s
-    Dado que existe un usuario "rcastro" en el sistema ... untested in 0.000s
-    Y estoy en el panel de gestión de usuarios ... untested in 0.000s
-    Cuando accedo al modo de edición del usuario con username "rcastro" ... untested in 0.000s
-    Y cambio únicamente el campo "first_name" asignándole el valor "Roberto" ... untested in 0.000s
-    Y dejo intencionadamente los campos de contraseña vacíos ... untested in 0.000s
-    Y presiono el botón general con texto "Guardar cambios" ... untested in 0.000s
-    Entonces debo ver el mensaje de éxito ... untested in 0.000s
-    Y el usuario debe poder iniciar sesión con su contraseña anterior ... untested in 0.000s
+    Dado que el sistema Ferremás está iniciado ... passed in 0.720s
+    Y estoy en la página de login ... passed in 0.051s
+    Y me autentico como administrador con usuario "admin_test" y contraseña "empanada" ... passed in 0.706s
+    Dado que existe un usuario "rcastro" en el sistema ... passed in 0.001s
+    Y estoy en el panel de gestión de usuarios ... passed in 0.066s
+    Cuando accedo al modo de edición del usuario con username "rcastro" ... passed in 2.838s
+    Y cambio únicamente el campo "first_name" asignándole el valor "Roberto" ... passed in 0.049s
+    Y dejo intencionadamente los campos de contraseña vacíos ... passed in 0.040s
+    Y presiono el botón general con texto "Guardar cambios" ... passed in 1.254s
+    Entonces debo ver el mensaje de éxito ... passed in 10.053s
+    Y el usuario debe poder iniciar sesión con su contraseña anterior ... passed in 0.449s
 
 @scenario.end
 --------------------------------------------------------------------------------
