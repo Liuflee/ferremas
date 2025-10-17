@@ -1,0 +1,163 @@
+<testsuite name="usuarios.Gestión de Usuarios en Ferremás" tests="8" errors="0" failures="0" skipped="0" time="0.0" timestamp="2025-10-16T22:39:33.703672" hostname="Anette"><testcase classname="usuarios.Gestión de Usuarios en Ferremás" name="Acceder al panel de gestión de usuarios" status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+  Escenario: Acceder al panel de gestión de usuarios
+    Dado que el sistema Ferremás está iniciado ... untested in 0.000s
+    Y estoy en la página de login ... untested in 0.000s
+    Y me autentico como administrador con usuario "admin_test" y contraseña "admin123" ... untested in 0.000s
+    Cuando navego hacia el panel de administración principal ... untested in 0.000s
+    Y selecciono la opción de menú lateral "Usuarios" ... untested in 0.000s
+    Entonces debo ver la página "Gestión de Usuarios" ... untested in 0.000s
+    Y debo ver el botón "Crear usuario" ... untested in 0.000s
+    Y debo ver la tabla de usuarios existentes ... untested in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="usuarios.Gestión de Usuarios en Ferremás" name="Crear un nuevo usuario con rol Bodeguero exitosamente" status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+  Escenario: Crear un nuevo usuario con rol Bodeguero exitosamente
+    Dado que el sistema Ferremás está iniciado ... untested in 0.000s
+    Y estoy en la página de login ... untested in 0.000s
+    Y me autentico como administrador con usuario "admin_test" y contraseña "admin123" ... untested in 0.000s
+    Dado que estoy en el panel de gestión de usuarios ... untested in 0.000s
+    Cuando activo el área de formulario para crear usuario ... untested in 0.000s
+    Y relleno los siguientes datos para el nuevo usuario: ... untested in 0.000s
+      | campo      | valor              |
+      | username   | jperez             |
+      | first_name | Juan               |
+      | last_name  | Pérez              |
+      | email      | jperez@ferremas.cl |
+      | password1  | Bodega2024!        |
+      | password2  | Bodega2024!        |
+      | group      | Bodeguero          |
+    Y presiono el botón general con texto "Crear usuario" ... untested in 0.000s
+    Y el usuario "jperez" debe aparecer en la lista de usuarios ... untested in 0.000s
+    Y el usuario "jperez" debe tener el rol "Bodeguero" ... untested in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="usuarios.Gestión de Usuarios en Ferremás" name="Intentar crear usuario con nombre de usuario duplicado" status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+  Escenario: Intentar crear usuario con nombre de usuario duplicado
+    Dado que el sistema Ferremás está iniciado ... untested in 0.000s
+    Y estoy en la página de login ... untested in 0.000s
+    Y me autentico como administrador con usuario "admin_test" y contraseña "admin123" ... untested in 0.000s
+    Dado que existe un usuario con username "mtorres" ... untested in 0.000s
+    Y estoy en el panel de gestión de usuarios ... untested in 0.000s
+    Cuando activo el área de formulario para crear usuario ... untested in 0.000s
+    Y ingreso manualmente el username "mtorres" en el campo correspondiente ... untested in 0.000s
+    Y completo todos los campos obligatorios con valores genéricos ... untested in 0.000s
+    Y presiono el botón general con texto "Crear usuario" ... untested in 0.000s
+    Entonces debo ver el mensaje de error "Ya existe un usuario con ese nombre" ... untested in 0.000s
+    Y el formulario debe resaltar el campo "username" en rojo ... untested in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="usuarios.Gestión de Usuarios en Ferremás" name="Eliminar un usuario del sistema con confirmación" status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+  Escenario: Eliminar un usuario del sistema con confirmación
+    Dado que el sistema Ferremás está iniciado ... untested in 0.000s
+    Y estoy en la página de login ... untested in 0.000s
+    Y me autentico como administrador con usuario "admin_test" y contraseña "admin123" ... untested in 0.000s
+    Dado que existe un usuario con nombre "María González" en el sistema ... untested in 0.000s
+    Y estoy en el panel de gestión de usuarios ... untested in 0.000s
+    Cuando busco visualmente al usuario registrado "mgonzalez" en la tabla ... untested in 0.000s
+    Y presiono el botón de eliminación del usuario actualmente registrado ... untested in 0.000s
+    Entonces debo ver un diálogo de confirmación con el texto "¿Seguro que quieres eliminar este usuario?" ... untested in 0.000s
+    Cuando confirmo la acción de eliminación mediante el diálogo emergente ... untested in 0.000s
+    Entonces debo ver el mensaje "Usuario eliminado correctamente" ... untested in 0.000s
+    Y el usuario "mgonzalez" no debe aparecer en la lista ... untested in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="usuarios.Gestión de Usuarios en Ferremás" name="Modificar información de usuario existente" status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+  Escenario: Modificar información de usuario existente
+    Dado que el sistema Ferremás está iniciado ... untested in 0.000s
+    Y estoy en la página de login ... untested in 0.000s
+    Y me autentico como administrador con usuario "admin_test" y contraseña "admin123" ... untested in 0.000s
+    Dado que existe un usuario "atflores" con rol "Vendedor" ... untested in 0.000s
+    Y estoy en el panel de gestión de usuarios ... untested in 0.000s
+    Cuando accedo al modo de edición del usuario con username "atflores" ... untested in 0.000s
+    Entonces debo ver el formulario de edición con datos precargados ... untested in 0.000s
+    Cuando modifico el campo de email a la dirección "ana.flores@ferremas.cl" ... untested in 0.000s
+    Y actualizo el rol del usuario al valor "Contador" ... untested in 0.000s
+    Y presiono el botón general con texto "Guardar cambios" ... untested in 0.000s
+    Entonces debo ver el mensaje "Usuario editado exitosamente con rol: Contador" ... untested in 0.000s
+    Y debo ser redirigido al panel de usuarios ... untested in 0.000s
+    Y el usuario "atflores" debe tener el email "ana.flores@ferremas.cl" ... untested in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="usuarios.Gestión de Usuarios en Ferremás" name="Validar que las contraseñas coinciden al crear usuario" status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+  Escenario: Validar que las contraseñas coinciden al crear usuario
+    Dado que el sistema Ferremás está iniciado ... untested in 0.000s
+    Y estoy en la página de login ... untested in 0.000s
+    Y me autentico como administrador con usuario "admin_test" y contraseña "admin123" ... untested in 0.000s
+    Dado que estoy en el panel de gestión de usuarios ... untested in 0.000s
+    Cuando intento crear un usuario usando contraseñas distintas ... untested in 0.000s
+      | campo      | valor              |
+      | username   | plopez             |
+      | first_name | Pedro              |
+      | last_name  | López              |
+      | email      | plopez@ferremas.cl |
+      | password1  | Test2024!          |
+      | password2  | Test2025!          |
+      | group      | Vendedor           |
+    Y presiono el botón general con texto "Crear usuario" ... untested in 0.000s
+    Entonces debo ver el mensaje de error "Las contraseñas no coinciden" ... untested in 0.000s
+    Y el campo "password2" debe resaltarse en rojo ... untested in 0.000s
+    Y el usuario no debe crearse en la base de datos ... untested in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="usuarios.Gestión de Usuarios en Ferremás" name="Verificar que los roles del sistema están disponibles" status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+  Escenario: Verificar que los roles del sistema están disponibles
+    Dado que el sistema Ferremás está iniciado ... untested in 0.000s
+    Y estoy en la página de login ... untested in 0.000s
+    Y me autentico como administrador con usuario "admin_test" y contraseña "admin123" ... untested in 0.000s
+    Dado que estoy en el panel de gestión de usuarios ... untested in 0.000s
+    Cuando inspecciono el campo desplegable de selección de "Rol" ... untested in 0.000s
+    Entonces debo ver las siguientes opciones de rol: ... untested in 0.000s
+      | rol       |
+      | Bodeguero |
+      | Vendedor  |
+      | Contador  |
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="usuarios.Gestión de Usuarios en Ferremás" name="Actualizar datos de usuario sin modificar contraseña" status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+  Escenario: Actualizar datos de usuario sin modificar contraseña
+    Dado que el sistema Ferremás está iniciado ... untested in 0.000s
+    Y estoy en la página de login ... untested in 0.000s
+    Y me autentico como administrador con usuario "admin_test" y contraseña "admin123" ... untested in 0.000s
+    Dado que existe un usuario "rcastro" en el sistema ... untested in 0.000s
+    Y estoy en el panel de gestión de usuarios ... untested in 0.000s
+    Cuando accedo al modo de edición del usuario con username "rcastro" ... untested in 0.000s
+    Y cambio únicamente el campo "first_name" asignándole el valor "Roberto" ... untested in 0.000s
+    Y dejo intencionadamente los campos de contraseña vacíos ... untested in 0.000s
+    Y presiono el botón general con texto "Guardar cambios" ... untested in 0.000s
+    Entonces debo ver el mensaje de éxito ... untested in 0.000s
+    Y el usuario debe poder iniciar sesión con su contraseña anterior ... untested in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase></testsuite>

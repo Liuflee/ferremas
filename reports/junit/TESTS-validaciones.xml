@@ -1,0 +1,16 @@
+<testsuite name="validaciones.Validación de campos obligatorios" tests="1" errors="0" failures="0" skipped="0" time="0.0" timestamp="2025-10-16T22:39:33.705672" hostname="Anette"><testcase classname="validaciones.Validación de campos obligatorios" name="Validación en formulario de producto" status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+  Escenario: Validación en formulario de producto
+    Dado que estoy en el panel de productos ... untested in 0.000s
+    Cuando activo el formulario para crear producto ... untested in 0.000s
+    Y relleno los datos del producto: ... untested in 0.000s
+      | campo  | valor |
+      | nombre |       |
+    Y presiono el botón de producto con texto "Crear producto" ... untested in 0.000s
+    Entonces debo ver el mensaje de error "Este campo es obligatorio" ... untested in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase></testsuite>

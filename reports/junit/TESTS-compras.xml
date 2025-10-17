@@ -1,0 +1,17 @@
+<testsuite name="compras.Compras" tests="1" errors="1" failures="0" skipped="0" time="0.0" timestamp="2025-10-16T22:38:30.629378" hostname="Anette"><testcase classname="compras.Compras" name="Visualizar historial de compras" status="error" time="0"><error type="NoneType" message="None">
+<![CDATA[
+Failing step: Dado que estoy autenticado como usuario "rcastro" ... undefined in 0.000s
+Location: features/compras.feature:5
+None]]>
+</error><system-out>
+<![CDATA[
+@scenario.begin
+  Escenario: Visualizar historial de compras
+    Dado que estoy autenticado como usuario "rcastro" ... undefined in 0.000s
+    Cuando voy a la página de 'mis_pedidos' ... undefined in 0.000s
+    Entonces debo ver la página "Mis pedidos" ... skipped in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase></testsuite>

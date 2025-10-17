@@ -1,0 +1,105 @@
+<testsuite name="productos.Gestión de Productos" tests="5" errors="0" failures="0" skipped="0" time="0.0" timestamp="2025-10-16T22:39:33.701672" hostname="Anette"><testcase classname="productos.Gestión de Productos" name="Agregar producto nuevo al catálogo" status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+  Escenario: Agregar producto nuevo al catálogo
+    Dado que el sistema Ferremás está iniciado ... untested in 0.000s
+    Y estoy en la página de login ... untested in 0.000s
+    Y me autentico como administrador con usuario "admin_test" y contraseña "admin123" ... untested in 0.000s
+    Y estoy en el panel de productos ... untested in 0.000s
+    Cuando activo el formulario para crear producto ... untested in 0.000s
+    Y relleno los datos del producto: ... untested in 0.000s
+      | campo       | valor                    |
+      | nombre      | Taladro XYZ              |
+      | descripcion | Taladro profesional 750W |
+      | stock       | 10                       |
+      | categoria   | herramientas_electricas  |
+      | imagen      | productos/taladro.jpg    |
+      | activo      | True                     |
+    Y relleno los datos de precio: ... untested in 0.000s
+      | campo  | valor |
+      | precio | 12990 |
+    Y presiono el botón de producto con texto "Crear producto" ... untested in 0.000s
+    Entonces debo ver el mensaje "Producto creado exitosamente" ... untested in 0.000s
+    Y debo ver el producto con nombre "Taladro XYZ" en la lista ... untested in 0.000s
+    Y el precio del producto "Taladro XYZ" debe ser "$12.990" ... untested in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="productos.Gestión de Productos" name="Modificar producto existente" status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+  Escenario: Modificar producto existente
+    Dado que el sistema Ferremás está iniciado ... untested in 0.000s
+    Y estoy en la página de login ... untested in 0.000s
+    Y me autentico como administrador con usuario "admin_test" y contraseña "admin123" ... untested in 0.000s
+    Y estoy en el panel de productos ... untested in 0.000s
+    Dado que existe un producto con id 1 en el sistema ... untested in 0.000s
+    Cuando edito el producto con id 1 ... untested in 0.000s
+    Y relleno los datos del producto: ... untested in 0.000s
+      | campo       | valor               |
+      | nombre      | Taladro Pro         |
+      | descripcion | Taladro actualizado |
+    Y relleno los datos de precio: ... untested in 0.000s
+      | campo  | valor |
+      | precio | 15990 |
+    Y presiono el botón de producto con texto "Guardar cambios" ... untested in 0.000s
+    Entonces debo ver el mensaje "Producto actualizado exitosamente" ... untested in 0.000s
+    Y debo ver el producto con nombre "Taladro Pro" en la lista ... untested in 0.000s
+    Y el precio del producto "Taladro Pro" debe ser "$15.990" ... untested in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="productos.Gestión de Productos" name="Eliminar producto del sistema" status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+  Escenario: Eliminar producto del sistema
+    Dado que el sistema Ferremás está iniciado ... untested in 0.000s
+    Y estoy en la página de login ... untested in 0.000s
+    Y me autentico como administrador con usuario "admin_test" y contraseña "admin123" ... untested in 0.000s
+    Y estoy en el panel de productos ... untested in 0.000s
+    Dado que existe un producto con id 2 en el sistema ... untested in 0.000s
+    Cuando elimino el producto con id 2 ... untested in 0.000s
+    Y confirmo la eliminación ... untested in 0.000s
+    Entonces debo ver el mensaje "Producto eliminado correctamente" ... untested in 0.000s
+    Y no debo ver el producto con id 2 en la lista ... untested in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="productos.Gestión de Productos" name="Buscar producto por nombre" status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+  Escenario: Buscar producto por nombre
+    Dado que el sistema Ferremás está iniciado ... untested in 0.000s
+    Y estoy en la página de login ... untested in 0.000s
+    Y me autentico como administrador con usuario "admin_test" y contraseña "admin123" ... untested in 0.000s
+    Y estoy en el panel de productos ... untested in 0.000s
+    Dado que existe un producto con nombre "Martillo Pro" en el sistema ... untested in 0.000s
+    Cuando busco el producto por nombre "Martillo" ... untested in 0.000s
+    Entonces debo ver el producto con nombre "Martillo Pro" en la lista ... untested in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="productos.Gestión de Productos" name="Validación de campos obligatorios en productos" status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+  Escenario: Validación de campos obligatorios en productos
+    Dado que el sistema Ferremás está iniciado ... untested in 0.000s
+    Y estoy en la página de login ... untested in 0.000s
+    Y me autentico como administrador con usuario "admin_test" y contraseña "admin123" ... untested in 0.000s
+    Y estoy en el panel de productos ... untested in 0.000s
+    Cuando activo el formulario para crear producto ... untested in 0.000s
+    Y relleno los datos del producto: ... untested in 0.000s
+      | campo  | valor |
+      | precio | 12990 |
+      | stock  | 10    |
+    Y presiono el botón de producto con texto "Crear producto" ... untested in 0.000s
+    Entonces debo ver el mensaje de error "El campo nombre es obligatorio" ... untested in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase></testsuite>

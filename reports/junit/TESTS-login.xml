@@ -1,0 +1,92 @@
+<testsuite name="login.Inicio de sesión" tests="4" errors="1" failures="0" skipped="0" time="10.832333" timestamp="2025-10-16T22:39:33.699663" hostname="Anette"><testcase classname="login.Inicio de sesión" name="Inicio de sesión exitoso" status="error" time="10.832333"><error type="TimeoutException" message="Message: &#10;Stacktrace:&#10;&#09;GetHandleVerifier [0x0xa9fe83+66515]&#10;&#09;GetHandleVerifier [0x0xa9fec4+66580]&#10;&#09;(No symbol) [0x0x88dc48]&#10;&#09;(No symbol) [0x0x8d8704]&#10;&#09;(No symbol) [0x0x8d8aab]&#10;&#09;(No symbol) [0x0x91f482]&#10;&#09;(No symbol) [0x0x8fb214]&#10;&#09;(No symbol) [0x0x91cba7]&#10;&#09;(No symbol) [0x0x8fafc6]&#10;&#09;(No symbol) [0x0x8cc2ca]&#10;&#09;(No symbol) [0x0x8cd154]&#10;&#09;GetHandleVerifier [0x0xcf73b3+2521347]&#10;&#09;GetHandleVerifier [0x0xcf2333+2500739]&#10;&#09;GetHandleVerifier [0x0xac7cd4+229924]&#10;&#09;GetHandleVerifier [0x0xab8238+165768]&#10;&#09;GetHandleVerifier [0x0xabeced+193085]&#10;&#09;GetHandleVerifier [0x0xaa8198+100072]&#10;&#09;GetHandleVerifier [0x0xaa8330+100480]&#10;&#09;GetHandleVerifier [0x0xa925ea+11066]&#10;&#09;BaseThreadInitThunk [0x0x76357ba9+25]&#10;&#09;RtlInitializeExceptionChain [0x0x7783c0cb+107]&#10;&#09;RtlClearBits [0x0x7783c04f+191]">
+<![CDATA[
+Failing step: Entonces debo ver que estoy autenticado como "admin_test" ... error in 10.034s
+Location: features/login.feature:14
+Traceback (most recent call last):
+  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\behave\model.py", line 1909, in run
+    match.run(runner.context)
+  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\behave\matchers.py", line 104, in run
+    self.func(context, *args, **kwargs)
+  File "features\steps\auth_steps.py", line 62, in step_ver_autenticado
+    WebDriverWait(context.browser, 5).until(
+  File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\support\wait.py", line 138, in until
+    raise TimeoutException(message, screen, stacktrace)
+selenium.common.exceptions.TimeoutException: Message: 
+Stacktrace:
+	GetHandleVerifier [0x0xa9fe83+66515]
+	GetHandleVerifier [0x0xa9fec4+66580]
+	(No symbol) [0x0x88dc48]
+	(No symbol) [0x0x8d8704]
+	(No symbol) [0x0x8d8aab]
+	(No symbol) [0x0x91f482]
+	(No symbol) [0x0x8fb214]
+	(No symbol) [0x0x91cba7]
+	(No symbol) [0x0x8fafc6]
+	(No symbol) [0x0x8cc2ca]
+	(No symbol) [0x0x8cd154]
+	GetHandleVerifier [0x0xcf73b3+2521347]
+	GetHandleVerifier [0x0xcf2333+2500739]
+	GetHandleVerifier [0x0xac7cd4+229924]
+	GetHandleVerifier [0x0xab8238+165768]
+	GetHandleVerifier [0x0xabeced+193085]
+	GetHandleVerifier [0x0xaa8198+100072]
+	GetHandleVerifier [0x0xaa8330+100480]
+	GetHandleVerifier [0x0xa925ea+11066]
+	BaseThreadInitThunk [0x0x76357ba9+25]
+	RtlInitializeExceptionChain [0x0x7783c0cb+107]
+	RtlClearBits [0x0x7783c04f+191]
+
+]]>
+</error><system-out>
+<![CDATA[
+@scenario.begin
+  Escenario: Inicio de sesión exitoso
+    Dado que el sistema Ferremás está iniciado ... passed in 0.055s
+    Y estoy en la página de login ... passed in 0.058s
+    Cuando inserto usuario "admin_test" y contraseña "admin123" y me autentico ... passed in 0.685s
+    Entonces debo ver que estoy autenticado como "admin_test" ... error in 10.034s
+    Y debo ver el mensaje "Bienvenido admin_test" ... skipped in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="login.Inicio de sesión" name="Inicio de sesión fallido" status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+  Escenario: Inicio de sesión fallido
+    Dado que el sistema Ferremás está iniciado ... untested in 0.000s
+    Y estoy en la página de login ... untested in 0.000s
+    Cuando inserto usuario "noexiste" y contraseña "badpass" y me autentico ... untested in 0.000s
+    Entonces debo ver el mensaje de error "Nombre de usuario o contraseña incorrectos" ... untested in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="login.Inicio de sesión" name="Validación de campos obligatorios en login" status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+  Escenario: Validación de campos obligatorios en login
+    Dado que el sistema Ferremás está iniciado ... untested in 0.000s
+    Y estoy en la página de login ... untested in 0.000s
+    Cuando inserto usuario "" y contraseña "cualquiera" y me autentico ... untested in 0.000s
+    Entonces debo ver el mensaje de error "Este campo es obligatorio" ... untested in 0.000s
+    Cuando inserto usuario "cualquiera" y contraseña "" y me autentico ... untested in 0.000s
+    Entonces debo ver el mensaje de error "Este campo es obligatorio" ... untested in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="login.Inicio de sesión" name="Cerrar sesión" status="untested" time="0"><system-out>
+<![CDATA[
+@scenario.begin
+  Escenario: Cerrar sesión
+    Dado que el sistema Ferremás está iniciado ... untested in 0.000s
+    Y estoy en la página de login ... untested in 0.000s
+    Dado que estoy autenticado como usuario "admin_test" ... untested in 0.000s
+    Cuando hago clic en "Cerrar sesión" ... untested in 0.000s
+    Entonces debo ver la página de login ... untested in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase></testsuite>

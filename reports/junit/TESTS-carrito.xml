@@ -1,0 +1,94 @@
+<testsuite name="carrito.Carrito de compras y proceso de pago" tests="4" errors="4" failures="0" skipped="0" time="0.474757" timestamp="2025-10-16T22:38:23.908245" hostname="Anette"><testcase classname="carrito.Carrito de compras y proceso de pago" name="Agregar productos al carrito de compra" status="error" time="0.111927"><error type="NoneType" message="None">
+<![CDATA[
+Failing step: Y me autentico como cliente con usuario "cliente1" y contraseña "Pass123!" ... undefined in 0.000s
+Location: features/carrito.feature:10
+None]]>
+</error><system-out>
+<![CDATA[
+@scenario.begin
+  Escenario: Agregar productos al carrito de compra
+    Dado que el sistema Ferremás está iniciado ... passed in 0.058s
+    Y estoy en la página de login ... passed in 0.054s
+    Y me autentico como cliente con usuario "cliente1" y contraseña "Pass123!" ... undefined in 0.000s
+    Y tengo productos en el catálogo ... skipped in 0.000s
+    Cuando agrego multiples productos al carrito ... skipped in 0.000s
+      | producto_id |
+      | 1           |
+      | 2           |
+    Y voy a la página del carrito ... skipped in 0.000s
+    Entonces debo ver 2 items en el carrito ... skipped in 0.000s
+    Y debo ver el subtotal correcto ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="carrito.Carrito de compras y proceso de pago" name="Eliminar producto del carrito" status="error" time="0.125021"><error type="NoneType" message="None">
+<![CDATA[
+Failing step: Y me autentico como cliente con usuario "cliente1" y contraseña "Pass123!" ... undefined in 0.000s
+Location: features/carrito.feature:10
+None]]>
+</error><system-out>
+<![CDATA[
+@scenario.begin
+  Escenario: Eliminar producto del carrito
+    Dado que el sistema Ferremás está iniciado ... passed in 0.067s
+    Y estoy en la página de login ... passed in 0.058s
+    Y me autentico como cliente con usuario "cliente1" y contraseña "Pass123!" ... undefined in 0.000s
+    Y tengo productos en el catálogo ... skipped in 0.000s
+    Dado que tengo un producto en el carrito ... undefined in 0.000s
+    Cuando elimino el producto con id 1 del carrito ... skipped in 0.000s
+    Entonces debo ver 0 items en el carrito ... skipped in 0.000s
+    Y debo ver el mensaje "Carrito actualizado" ... skipped in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="carrito.Carrito de compras y proceso de pago" name="Realizar compra completa" status="error" time="0.119712"><error type="NoneType" message="None">
+<![CDATA[
+Failing step: Y me autentico como cliente con usuario "cliente1" y contraseña "Pass123!" ... undefined in 0.000s
+Location: features/carrito.feature:10
+None]]>
+</error><system-out>
+<![CDATA[
+@scenario.begin
+  Escenario: Realizar compra completa
+    Dado que el sistema Ferremás está iniciado ... passed in 0.070s
+    Y estoy en la página de login ... passed in 0.050s
+    Y me autentico como cliente con usuario "cliente1" y contraseña "Pass123!" ... undefined in 0.000s
+    Y tengo productos en el catálogo ... skipped in 0.000s
+    Cuando agrego el producto con id 1 al carrito ... skipped in 0.000s
+    Y procedo al pago desde el carrito ... skipped in 0.000s
+    Y relleno los datos de envío: ... undefined in 0.000s
+      | campo     | valor        |
+      | direccion | Calle 123    |
+      | ciudad    | Santiago     |
+      | telefono  | +56912345678 |
+    Y completo los datos de pago con valores de prueba ... skipped in 0.000s
+    Y finalizo el pago ... skipped in 0.000s
+    Entonces debo ver la página de pago con resultado exitoso ... undefined in 0.000s
+    Y debo ver el mensaje "Tu compra se ha realizado con éxito" ... skipped in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase><testcase classname="carrito.Carrito de compras y proceso de pago" name="Visualizar historial de compras" status="error" time="0.118096"><error type="NoneType" message="None">
+<![CDATA[
+Failing step: Y me autentico como cliente con usuario "cliente1" y contraseña "Pass123!" ... undefined in 0.000s
+Location: features/carrito.feature:10
+None]]>
+</error><system-out>
+<![CDATA[
+@scenario.begin
+  Escenario: Visualizar historial de compras
+    Dado que el sistema Ferremás está iniciado ... passed in 0.060s
+    Y estoy en la página de login ... passed in 0.058s
+    Y me autentico como cliente con usuario "cliente1" y contraseña "Pass123!" ... undefined in 0.000s
+    Y tengo productos en el catálogo ... skipped in 0.000s
+    Cuando voy a la página de "mis_pedidos" ... undefined in 0.000s
+    Entonces debo ver la lista de mis pedidos ... undefined in 0.000s
+    Y debo poder ver los detalles del pedido más reciente ... undefined in 0.000s
+
+@scenario.end
+--------------------------------------------------------------------------------
+]]>
+</system-out></testcase></testsuite>

@@ -1,0 +1,112 @@
+Característica: Carrito de compras y proceso de pago # features/carrito.feature:2
+  Como cliente registrado
+  Quiero agregar productos al carrito y realizar compras
+  Para adquirir los productos que necesito
+  Antecedentes:   # features/carrito.feature:7
+
+  Escenario: Agregar productos al carrito de compra                            # features/carrito.feature:13
+    Dado que el sistema Ferremás está iniciado                                 # features/steps/usuario_steps.py:78
+    Y estoy en la página de login                                              # features/steps/usuario_steps.py:84
+    Y me autentico como cliente con usuario "cliente1" y contraseña "Pass123!" # None
+    Y tengo productos en el catálogo                                           # None
+    Cuando agrego multiples productos al carrito                               # None
+      | producto_id |
+      | 1           |
+      | 2           |
+    Y voy a la página del carrito                                              # None
+    Entonces debo ver 2 items en el carrito                                    # None
+    Y debo ver el subtotal correcto                                            # None
+
+  Escenario: Eliminar producto del carrito                                     # features/carrito.feature:22
+    Dado que el sistema Ferremás está iniciado                                 # features/steps/usuario_steps.py:78
+    Y estoy en la página de login                                              # features/steps/usuario_steps.py:84
+    Y me autentico como cliente con usuario "cliente1" y contraseña "Pass123!" # None
+    Y tengo productos en el catálogo                                           # None
+    Dado que tengo un producto en el carrito                                   # None
+    Cuando elimino el producto con id 1 del carrito                            # None
+    Entonces debo ver 0 items en el carrito                                    # None
+    Y debo ver el mensaje "Carrito actualizado"                                # None
+
+  Escenario: Realizar compra completa                                          # features/carrito.feature:28
+    Dado que el sistema Ferremás está iniciado                                 # features/steps/usuario_steps.py:78
+    Y estoy en la página de login                                              # features/steps/usuario_steps.py:84
+    Y me autentico como cliente con usuario "cliente1" y contraseña "Pass123!" # None
+    Y tengo productos en el catálogo                                           # None
+    Cuando agrego el producto con id 1 al carrito                              # None
+    Y procedo al pago desde el carrito                                         # None
+    Y relleno los datos de envío:                                              # None
+      | campo     | valor        |
+      | direccion | Calle 123    |
+      | ciudad    | Santiago     |
+      | telefono  | +56912345678 |
+    Y completo los datos de pago con valores de prueba                         # None
+    Y finalizo el pago                                                         # None
+    Entonces debo ver la página de pago con resultado exitoso                  # None
+    Y debo ver el mensaje "Tu compra se ha realizado con éxito"                # None
+
+  Escenario: Visualizar historial de compras                                   # features/carrito.feature:41
+    Dado que el sistema Ferremás está iniciado                                 # features/steps/usuario_steps.py:78
+    Y estoy en la página de login                                              # features/steps/usuario_steps.py:84
+    Y me autentico como cliente con usuario "cliente1" y contraseña "Pass123!" # None
+    Y tengo productos en el catálogo                                           # None
+    Cuando voy a la página de "mis_pedidos"                                    # None
+    Entonces debo ver la lista de mis pedidos                                  # None
+    Y debo poder ver los detalles del pedido más reciente                      # None
+
+Característica: Compras # features/compras.feature:2
+
+  Escenario: Visualizar historial de compras          # features/compras.feature:4
+    Dado que estoy autenticado como usuario "rcastro" # None
+    Cuando voy a la página de 'mis_pedidos'           # None
+    Entonces debo ver la página "Mis pedidos"         # None
+
+Característica: Inicio de sesión # features/login.feature:2
+  Para acceder a funciones protegidas
+  Como usuario registrado
+  Quiero poder iniciar sesión
+  Para acceder a mis funciones asignadas
+  Antecedentes:   # features/login.feature:8
+
+  Escenario: Inicio de sesión exitoso                                          # features/login.feature:12
+    Dado que el sistema Ferremás está iniciado                                 # features/steps/usuario_steps.py:78
+    Y estoy en la página de login                                              # features/steps/usuario_steps.py:84
+    Cuando inserto usuario "admin_test" y contraseña "admin123" y me autentico # features/steps/auth_steps.py:34
+    Entonces debo ver que estoy autenticado como "admin_test"                  # features/steps/auth_steps.py:60
+      Traceback (most recent call last):
+        File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\behave\model.py", line 1909, in run
+          match.run(runner.context)
+        File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\behave\matchers.py", line 104, in run
+          self.func(context, *args, **kwargs)
+        File "features\steps\auth_steps.py", line 62, in step_ver_autenticado
+          WebDriverWait(context.browser, 5).until(
+        File "C:\Users\Sumir\source\repos\ferremas\venv\Lib\site-packages\selenium\webdriver\support\wait.py", line 138, in until
+          raise TimeoutException(message, screen, stacktrace)
+      selenium.common.exceptions.TimeoutException: Message: 
+      Stacktrace:
+      	GetHandleVerifier [0x0xa9fe83+66515]
+      	GetHandleVerifier [0x0xa9fec4+66580]
+      	(No symbol) [0x0x88dc48]
+      	(No symbol) [0x0x8d8704]
+      	(No symbol) [0x0x8d8aab]
+      	(No symbol) [0x0x91f482]
+      	(No symbol) [0x0x8fb214]
+      	(No symbol) [0x0x91cba7]
+      	(No symbol) [0x0x8fafc6]
+      	(No symbol) [0x0x8cc2ca]
+      	(No symbol) [0x0x8cd154]
+      	GetHandleVerifier [0x0xcf73b3+2521347]
+      	GetHandleVerifier [0x0xcf2333+2500739]
+      	GetHandleVerifier [0x0xac7cd4+229924]
+      	GetHandleVerifier [0x0xab8238+165768]
+      	GetHandleVerifier [0x0xabeced+193085]
+      	GetHandleVerifier [0x0xaa8198+100072]
+      	GetHandleVerifier [0x0xaa8330+100480]
+      	GetHandleVerifier [0x0xa925ea+11066]
+      	BaseThreadInitThunk [0x0x76357ba9+25]
+      	RtlInitializeExceptionChain [0x0x7783c0cb+107]
+      	RtlClearBits [0x0x7783c04f+191]
+
+    Y debo ver el mensaje "Bienvenido admin_test"                              # None
+
+  Escenario: Inicio de sesión fallido                                                  # features/login.feature:17
+    Dado que el sistema Ferremás está iniciado                                         # features/steps/usuario_steps.py:78
