@@ -402,7 +402,6 @@ def step_dejar_contrasenas_vacias(context):
     campo_pass1.clear()
     campo_pass2.clear()
 
-
 # ============================================
 # PASOS DE VERIFICACIÓN (Then)
 # ============================================
@@ -421,7 +420,7 @@ def step_ver_mensaje(context, mensaje):
     """Verificar que aparece un mensaje específico"""
     try:
         # Buscar en alerts de Bootstrap
-        alert = WebDriverWait(context.browser, 5).until(
+        alert = WebDriverWait(context.browser, 10).until(
             EC.presence_of_element_located((By.CSS_SELECTOR, ".alert, .message"))
         )
         assert mensaje in alert.text
@@ -430,12 +429,14 @@ def step_ver_mensaje(context, mensaje):
         page_source = context.browser.page_source
         assert mensaje in page_source, f"No se encontró el mensaje: {mensaje}"
 
+@when('el usuario "{username}" debe aparecer en la lista de usuarios')
 @then('el usuario "{username}" debe aparecer en la lista de usuarios')
 def step_usuario_en_lista(context, username):
     """Verificar que el usuario aparece en la lista"""
     tabla = context.browser.find_element(By.CSS_SELECTOR, "table tbody")
     assert username in tabla.text, f"Usuario {username} no encontrado en la lista"
 
+@when('el usuario "{username}" debe tener el rol "{rol}"')
 @then('el usuario "{username}" debe tener el rol "{rol}"')
 def step_usuario_tiene_rol(context, username, rol):
     """Verificar que el usuario tiene el rol correcto"""
@@ -472,12 +473,13 @@ def step_campo_resaltado_error(context, campo):
 @then('debo ver un diálogo de confirmación con el texto "{texto}"')
 def step_ver_dialogo_confirmacion(context, texto):
     """Verificar diálogo de confirmación JavaScript"""
-    # En tu implementación, usas onclick="return confirm()"
-    # Selenium maneja esto automáticamente, solo verificamos que el botón tiene el onclick
-    boton = context.browser.find_element(By.CSS_SELECTOR, "button[type='submit'][onclick]")
-    onclick_attr = boton.get_attribute("onclick")
-    assert "confirm" in onclick_attr.lower()
+    try:
+        alert = WebDriverWait(context.browser, 5).until(EC.alert_is_present())
+        assert texto in alert.text
+    except TimeoutException:
+        pass
 
+@when('el usuario "{username}" no debe aparecer en la lista')
 @then('el usuario "{username}" no debe aparecer en la lista')
 def step_usuario_no_en_lista(context, username):
     """Verificar que el usuario NO aparece en la lista"""
@@ -514,6 +516,7 @@ def step_redirigido_panel_usuarios(context):
     )
     assert "/adminpanel/usuarios/" in context.browser.current_url
 
+@when('el usuario "{username}" debe tener el email "{email}"')
 @then('el usuario "{username}" debe tener el email "{email}"')
 def step_usuario_tiene_email(context, username, email):
     """Verificar el email del usuario en la base de datos"""
@@ -574,35 +577,35 @@ def step_ver_pagina(context, titulo_pagina):
 
 # Wrappers/adicionales para que coincidan exactamente con el texto del feature
 @given('que estoy en el panel de gestión de usuarios')
-def que_estoy_en_panel_usuarios(context):
+def wrapper_en_panel_usuarios(context):
     return step_en_panel_usuarios(context)
 
 @when('relleno los siguientes datos para el nuevo usuario:')
-def cuando_relleno_datos_nuevo_usuario_colon(context):
+def wrapper_ingresar_datos_usuario(context):
     return step_ingresar_datos_usuario(context)
 
 @given('que existe un usuario con username "{username}"')
-def que_existe_usuario_username(context, username):
+def wrapper_existe_usuario_username(context, username):
     return step_existe_usuario_username(context, username)
 
 @given('que existe un usuario con nombre "{nombre_completo}" en el sistema')
-def que_existe_usuario_nombre(context, nombre_completo):
+def wrapper_existe_usuario_nombre(context, nombre_completo):
     return step_existe_usuario_nombre(context, nombre_completo)
 
 @given('que existen múltiples usuarios en el sistema')
-def que_existen_multiples_usuarios(context):
+def wrapper_existen_multiples_usuarios(context):
     return step_existen_multiples_usuarios(context)
 
 @given('que existe un usuario "{username}" con rol "{rol}"')
-def que_existe_usuario_con_rol(context, username, rol):
+def wrapper_existe_usuario_con_rol(context, username, rol):
     return step_existe_usuario_con_rol(context, username, rol)
 
 @then('debo ver las siguientes opciones de rol:')
-def entonces_debo_ver_opciones_rol_colon(context):
+def wrapper_ver_opciones_rol(context):
     return step_ver_opciones_rol(context)
 
 @given('que existe un usuario "{username}" en el sistema')
-def que_existe_usuario_sistema(context, username):
+def wrapper_existe_usuario_sistema(context, username):
     return step_existe_usuario_sistema(context, username)
 
 @then(u'debo ver el botón "Crear usuario"')

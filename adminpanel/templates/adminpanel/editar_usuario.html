@@ -6,53 +6,109 @@
 
     <div class="card shadow-sm p-4 bg-white rounded" style="max-width: 800px;">
         <form method="POST">
-        {% csrf_token %}
-        <div class="mb-3">
-            {{ form.username.label_tag }}
-            {{ form.username }}
-        </div>
-        <div class="mb-3">
-            {{ form.first_name.label_tag }}
-            {{ form.first_name }}
-        </div>
-        <div class="mb-3">
-            {{ form.last_name.label_tag }}
-            {{ form.last_name }}
-        </div>
-        <div class="mb-3">
-            {{ form.email.label_tag }}
-            {{ form.email }}
-        </div>
-        <div class="mb-3">
-            {{ form.password1.label_tag }}
-            {{ form.password1 }}
-        </div>
-        <div class="mb-3">
-            {{ form.password2.label_tag }}
-            {{ form.password2 }}
-        </div>
-        <div class="mb-3">
-            {{ form.group.label_tag }}
-            {{ form.group }}
-        </div>
+            {% csrf_token %}
+            <div class="mb-3">
+                {{ form.username.label_tag }}
+                {{ form.username }}
+                {% if form.username.errors %}
+                <div class="invalid-feedback d-block">
+                    {{ form.username.errors|striptags }}
+                </div>
+                <script>
+                    document.getElementById("{{ form.username.id_for_label }}").classList.add("is-invalid");
+                </script>
+                {% endif %}
+            </div>
+            <div class="mb-3">
+                {{ form.first_name.label_tag }}
+                {{ form.first_name }}
+                {% if form.first_name.errors %}
+                <div class="invalid-feedback d-block">
+                    {{ form.first_name.errors|striptags }}
+                </div>
+                <script>
+                    document.getElementById("{{ form.first_name.id_for_label }}").classList.add("is-invalid");
+                </script>
+                {% endif %}
+            </div>
+            <div class="mb-3">
+                {{ form.last_name.label_tag }}
+                {{ form.last_name }}
+                {% if form.last_name.errors %}
+                <div class="invalid-feedback d-block">
+                    {{ form.last_name.errors|striptags }}
+                </div>
+                <script>
+                    document.getElementById("{{ form.last_name.id_for_label }}").classList.add("is-invalid");
+                </script>
+                {% endif %}
+            </div>
+            <div class="mb-3">
+                {{ form.email.label_tag }}
+                {{ form.email }}
+                {% if form.email.errors %}
+                <div class="invalid-feedback d-block">
+                    {{ form.email.errors|striptags }}
+                </div>
+                <script>
+                    document.getElementById("{{ form.email.id_for_label }}").classList.add("is-invalid");
+                </script>
+                {% endif %}
+            </div>
+            <div class="mb-3">
+                {{ form.password1.label_tag }}
+                {{ form.password1 }}
+                {% if form.password1.errors %}
+                <div class="invalid-feedback d-block">
+                    {{ form.password1.errors|striptags }}
+                </div>
+                <script>
+                    document.getElementById("{{ form.password1.id_for_label }}").classList.add("is-invalid");
+                </script>
+                {% endif %}
+            </div>
+            <div class="mb-3">
+                {{ form.password2.label_tag }}
+                {{ form.password2 }}
+                {% if form.password2.errors %}
+                <div class="invalid-feedback d-block">
+                    {{ form.password2.errors|striptags }}
+                </div>
+                <script>
+                    document.getElementById("{{ form.password2.id_for_label }}").classList.add("is-invalid");
+                </script>
+                {% endif %}
+            </div>
+            <div class="mb-3">
+                {{ form.group.label_tag }}
+                {{ form.group }}
+                {% if form.group.errors %}
+                <div class="invalid-feedback d-block">
+                    {{ form.group.errors|striptags }}
+                </div>
+                <script>
+                    document.getElementById("{{ form.group.id_for_label }}").classList.add("is-invalid");
+                </script>
+                {% endif %}
+            </div>
 
-        <button type="submit" class="btn btn-success me-2">
-            <i class="bi bi-check-circle-fill"></i> Guardar cambios
-        </button>
-        <a href="{% url 'panel_usuarios' %}" class="btn btn-secondary">Cancelar</a>
+            <button type="submit" class="btn btn-success me-2">
+                <i class="bi bi-check-circle-fill"></i> Guardar cambios
+            </button>
+            <a href="{% url 'panel_usuarios' %}" class="btn btn-secondary">Cancelar</a>
         </form>
     </div>
 
     {% if usuario.groups.all %}
-        <div class="mt-4">
+    <div class="mt-4">
         <h4 class="fw-semibold">Roles del Usuario</h4>
         <ul>
             {% for group in usuario.groups.all %}
             <li>{{ group.name }}</li>
             {% endfor %}
         </ul>
-        </div>
-    {% endif %}
     </div>
+    {% endif %}
+</div>
 
 {% endblock %}
